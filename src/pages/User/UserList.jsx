@@ -31,7 +31,7 @@ const UserList = () => {
     return <Text>Error fetching data</Text>;
   }
 
-  const allUsers = data?.pages?.flatMap((page) => page.data) || [];
+  const allUsers = data?.pages?.flatMap((page) => page?.data || []) || [];
   console.log(allUsers);
   return (
     <VStack spacing={4} align="stretch" height="100vh" p={4}>
