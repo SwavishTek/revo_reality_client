@@ -39,15 +39,6 @@ const CardHeader = ({ items = [], onChange, value }) => {
 
         // Add more items as needed
       }
-      {/* <Text>New</Text>
-      <Text textDecoration={"underline"} color={"yellow.600"}>
-        Draft
-      </Text>
-      <Text color={"gray"}>Draft</Text>
-      <Text>Draft</Text>
-      <Text>Draft</Text>
-      <Text>Draft</Text>
-      <Text>Draft</Text> */}
     </Box>
   );
 };

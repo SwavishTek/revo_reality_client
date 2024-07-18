@@ -5,6 +5,7 @@ const Apis = {
   login: baseUrl + "auth/login",
   verifyOTP: baseUrl + "auth/verifyOTP",
   profile: baseUrl + "auth/profile",
+  user: baseUrl + "users",
 };
 
 export default Apis;
