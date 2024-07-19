@@ -4,7 +4,7 @@ import CardActionButton from "./CardActionButton";
 
 const Card = ({ children, actionSection, avatarName, avatarSrc }) => {
   return (
-    <Box bg={"white"} borderRadius={4} overflow={"hidden"}>
+    <Box bg={"white"} borderRadius={6} overflow={"hidden"}>
       <Box p={3} display={"flex"} gap={4} alignItems={"flex-start"} mb={4}>
         <Checkbox />
         <Avatar name={avatarName ?? ""} src={avatarSrc ?? ""} />

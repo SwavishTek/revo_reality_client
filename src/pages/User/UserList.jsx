@@ -7,13 +7,20 @@ import { userHeaderItems } from "../../utils/menuItems";
 import UserCard from "../../components/User/UserCard";
 import { useUserQuery } from "../../Queries/user/userUserQuery";
 import { useInView } from "react-intersection-observer";
+import { queryClient } from "../..";
 // import { FixedSizeList as List } from "react-window";
 
 const UserList = () => {
   const [userStatus, setUserStatus] = useState("new");
   const [search, setSearch] = useState("");
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useUserQuery({ status: userStatus, search });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    refetch,
+  } = useUserQuery({ status: userStatus, search });
   const { ref, inView } = useInView();
   console.log(data);
 
@@ -50,7 +57,7 @@ const UserList = () => {
           {allUsers.length > 0 ? (
             <VStack spacing={4} align="stretch">
               {allUsers.map((item) => (
-                <UserCard item={item} key={item._id} />
+                <UserCard item={item} key={item._id} refetch={refetch} />
               ))}
             </VStack>
           ) : status === "pending" ? (

@@ -40,7 +40,15 @@ export const userHeaderItems = [
   },
   {
     label: "Deactivated",
-    value: "deactivated",
+    value: "deactive",
     color: "#740707",
   },
 ];
+
+export const userStatusObj = {
+  approve: "approved",
+  reject: "rejected",
+  deactive: "deactive",
+  active: "active",
+  pending: "pending",
+};
