@@ -7,6 +7,7 @@ import { userHeaderItems } from "../../utils/menuItems";
 import UserCard from "../../components/User/UserCard";
 import { useUserQuery } from "../../Queries/user/userUserQuery";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 // import { FixedSizeList as List } from "react-window";
 
 const UserList = () => {
@@ -37,7 +38,9 @@ const UserList = () => {
     <VStack spacing={4} align="stretch" height="100vh" p={4}>
       <Box>
         <Header title="All Employees">
+        <Link to={'/users/addEmployee'}>
           <Button colorScheme="brand">Add Employee</Button>
+          </Link>
           {/* Add more buttons here */}
         </Header>
         <Filters onSearchChange={setSearch} />
