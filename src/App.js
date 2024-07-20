@@ -12,6 +12,9 @@ const MainLayout = Loadable(
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
 const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.js")));
+const AddEmployee = Loadable(
+  lazy(() => import("./pages/User/AddEmployee.jsx"))
+);
 const LeaveForm = Loadable(lazy(() => import("./pages/Leave/LeaveForm.jsx")));
 const LeaveDetails = Loadable(
   lazy(() => import("./pages/Leave/LeaveDetails.jsx"))
@@ -46,6 +49,10 @@ function App() {
         {
           path: "leaves",
           element: <LeaveList />,
+        },
+        {
+          path: "users/addEmployee",
+          element: <AddEmployee />,
         },
         {
           path: "attendance",
