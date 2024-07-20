@@ -5,6 +5,7 @@ import { Box, Button } from '@chakra-ui/react';
 import BankInformation from '../../components/User/BankInformation';
 import UploadOfferLetter from '../../components/User/UploadOfferLetter';
 import StepperAdd from '../../components/User/StepperAdd';
+import MyStepper from '../../components/User/StepperAdd';
 
 const AddEmployee = () => {
   return (
@@ -22,7 +23,7 @@ const AddEmployee = () => {
                     Create Offer
                 </Button>
             </Box>
-            <StepperAdd />
+            <MyStepper />
         {/* <PersonalForm /> */}
         {/* 2 */}
           {/*<BankInformation />*/}
