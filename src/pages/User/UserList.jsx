@@ -13,8 +13,14 @@ import { Link } from "react-router-dom";
 const UserList = () => {
   const [userStatus, setUserStatus] = useState("new");
   const [search, setSearch] = useState("");
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useUserQuery({ status: userStatus, search });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    refetch,
+  } = useUserQuery({ status: userStatus, search });
   const { ref, inView } = useInView();
   console.log(data);
 
@@ -53,7 +59,7 @@ const UserList = () => {
           {allUsers.length > 0 ? (
             <VStack spacing={4} align="stretch">
               {allUsers.map((item) => (
-                <UserCard item={item} key={item._id} />
+                <UserCard item={item} key={item._id} refetch={refetch} />
               ))}
             </VStack>
           ) : status === "pending" ? (

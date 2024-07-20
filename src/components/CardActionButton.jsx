@@ -7,6 +7,7 @@ const CardActionButton = ({ title, onClick }) => {
       onClick={onClick}
       borderRadius={0}
       sx={{ border: "1px solid lightgray" }}
+      bg={"brand.900"}
       px={8}
     >
       {title}

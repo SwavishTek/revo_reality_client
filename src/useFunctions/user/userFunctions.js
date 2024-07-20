@@ -17,3 +17,27 @@ export const getUsers = async ({
     console.log(error);
   }
 };
+
+export const changeUserStatus = async ({ userId = "", status = "" }) => {
+  try {
+    const { data } = await API_AXIOS.post(`${Apis.userStatusChangeById}`, {
+      userId,
+      status,
+    });
+    return data || {};
+  } catch (error) {
+    throw new Error(error.response.data.error || "Something went wrong");
+    // console.log(error);
+  }
+};
+export const userPermanantDelete = async ({ userId = "" }) => {
+  try {
+    const { data } = await API_AXIOS.post(`${Apis.userPermanentDelete}`, {
+      userId,
+    });
+    return data || {};
+  } catch (error) {
+    throw new Error(error.response.data.error || "Something went wrong");
+    // console.log(error);
+  }
+};
