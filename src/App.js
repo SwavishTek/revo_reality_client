@@ -12,6 +12,10 @@ const MainLayout = Loadable(
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
 const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.js")));
+const LeaveForm = Loadable(lazy(() => import("./pages/Leave/LeaveForm.jsx")));
+const LeaveDetails = Loadable(
+  lazy(() => import("./pages/Leave/LeaveDetails.jsx"))
+);
 
 function App() {
   const router = createBrowserRouter([
@@ -46,6 +50,14 @@ function App() {
         {
           path: "attendance",
           element: <AttList />,
+        },
+        {
+          path: "leaves/apply_leave",
+          element: <LeaveForm />,
+        },
+        {
+          path: "leaves/details/:id",
+          element: <LeaveDetails />,
         },
       ],
     },

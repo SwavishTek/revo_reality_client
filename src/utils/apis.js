@@ -8,6 +8,8 @@ const Apis = {
   user: baseUrl + "users",
   userStatusChangeById: baseUrl + "users/userStatusChangeById",
   userPermanentDelete: baseUrl + "users/permanentDelete",
+  //
+  // leaves,
 };
 
 export default Apis;

@@ -50,7 +50,7 @@ const Sidebar = ({ items = [] }) => {
         </Text>
       </Box>
 
-      <VStack spacing={3} align="start">
+      <VStack spacing={3} align="start" flex={1}>
         {items.map((item) => (
           <Box key={item.label} w="full">
             <Link to={item.href}>

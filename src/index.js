@@ -7,6 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import customTheme from "./utils/theme";
 import "react-datepicker/dist/react-datepicker.css";
+import "react-phone-input-2/lib/style.css";
 
 const queryClient = new QueryClient();
 

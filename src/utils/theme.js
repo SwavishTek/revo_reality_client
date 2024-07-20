@@ -15,12 +15,20 @@ const customTheme = extendTheme({
       700: "#006ba1",
       800: "#005885",
       900: "#F5F5F5",
+      success: "#4ABC04",
+      info: "#0095FF",
+      orange: "#FF8A00",
+      error: "#FF0000",
     },
   },
   components: {
     Button: {
       baseStyle: {
-        borderRadius: "10px", // Set your desired border radius here
+        borderRadius: "10px",
+        _hover: {
+          opacity: 0.8,
+        },
+        // Set your desired border radius here
       },
     },
   },

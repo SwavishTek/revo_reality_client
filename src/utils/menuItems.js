@@ -44,6 +44,33 @@ export const userHeaderItems = [
     color: "#740707",
   },
 ];
+export const leaveHeaderItems = [
+  {
+    label: "New",
+    value: "new",
+    color: "#E9A80A",
+  },
+  {
+    label: "On Hold",
+    value: "onHold",
+    color: "#FF8A00",
+  },
+  {
+    label: "Revise",
+    value: "revise",
+    color: "#0095FF",
+  },
+  {
+    label: "Approved",
+    value: "approved",
+    color: "#4ABC04",
+  },
+  {
+    label: "Rejected",
+    value: "rejected",
+    color: "#FF0000",
+  },
+];
 
 export const userStatusObj = {
   approve: "approved",
