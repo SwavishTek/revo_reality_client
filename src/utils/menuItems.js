@@ -79,3 +79,8 @@ export const userStatusObj = {
   active: "active",
   pending: "pending",
 };
+
+export const leaveTypes = [
+  { value: "paid", label: "Paid" },
+  { value: "unpaid", label: "Un Paid" },
+];

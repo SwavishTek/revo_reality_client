@@ -25,10 +25,13 @@ const customTheme = extendTheme({
     Button: {
       baseStyle: {
         borderRadius: "10px",
-        _hover: {
-          opacity: 0.8,
-        },
+
         // Set your desired border radius here
+      },
+      _hover: {
+        background: "inherit",
+        boxShadow: "none",
+        opacity: 1,
       },
     },
   },
