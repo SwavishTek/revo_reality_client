@@ -15,6 +15,9 @@ const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.js")));
 const AddEmployee = Loadable(
   lazy(() => import("./pages/User/AddEmployee.jsx"))
 );
+const EmployeeDetails = Loadable(
+  lazy(() => import("./pages/User/EmployeeDetails.jsx"))
+);
 const LeaveForm = Loadable(lazy(() => import("./pages/Leave/LeaveForm.jsx")));
 const LeaveDetails = Loadable(
   lazy(() => import("./pages/Leave/LeaveDetails.jsx"))
@@ -53,6 +56,10 @@ function App() {
         {
           path: "users/addEmployee",
           element: <AddEmployee />,
+        },
+        {
+          path: "users/:id",
+          element: <EmployeeDetails />,
         },
         {
           path: "attendance",

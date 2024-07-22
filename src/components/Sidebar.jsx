@@ -13,7 +13,7 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/Logo.png";
+import logo from "../assets/logo.svg";
 import { CiSettings, CiBellOn } from "react-icons/ci";
 import { useProfileQuery } from "../Queries/auth/useProfileQuery";
 import { TbTargetArrow } from "react-icons/tb";
