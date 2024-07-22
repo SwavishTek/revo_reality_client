@@ -115,7 +115,7 @@ const LeaveForm = () => {
               id="mobile"
               label="Phone Number"
               value={values.mobile}
-              onChange={handleChange}
+              onChange={(v) => setFieldValue("mobile", v)}
             />
           </GridItem>
 

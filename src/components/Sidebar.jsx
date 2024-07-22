@@ -17,8 +17,13 @@ import logo from "../assets/Logo.png";
 import { CiSettings, CiBellOn } from "react-icons/ci";
 import { useProfileQuery } from "../Queries/auth/useProfileQuery";
 import { TbTargetArrow } from "react-icons/tb";
+import { PiPowerFill } from "react-icons/pi";
+import { logout } from "../useFunctions/auth/auth";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Sidebar = ({ items = [] }) => {
+  const queryClient = useQueryClient();
+
   const location = useLocation();
   const [activeItem, setActiveItem] = React.useState(null);
   const { data: auth } = useProfileQuery();
@@ -83,8 +88,8 @@ const Sidebar = ({ items = [] }) => {
                 borderTopEndRadius={0}
                 borderBottomEndRadius={0}
                 w="full"
-                bg={activeItem === item.label ? "gray.100" : "white"}
-                fontWeight={"bold"}
+                bg={activeItem === item.label ? "brand.900" : "white"}
+                fontWeight={"medium"}
                 cursor={"pointer"}
                 onClick={() => handleItemClick(item.label)}
                 display={"flex"}
@@ -125,9 +130,25 @@ const Sidebar = ({ items = [] }) => {
 
       <Spacer />
 
-      <Button colorScheme="red" w="full" mt={4}>
-        Logout
-      </Button>
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        gap={2}
+        _hover={{ bg: "brand.900" }}
+        borderRadius={2}
+        cursor={"pointer"}
+        mr={4}
+        mt={4}
+        p={2}
+        onClick={() => {
+          logout();
+          queryClient.clear();
+        }}
+      >
+        <PiPowerFill size={"1.4rem"} />
+        <Text fontWeight={"medium"}>Logout</Text>
+      </Box>
+      {/* <Button mr={4} mt={4}></Button> */}
     </Flex>
   );
 };

@@ -1,5 +1,8 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getUsers } from "../../useFunctions/user/userFunctions";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  getUserDetailsById,
+  getUsers,
+} from "../../useFunctions/user/userFunctions";
 
 export const useUserQuery = ({ status = "", search = "" }) =>
   useInfiniteQuery({
@@ -11,4 +14,12 @@ export const useUserQuery = ({ status = "", search = "" }) =>
       }
       return undefined;
     },
+  });
+
+export const useUserDetailsQuery = (id) =>
+  useQuery({
+    queryKey: ["user", id],
+    queryFn: () => getUserDetailsById(id),
+    staleTime: 1000 * 60 * 10,
+    enabled: !!id,
   });

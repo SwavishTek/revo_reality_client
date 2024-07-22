@@ -108,3 +108,11 @@ export const leaveTypes = [
   { value: "paid", label: "Paid" },
   { value: "unpaid", label: "Un Paid" },
 ];
+
+export const userRoles = [
+  // { value: "sup_admin", label: "Super Admin" },
+  { value: "sub_admin", label: "Sub Admin" },
+  { value: "manager", label: "Manager" },
+  { value: "teamLead", label: "Team Lead" },
+  { value: "agent", label: "Agent" },
+];

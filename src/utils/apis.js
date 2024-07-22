@@ -9,6 +9,7 @@ const Apis = {
   user: baseUrl + "users",
   userStatusChangeById: baseUrl + "users/userStatusChangeById",
   userPermanentDelete: baseUrl + "users/permanentDelete",
+  getUserDetailsById: baseUrl + "users/getUserDetailsById",
 
   uploadImg: baseUrl + "upload",
   //

@@ -7,9 +7,11 @@ import {
 import { userStatusObj } from "../../utils/menuItems";
 import Confirmation from "../Confirmation";
 import { useDisclosure } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const UserActions = ({ status = "draft", userId = "", refetch }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
   const handleStatusChange = async (newStatus) => {
     try {
       const { data } = await changeUserStatus({ userId, status: newStatus });
@@ -28,6 +30,10 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const navigateEdit = () => {
+    navigate(`/users/addEmployee?id=${userId}`);
   };
 
   switch (status) {
@@ -52,7 +58,7 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
       return (
         <>
           <Confirmation />
-          <CardActionButton title="Edit" />
+          <CardActionButton title="Edit" onClick={navigateEdit} />
           <CardActionButton title="Delete" onClick={onOpen} />
           <Confirmation
             onClose={onClose}
@@ -77,7 +83,7 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
     case userStatusObj.approve:
       return (
         <>
-          <CardActionButton title="Edit" />
+          <CardActionButton title="Edit" onClick={navigateEdit} />
           <CardActionButton
             title="Deactivate"
             onClick={() => handleStatusChange(userStatusObj.deactive)}

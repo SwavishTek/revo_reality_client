@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { uploadImg } from "../useFunctions/commonFunctions";
-import { Box, Spinner } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 
-const UploadInput = ({ onChange }) => {
+const UploadInput = ({ onChange, label }) => {
   const [loading, setLoading] = useState(false);
   const handleUpload = async (e) => {
     setLoading(true);
@@ -20,6 +20,9 @@ const UploadInput = ({ onChange }) => {
   };
   return (
     <div style={{ position: "relative" }}>
+      <Text mb={2} fontWeight={"semibold"}>
+        {label}
+      </Text>
       <input
         onChange={handleUpload}
         multiple

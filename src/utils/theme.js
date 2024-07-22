@@ -28,10 +28,22 @@ const customTheme = extendTheme({
 
         // Set your desired border radius here
       },
-      _hover: {
-        background: "inherit",
-        boxShadow: "none",
-        opacity: 1,
+      variants: {
+        solid: (props) => {
+          const { colorScheme } = props;
+          const bg =
+            `brand.${colorScheme}` in props.theme.colors.brand
+              ? `brand.${colorScheme}`
+              : `${colorScheme}.500`;
+          return {
+            bg,
+            _hover: {
+              bg,
+              boxShadow: "none",
+              opacity: 1,
+            },
+          };
+        },
       },
     },
   },
