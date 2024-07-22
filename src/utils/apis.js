@@ -14,6 +14,8 @@ const Apis = {
   //
   // leaves,
   leave: baseUrl + "leave",
+  leaveDetailsById: baseUrl + "leave/leaveDetailsById",
+  leaveRejectById: baseUrl + "leave/leaveRejectById",
 };
 
 export default Apis;

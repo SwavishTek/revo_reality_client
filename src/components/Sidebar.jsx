@@ -9,12 +9,19 @@ import {
   VStack,
   Spacer,
   Collapse,
+  Image,
+  Avatar,
 } from "@chakra-ui/react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/Logo.png";
+import { CiSettings, CiBellOn } from "react-icons/ci";
+import { useProfileQuery } from "../Queries/auth/useProfileQuery";
+import { TbTargetArrow } from "react-icons/tb";
 
 const Sidebar = ({ items = [] }) => {
   const location = useLocation();
   const [activeItem, setActiveItem] = React.useState(null);
+  const { data: auth } = useProfileQuery();
 
   React.useEffect(() => {
     const activeParent = items.find((item) => {
@@ -36,20 +43,34 @@ const Sidebar = ({ items = [] }) => {
     <Flex
       direction="column"
       h="100vh"
-      w="250px"
+      w="230px"
       //   bg="gray.800"
       //   color="white"
       p={4}
+      pr={0}
+      pt={8}
       borderRight="1px"
       borderColor="gray.100"
     >
       <Box mb={6}>
         {/* Replace with your logo */}
-        <Text fontSize="2xl" fontWeight="bold">
-          Logo
-        </Text>
+        <Image src={logo} alt="Revo Reality" />
       </Box>
 
+      {/* //user personal section */}
+      <Box mr={4}>
+        <Box display={"flex"} alignItems={"center"} gap={2}>
+          <div style={{ flex: 1 }}>
+            <Avatar />
+          </div>
+          <CiSettings size={"1.6rem"} />
+          <CiBellOn size={"1.6rem"} />
+        </Box>
+        <Text my={2}>{`${auth?.name || ""} ${auth?.lastName || ""}`}</Text>
+        <Box></Box>
+      </Box>
+
+      {/* nav links */}
       <VStack spacing={3} align="start" flex={1}>
         {items.map((item) => (
           <Box key={item.label} w="full">
@@ -59,12 +80,19 @@ const Sidebar = ({ items = [] }) => {
                 color={activeItem === item.label ? "brand.500" : "black"}
                 p={2}
                 borderRadius="12px"
+                borderTopEndRadius={0}
+                borderBottomEndRadius={0}
                 w="full"
                 bg={activeItem === item.label ? "gray.100" : "white"}
                 fontWeight={"bold"}
                 cursor={"pointer"}
                 onClick={() => handleItemClick(item.label)}
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
               >
+                {item.icon}
+
                 {item.label}
               </Box>
             </Link>

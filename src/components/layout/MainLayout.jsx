@@ -8,7 +8,13 @@ const MainLayout = () => {
   return (
     <Box display="flex">
       <Sidebar items={menuItems} />
-      <Box flex="1" p={4} bg={"brand.900"} overflowY={"auto"}>
+      <Box
+        flex="1"
+        p={4}
+        bg={"brand.900"}
+        overflowY={"scroll"}
+        height={"100vh"}
+      >
         {/* Your main content goes here */}
         {/* <Text>Welcome to the dashboard!</Text> */}
         <Outlet />

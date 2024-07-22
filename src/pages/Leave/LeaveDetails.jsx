@@ -3,8 +3,21 @@ import React from "react";
 import BackButton from "../../components/BackButton";
 import Title from "../../components/Title";
 import CustomGridItem from "../../components/CustomGridItem";
+import { useLeaveDetailsQuery } from "../../Queries/leave/useLeaveQuery";
+import { useParams } from "react-router-dom";
+import { formatDate } from "../../useFunctions/commonFunctions";
+import ImagePreview from "../../components/ImagePreview";
+import { useLeaveActions } from "../../useFunctions/leave/leaveFunctions";
 
 const LeaveDetails = () => {
+  const { id } = useParams();
+  const { data = {} } = useLeaveDetailsQuery(id);
+  const { rejectLeaveById } = useLeaveActions();
+
+  const handleReject = () => {
+    rejectLeaveById(id);
+  };
+
   return (
     <Box>
       <BackButton title={"Leave Detail"}>
@@ -18,7 +31,7 @@ const LeaveDetails = () => {
           <Button bg="brand.orange" color={"white"}>
             Revise
           </Button>
-          <Button bg="brand.error" color={"white"}>
+          <Button bg="brand.error" color={"white"} onClick={handleReject}>
             Reject
           </Button>
         </Box>
@@ -28,22 +41,37 @@ const LeaveDetails = () => {
           <GridItem colSpan={5} my={4}>
             <Title title="EMPLOYEE INFORMATION" />
           </GridItem>
-          <CustomGridItem title={"Employee Name"} value={"hii"} />
-          <CustomGridItem title={"Role"} value={"hii"} />
-          <CustomGridItem title={"Mobile Number"} value={"hii"} />
+          <CustomGridItem
+            title={"Employee Name"}
+            value={`${data.name} ${data.lastName}`}
+          />
+          <CustomGridItem title={"Role"} value={data.status} />
+          <CustomGridItem title={"Mobile Number"} value={data.mobile} />
           <GridItem colSpan={5} my={4}>
             <Title title="LEAVE INFORMAION" />
           </GridItem>
-          <CustomGridItem title={"Employee Name"} value={"hii"} />
-          <CustomGridItem title={"Role"} value={"hii"} />
-          <CustomGridItem title={"Mobile Number"} value={"hii"} />
-          <CustomGridItem title={"Employee Name"} value={"hii"} />
-          <CustomGridItem title={"Role"} value={"hii"} />
-          <CustomGridItem title={"Mobile Number"} value={"hii"} />
+          <CustomGridItem title={"Reason For Leave"} value={data.reason} />
+          <CustomGridItem title={"Total Days Of Leave"} value={data.days} />
+          <CustomGridItem title={"Leave Type"} value={data.payType} />
+          <CustomGridItem
+            title={"Start Date"}
+            value={formatDate(data.startDate)}
+          />
+          <CustomGridItem title={"End Date"} value={formatDate(data.endDate)} />
+          <CustomGridItem title={"Special Remarks"} value={""} />
           <GridItem colSpan={5} my={4}>
             <Title title="ATTACHMENT" />
           </GridItem>
-          <CustomGridItem title={"Employee Name"} value={"hii"} />
+          <CustomGridItem
+            title={"Supported Documents"}
+            value={
+              <>
+                {data?.doc?.map((item) => (
+                  <ImagePreview img={item} />
+                ))}
+              </>
+            }
+          />
         </Grid>
       </Card>
     </Box>

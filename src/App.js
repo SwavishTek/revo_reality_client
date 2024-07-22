@@ -63,7 +63,7 @@ function App() {
           element: <LeaveForm />,
         },
         {
-          path: "leaves/details/:id",
+          path: "leaves/:id",
           element: <LeaveDetails />,
         },
       ],

@@ -1,15 +1,39 @@
+import { TbTargetArrow } from "react-icons/tb";
+import { FaUser } from "react-icons/fa";
+import { MdHub } from "react-icons/md";
+import { FaCalendarCheck } from "react-icons/fa";
+import { TiDocumentText } from "react-icons/ti";
+
 export const menuItems = [
-  { label: "Dashboard", href: "/dashboard" },
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: <TbTargetArrow size={"1.4rem"} />,
+  },
   {
     label: "Users",
     href: "/users",
+    icon: <FaUser size={"1.4rem"} />,
     // children: [
     //   { label: "Active Users", href: "/users/active" },
     //   { label: "Inactive Users", href: "/users/inactive" },
-    // ],
+    // ],,
   },
-  { label: "Leaves", href: "/leaves" },
-  { label: "Attendance", href: "/attendance" },
+  {
+    label: "Teams",
+    href: "/teams",
+    icon: <MdHub size={"1.4rem"} />,
+  },
+  {
+    label: "Leaves",
+    href: "/leaves",
+    icon: <FaCalendarCheck size={"1.4rem"} />,
+  },
+  {
+    label: "Attendance",
+    href: "/attendance",
+    icon: <TiDocumentText size={"1.4rem"} />,
+  },
 ];
 
 export const userHeaderItems = [

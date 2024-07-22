@@ -1,19 +1,18 @@
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import Header from "../../components/Header";
 import Filters from "../../components/Filters";
 import CardHeader from "../../components/CardHeader";
 import { leaveHeaderItems } from "../../utils/menuItems";
 import { useUserQuery } from "../../Queries/user/userUserQuery";
 import { useInView } from "react-intersection-observer";
-import { queryClient } from "../..";
 import LeaveCard from "../../components/Leave/LeaveCard";
 import BackButton from "../../components/BackButton";
 import { Link } from "react-router-dom";
+import { useLeaveQuery } from "../../Queries/leave/useLeaveQuery";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
-  const [userStatus, setUserStatus] = useState("new");
+  const [leaveStatus, setLeaveStatus] = useState("new");
   const [search, setSearch] = useState("");
   const {
     data,
@@ -22,7 +21,7 @@ const LeaveList = () => {
     isFetchingNextPage,
     status,
     refetch,
-  } = useUserQuery({ status: userStatus, search });
+  } = useLeaveQuery({ status: leaveStatus, search });
   const { ref, inView } = useInView();
   console.log(data);
 
@@ -40,8 +39,7 @@ const LeaveList = () => {
     return <Text>Error fetching data</Text>;
   }
 
-  const allUsers = data?.pages?.flatMap((page) => page?.data || []) || [];
-  console.log(allUsers);
+  const allLeaves = data?.pages?.flatMap((page) => page?.data || []) || [];
   return (
     <VStack spacing={4} align="stretch" height="100vh" p={4}>
       <Box>
@@ -53,22 +51,22 @@ const LeaveList = () => {
 
         <Filters onSearchChange={setSearch} showDates />
         <CardHeader
-          value={userStatus}
+          value={leaveStatus}
           items={leaveHeaderItems}
-          onChange={setUserStatus}
+          onChange={setLeaveStatus}
         />
-        <LeaveCard refetch={refetch} />
+
         <Box maxHeight={"400px"} my={4} overflowY="auto">
-          {allUsers.length > 0 ? (
+          {allLeaves.length > 0 ? (
             <VStack spacing={4} align="stretch">
-              {allUsers.map((item) => (
+              {allLeaves.map((item) => (
                 <LeaveCard item={item} key={item._id} refetch={refetch} />
               ))}
             </VStack>
           ) : status === "pending" ? (
             <Text>Loading...</Text>
           ) : (
-            <Text>No users found</Text>
+            <Text>No Leaves found</Text>
           )}
           <Box ref={ref}>
             {isFetchingNextPage ? (
