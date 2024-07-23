@@ -14,6 +14,7 @@ import UploadInput from "../UploadInput";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUserDetailsQuery } from "../../Queries/user/userUserQuery";
 import { addUser } from "../../useFunctions/user/userFunctions";
+import LoadButton from "../LoadButton";
 
 const UploadOfferLetter = ({ setCurrentStep }) => {
   const navigate = useNavigate();
@@ -22,9 +23,10 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
   const id = searchParams.get("id");
   const { data: user, refetch } = useUserDetailsQuery(id);
   const [offerLetter, setOfferLetter] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values) => {
-    console.log(values);
+    setLoading(true);
     try {
       const data = await addUser({
         step: 3,
@@ -43,6 +45,7 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -86,14 +89,15 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
           {/* <Button size="md" fontSize="18px" colorScheme="brand">
             Save
           </Button> */}
-          <Button
+          <LoadButton
             onClick={handleSubmit}
             size="md"
             fontSize="18px"
             colorScheme="brand"
+            isLoading={loading}
           >
             Submit
-          </Button>
+          </LoadButton>
         </Stack>
       </Box>
     </>

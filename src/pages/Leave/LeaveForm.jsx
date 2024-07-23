@@ -7,6 +7,7 @@ import {
   GridItem,
   Input,
   Text,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import Title from "../../components/Title";
@@ -41,12 +42,13 @@ const LeaveForm = () => {
       onSubmit: async (values) => {
         try {
           const data = await applyLeave(values);
-          toast({
-            title: data?.message,
-            status: "succcess",
-            duration: 1000,
-            isClosable: true,
-          });
+          navigate("/leaves");
+          // toast({
+          //   title: data?.message,
+          //   status: "succcess",
+          //   duration: 1000,
+          //   isClosable: true,
+          // });
         } catch (err) {
           console.log("apply leave", err);
         }

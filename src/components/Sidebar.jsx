@@ -12,17 +12,17 @@ import {
   Image,
   Avatar,
 } from "@chakra-ui/react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import { CiSettings, CiBellOn } from "react-icons/ci";
 import { useProfileQuery } from "../Queries/auth/useProfileQuery";
-import { TbTargetArrow } from "react-icons/tb";
 import { PiPowerFill } from "react-icons/pi";
 import { logout } from "../useFunctions/auth/auth";
 import { useQueryClient } from "@tanstack/react-query";
 
 const Sidebar = ({ items = [] }) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const location = useLocation();
   const [activeItem, setActiveItem] = React.useState(null);
@@ -66,7 +66,9 @@ const Sidebar = ({ items = [] }) => {
       <Box mr={4}>
         <Box display={"flex"} alignItems={"center"} gap={2}>
           <div style={{ flex: 1 }}>
-            <Avatar />
+            <Link to={`/users/${auth?._id}`}>
+              <Avatar />
+            </Link>
           </div>
           <CiSettings size={"1.6rem"} />
           <CiBellOn size={"1.6rem"} />
@@ -143,6 +145,7 @@ const Sidebar = ({ items = [] }) => {
         onClick={() => {
           logout();
           queryClient.clear();
+          navigate("/auth/login");
         }}
       >
         <PiPowerFill size={"1.4rem"} />

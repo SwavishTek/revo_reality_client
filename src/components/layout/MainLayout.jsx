@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../Sidebar";
 import { menuItems } from "../../utils/menuItems";
 import { Box, Text } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/auth/login");
+    }
+  }, [navigate]);
+
   return (
     <Box display="flex">
       <Sidebar items={menuItems} />

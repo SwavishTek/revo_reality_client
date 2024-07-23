@@ -88,7 +88,12 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
             title="Deactivate"
             onClick={() => handleStatusChange(userStatusObj.deactive)}
           />
-          <CardActionButton title="Delete" />
+          <CardActionButton title="Delete" onClick={onOpen} />
+          <Confirmation
+            onClose={onClose}
+            isOpen={isOpen}
+            onSubmit={deleteUser}
+          />
         </>
       );
     case "deactive":
@@ -98,7 +103,12 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
             title="Active"
             onClick={() => handleStatusChange(userStatusObj.approve)}
           />
-          <CardActionButton title="Delete" />
+          <CardActionButton title="Delete" onClick={onOpen} />
+          <Confirmation
+            onClose={onClose}
+            isOpen={isOpen}
+            onSubmit={deleteUser}
+          />
         </>
       );
 

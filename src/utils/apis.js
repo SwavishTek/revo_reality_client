@@ -17,6 +17,9 @@ const Apis = {
   leave: baseUrl + "leave",
   leaveDetailsById: baseUrl + "leave/leaveDetailsById",
   leaveRejectById: baseUrl + "leave/leaveRejectById",
+  leaveApproveById: baseUrl + "leave/leaveApproveById",
+  leaveOnHoldById: baseUrl + "leave/leaveOnHoldById",
+  leaveReviseById: baseUrl + "leave/leaveOnHoldById",
 };
 
 export default Apis;
