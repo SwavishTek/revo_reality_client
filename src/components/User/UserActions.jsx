@@ -6,8 +6,18 @@ import {
 } from "../../useFunctions/user/userFunctions";
 import { userStatusObj } from "../../utils/menuItems";
 import Confirmation from "../Confirmation";
-import { useDisclosure } from "@chakra-ui/react";
+import { Image, useDisclosure } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { MdCancel } from "react-icons/md";
+import { WarningIcon } from "@chakra-ui/icons";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
+import DeleteUserIcon from "../../assets/deleteIcon.svg";
+import Edit from "../../assets/Edit.svg";
+import Check from "../../assets/Check_Mark.svg";
+import Reject from "../../assets/Reject.svg";
+import Deactive from "../../assets/Deactive.svg";
+import Warning from "../../assets/Warning.svg";
 
 const UserActions = ({ status = "draft", userId = "", refetch }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -43,14 +53,17 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Pending"
             onClick={() => handleStatusChange(userStatusObj.pending)}
+            icon={<Image src={Warning} />}
           />
           <CardActionButton
             title="Approve"
             onClick={() => handleStatusChange(userStatusObj.approve)}
+            icon={<Image src={Check} />}
           />
           <CardActionButton
             title="Reject"
             onClick={() => handleStatusChange(userStatusObj.reject)}
+            icon={<Image src={Reject} />}
           />
         </>
       );
@@ -58,8 +71,16 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
       return (
         <>
           <Confirmation />
-          <CardActionButton title="Edit" onClick={navigateEdit} />
-          <CardActionButton title="Delete" onClick={onOpen} />
+          <CardActionButton
+            title="Edit"
+            onClick={navigateEdit}
+            icon={<Image src={Edit} />}
+          />
+          <CardActionButton
+            title="Delete"
+            onClick={onOpen}
+            icon={<Image src={DeleteUserIcon} />}
+          />
           <Confirmation
             onClose={onClose}
             isOpen={isOpen}
@@ -73,22 +94,33 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Approve"
             onClick={() => handleStatusChange(userStatusObj.approve)}
+            icon={<Image src={Check} />}
           />
           <CardActionButton
             title="Reject"
             onClick={() => handleStatusChange(userStatusObj.reject)}
+            icon={<Image src={Reject} />}
           />
         </>
       );
     case userStatusObj.approve:
       return (
         <>
-          <CardActionButton title="Edit" onClick={navigateEdit} />
+          <CardActionButton
+            title="Edit"
+            onClick={navigateEdit}
+            icon={<Image src={Edit} />}
+          />
           <CardActionButton
             title="Deactivate"
             onClick={() => handleStatusChange(userStatusObj.deactive)}
+            icon={<Image src={Deactive} />}
           />
-          <CardActionButton title="Delete" onClick={onOpen} />
+          <CardActionButton
+            title="Delete"
+            onClick={onOpen}
+            icon={<Image src={DeleteUserIcon} />}
+          />
           <Confirmation
             onClose={onClose}
             isOpen={isOpen}
@@ -102,8 +134,13 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Active"
             onClick={() => handleStatusChange(userStatusObj.approve)}
+            icon={<Image src={Check} />}
           />
-          <CardActionButton title="Delete" onClick={onOpen} />
+          <CardActionButton
+            title="Delete"
+            onClick={onOpen}
+            icon={<Image src={DeleteUserIcon} />}
+          />
           <Confirmation
             onClose={onClose}
             isOpen={isOpen}

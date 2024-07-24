@@ -44,8 +44,8 @@ const UserList = () => {
     <VStack spacing={4} align="stretch" height="100vh" p={4}>
       <Box>
         <Header title="All Employees">
-        <Link to={'/users/addEmployee'}>
-          <Button colorScheme="brand">Add Employee</Button>
+          <Link to={"/users/addEmployee"}>
+            <Button colorScheme="brand">Add Employee</Button>
           </Link>
           {/* Add more buttons here */}
         </Header>
@@ -55,7 +55,7 @@ const UserList = () => {
           items={userHeaderItems}
           onChange={setUserStatus}
         />
-        <Box maxHeight={"400px"} my={4} overflowY="auto">
+        <Box maxHeight={"70vh"} py={4} my={4} overflowY="auto">
           {allUsers.length > 0 ? (
             <VStack spacing={4} align="stretch">
               {allUsers.map((item) => (
