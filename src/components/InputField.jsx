@@ -7,15 +7,17 @@ const InputField = ({
   type = "text",
   placeholder,
   value,
+  style,
   onChange,
 }) => (
   <FormControl id={id}>
     <FormLabel>{label}</FormLabel>
-    <Input
+    <Input sx={{...style}}
       type={type}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      
     />
   </FormControl>
 );

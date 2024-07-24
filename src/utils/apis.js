@@ -20,6 +20,12 @@ const Apis = {
   leaveApproveById: baseUrl + "leave/leaveApproveById",
   leaveOnHoldById: baseUrl + "leave/leaveOnHoldById",
   leaveReviseById: baseUrl + "leave/leaveOnHoldById",
+
+  /* Team */
+   team: baseUrl + "team",
+   updateTeam: baseUrl + "team/updateById",
+   getTeamSelect: baseUrl + "users"
+
 };
 
 export default Apis;
