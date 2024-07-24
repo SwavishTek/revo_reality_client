@@ -23,7 +23,7 @@ const VerifyOTP = () => {
   const handleSubmit = async () => {
     try {
       const data = await verifyOtp({ email, otp });
-      navigate("/dashboard");
+      navigate("/users");
     } catch (err) {
       console.error(err);
     }

@@ -116,3 +116,13 @@ export const userRoles = [
   { value: "teamLead", label: "Team Lead" },
   { value: "agent", label: "Agent" },
 ];
+
+export const userRolesObj = {
+  sub_admin: "Sub Admin",
+  manager: "Manager",
+  teamLead: "Team Lead",
+  agent: "Agent",
+  sup_admin: "Super Admin",
+};
+
+export const adminArr = ["sup_admin", "sub_admin"];

@@ -18,49 +18,51 @@ import { useFormik } from "formik";
 import InputField from "../InputField";
 import { addUser } from "../../useFunctions/user/userFunctions";
 import UploadInput from "../UploadInput";
+import LoadButton from "../LoadButton";
 
 const BankInformation = ({ setCurrentStep }) => {
   const toast = useToast();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const { data: user, refetch } = useUserDetailsQuery(id);
-  const { values, handleChange, handleSubmit, setFieldValue } = useFormik({
-    initialValues: {
-      nameOnBank: "",
-      bankName: "",
-      sortCode: "",
-      accountNumber: "",
-      bankStatement: [],
-    },
-    onSubmit: async (values) => {
-      console.log(values);
-      try {
-        const data = await addUser({
-          step: 2,
-          bankDetails: values,
-          ...(!!id && { userId: id }),
-        });
-        refetch();
-        toast({
-          title: data?.message,
-          status: "success",
-          isClosable: true,
-          duration: 1000,
-        });
-        setCurrentStep((step) => step + 1);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-  });
+  const { values, handleChange, handleSubmit, setFieldValue, isSubmitting } =
+    useFormik({
+      initialValues: {
+        nameOnBank: "",
+        bankName: "",
+        sortCode: "",
+        accountNumber: "",
+        bankStatement: [],
+      },
+      onSubmit: async (values) => {
+        console.log(values);
+        try {
+          const data = await addUser({
+            step: 2,
+            bankDetails: values,
+            ...(!!id && { userId: id }),
+          });
+          refetch();
+          toast({
+            title: data?.message,
+            status: "success",
+            isClosable: true,
+            duration: 1000,
+          });
+          setCurrentStep((step) => step + 1);
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    });
 
   useEffect(() => {
     if (user) {
-      setFieldValue("nameOnBank", user.bankDetails?.nameOnBank);
-      setFieldValue("bankName", user.bankDetails?.bankName);
-      setFieldValue("sortCode", user.bankDetails?.sortCode);
-      setFieldValue("accountNumber", user.bankDetails?.accountNumber);
-      setFieldValue("bankStatement", user.bankStatement || []);
+      setFieldValue("nameOnBank", user?.bankDetails?.nameOnBank);
+      setFieldValue("bankName", user?.bankDetails?.bankName);
+      setFieldValue("sortCode", user?.bankDetails?.sortCode);
+      setFieldValue("accountNumber", user?.bankDetails?.accountNumber);
+      setFieldValue("bankStatement", user?.bankStatement || []);
     }
   }, [user, setFieldValue]);
 
@@ -137,14 +139,15 @@ const BankInformation = ({ setCurrentStep }) => {
         </Grid>
 
         <Stack spacing={6} direction="row" align="center" marginTop={"1.5rem"}>
-          <Button
+          <LoadButton
             onClick={handleSubmit}
             size="md"
             fontSize="18px"
             colorScheme="brand"
+            isLoading={isSubmitting}
           >
             Save & Next
-          </Button>
+          </LoadButton>
           <Button
             onClick={() => {
               if (setCurrentStep) setCurrentStep((step) => step + 1);

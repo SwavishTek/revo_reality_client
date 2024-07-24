@@ -104,6 +104,37 @@ export const useLeaveActions = () => {
     }
   };
 
+  const approveLeaveById = async (id) => {
+    try {
+      const { data } = await API_AXIOS.post(`${Apis.leaveApproveById}/${id}`);
+      //   removeLeaveData("new", id);
+      //   updateLeaveData("rejected", data.data);
+      queryClient.refetchQueries(["leaves"]);
+
+      //updating details api
+      queryClient.setQueriesData(["leave", id], (oldData) => {
+        return data.data;
+      });
+    } catch (error) {
+      console.log("leave reject", error);
+    }
+  };
+  const onHoldLeaveById = async (id) => {
+    try {
+      const { data } = await API_AXIOS.post(`${Apis.leaveApproveById}/${id}`);
+      //   removeLeaveData("new", id);
+      //   updateLeaveData("rejected", data.data);
+      queryClient.refetchQueries(["leaves"]);
+
+      //updating details api
+      queryClient.setQueriesData(["leave", id], (oldData) => {
+        return data.data;
+      });
+    } catch (error) {
+      console.log("leave reject", error);
+    }
+  };
+
   const removeLeaveData = (oldStatus, id) => {
     queryClient.setQueryData(["leaves", { status: oldStatus }], (oldData) => {
       // Provide default structure if oldData is undefined or missing
@@ -143,5 +174,7 @@ export const useLeaveActions = () => {
 
   return {
     rejectLeaveById,
+    approveLeaveById,
+    onHoldLeaveById,
   };
 };

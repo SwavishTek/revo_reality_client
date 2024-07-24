@@ -1,18 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { Box, Button, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import InputField from "../InputField";
 import { Grid, GridItem } from "@chakra-ui/react";
 import "./uploadbutton.css";
-import { AttachmentIcon } from "@chakra-ui/icons";
 import { useFormik } from "formik";
 import PhoneInputField from "../PhoneInputField";
 import DatePicker from "react-datepicker";
@@ -22,55 +12,57 @@ import { useSearchParams } from "react-router-dom";
 import { useUserDetailsQuery } from "../../Queries/user/userUserQuery";
 import CustomSelect from "../BasicSelect";
 import { userRoles } from "../../utils/menuItems";
+import LoadButton from "../LoadButton";
 
 const PersonalForm = ({ setCurrentStep }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get("id");
   const { data: user, refetch } = useUserDetailsQuery(id);
   const toast = useToast();
-  const { values, handleChange, handleSubmit, setFieldValue } = useFormik({
-    initialValues: {
-      name: "",
-      lastName: "",
-      role: "",
-      email: "",
-      mobile: "",
-      dateOfJoining: "",
-      department: "",
-      addressProof: [],
-      package: "",
-      currentAddress: {
-        currentAdd: "",
-        currentAdd2: "",
-        currentCity: "",
-        currentState: "",
-        currentCountry: "",
-        currentPostCode: "",
+  const { values, handleChange, handleSubmit, setFieldValue, isSubmitting } =
+    useFormik({
+      initialValues: {
+        name: "",
+        lastName: "",
+        role: "",
+        email: "",
+        mobile: "",
+        dateOfJoining: "",
+        department: "",
+        addressProof: [],
+        package: "",
+        currentAddress: {
+          currentAdd: "",
+          currentAdd2: "",
+          currentCity: "",
+          currentState: "",
+          currentCountry: "",
+          currentPostCode: "",
+        },
       },
-    },
-    onSubmit: async (values) => {
-      console.log(values);
-      try {
-        const data = await addUser({
-          step: 1,
-          basicInfo: values,
-          ...(!!id && { userId: id }),
-        });
-        refetch();
-        setSearchParams({ id: data?.data?._id });
-        toast({
-          title: data?.message,
-          status: "success",
-          isClosable: true,
-          duration: 1000,
-        });
+      onSubmit: async (values) => {
+        console.log(values);
+        try {
+          const data = await addUser({
+            step: 1,
+            basicInfo: values,
+            ...(!!id && { userId: id }),
+          });
+          refetch();
+          setSearchParams({ id: data?.data?._id });
+          toast({
+            title: data?.message,
+            status: "success",
+            isClosable: true,
+            duration: 1000,
+          });
 
-        setCurrentStep(2);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-  });
+          setCurrentStep(2);
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    });
 
   useEffect(() => {
     if (user) {
@@ -79,33 +71,36 @@ const PersonalForm = ({ setCurrentStep }) => {
       setFieldValue("role", user.role);
       setFieldValue("email", user.email);
       setFieldValue("mobile", user.mobile);
-      setFieldValue("dateOfJoining", new Date(user.dateOfJoining));
+      setFieldValue(
+        "dateOfJoining",
+        user.dateOfJoining ? new Date(user.dateOfJoining) : ""
+      );
       setFieldValue("department", user.department);
       setFieldValue("addressProof", user.addressProof);
       setFieldValue("package", user.package);
       setFieldValue(
         "currentAddress.currentAdd",
-        user.currentAddress.currentAdd
+        user.currentAddress?.currentAdd
       );
       setFieldValue(
         "currentAddress.currentAdd2",
-        user.currentAddress.currentAdd2
+        user.currentAddress?.currentAdd2
       );
       setFieldValue(
         "currentAddress.currentCity",
-        user.currentAddress.currentCity
+        user.currentAddress?.currentCity
       );
       setFieldValue(
         "currentAddress.currentState",
-        user.currentAddress.currentState
+        user.currentAddress?.currentState
       );
       setFieldValue(
         "currentAddress.currentCountry",
-        user.currentAddress.currentCountry
+        user.currentAddress?.currentCountry
       );
       setFieldValue(
         "currentAddress.currentPostCode",
-        user.currentAddress.currentPostCode
+        user.currentAddress?.currentPostCode
       );
     }
   }, [user, setFieldValue]);
@@ -295,14 +290,15 @@ const PersonalForm = ({ setCurrentStep }) => {
         </Grid>
 
         <Stack mt={4} spacing={6} direction="row" align="center">
-          <Button
+          <LoadButton
             onClick={handleSubmit}
             size="md"
             fontSize="18px"
             colorScheme="brand"
+            isLoading={isSubmitting}
           >
             Save & Next
-          </Button>
+          </LoadButton>
           <Button
             size="md"
             fontSize="18px"
