@@ -5,6 +5,7 @@ import { lazy } from "react";
 
 const Login = Loadable(lazy(() => import("./pages/Auth/Login")));
 const VerifyOTP = Loadable(lazy(() => import("./pages/Auth/VerifyOTP.jsx")));
+const ResetPassword = Loadable(lazy(() => import("./pages/Auth/ResetPassword.jsx")));
 const Dashboard = Loadable(lazy(() => import("./pages/Dashboard/index.js")));
 const MainLayout = Loadable(
   lazy(() => import("./components/layout/MainLayout.jsx"))
@@ -31,6 +32,16 @@ const LeaveForm = Loadable(lazy(() => import("./pages/Leave/LeaveForm.jsx")));
 const LeaveDetails = Loadable(
   lazy(() => import("./pages/Leave/LeaveDetails.jsx"))
 );
+const ProfileSettings = Loadable(
+  lazy(() => import("./pages/User/ProfileSettings.jsx"))
+);
+const ChangePasswords = Loadable(
+  lazy(() => import("./pages/User/ChangePasswords.jsx"))
+);
+const GeneralChanges = Loadable(
+  lazy(() => import("./pages/User/GeneralChanges.jsx"))
+);
+
 
 //sdsd
 function App() {
@@ -42,6 +53,10 @@ function App() {
     {
       path: "/auth/verifyOTP",
       element: <VerifyOTP />,
+    },
+    {
+      path: "/auth/resetpassword",
+      element: <ResetPassword />,
     },
     // {
     //   path: "/dashboard",
@@ -86,6 +101,18 @@ function App() {
           element: <TeamDetails/>
         },
         /* end Team */
+        {
+          path: "users/profilesettings",
+          element: <ProfileSettings />,
+        },
+        {
+          path: "users/changepassword",
+          element: <ChangePasswords />,
+        },
+        {
+          path: "users/generalchanges",
+          element: <GeneralChanges />,
+        },
         {
           path: "attendance",
           element: <AttList />,

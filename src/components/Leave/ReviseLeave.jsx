@@ -17,8 +17,10 @@ import DatePicker from "react-datepicker";
 import { useFormik } from "formik";
 import { API_AXIOS } from "../../http/interceptor";
 import Apis from "../../utils/apis";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ReviseLeave = ({ isOpen = false, onClose, id, refetch }) => {
+  const queryClient = useQueryClient();
   const { values, handleChange, handleSubmit, setFieldValue, isSubmitting } =
     useFormik({
       initialValues: {
@@ -34,6 +36,8 @@ const ReviseLeave = ({ isOpen = false, onClose, id, refetch }) => {
             `${Apis.leaveReviseById}/${id}`,
             values
           );
+
+          queryClient.refetchQueries(["leaves"]);
           if (refetch) refetch();
           onClose();
         } catch (err) {

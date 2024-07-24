@@ -19,6 +19,7 @@ const customTheme = extendTheme({
       info: "#0095FF",
       orange: "#FF8A00",
       error: "#FF0000",
+      gray: "#F9F9F9",
     },
   },
   components: {

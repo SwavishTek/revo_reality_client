@@ -1,5 +1,5 @@
-let baseUrl = "http://localhost:5000/api/";
-// let baseUrl = "http://192.168.0.1:5000/api/";
+// let baseUrl = "http://localhost:5000/api/";
+let baseUrl = "http://192.168.0.114:5000/api/";
 
 const Apis = {
   baseUrl,

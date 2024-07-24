@@ -6,7 +6,7 @@ const LoadButton = ({
   onClick,
   variant = "primary",
   size = "md",
-  color = "white",
+  color,
   icon,
   iconPosition = "left",
   children,
