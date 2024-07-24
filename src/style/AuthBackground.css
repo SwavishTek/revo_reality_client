@@ -8,12 +8,25 @@
     align-items: center;
     justify-content: center;
   }
+
+  .auth-image {
+    position: absolute;
+    top: 45px; /* Adjust as needed */
+     /* Optionally constrain width */
+    display: flex;
+    justify-content: center;
+  }
+  
+  .auth-image img {
+    width: 100%; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+  }
   
   .auth-content {
     position: relative;
     z-index: 2; /* Ensure the content is above the background image */
-    background: rgba(255, 255, 255, 0.8); /* Optional: Add a semi-transparent background to the content */
-    padding: 2.9rem;
+    background: rgba(255, 255, 255, 0.7); /* Optional: Add a semi-transparent background to the content */
+    padding: 3.5rem;
     border-radius: 10px;
     margin: 0 1rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
