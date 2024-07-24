@@ -39,7 +39,7 @@ const Login = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "2.1rem",
+          gap: "1rem",
         }}
       >
         <Text as="b" fontSize={"1.8rem"}>
@@ -81,7 +81,7 @@ const Login = () => {
             Forgot Password ?
           </Text>
         </div>
-        <Button onClick={handleSubmit} colorScheme="brand" w={"100%"}>
+        <Button onClick={handleSubmit} colorScheme="brand" w={"100%"} marginTop={"1rem"}>
           Login
         </Button>
       </Box>
