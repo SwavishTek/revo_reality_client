@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 // let baseUrl = "http://localhost:8000/api/";
 // let baseUrl = "http://192.168.0.108:5000/api/"
 // let baseUrl = "http://192.168.0.119:8000/api/"
 let baseUrl = `https://revo-reality-api.onrender.com/api/`
 
+=======
+// let baseUrl = "http://localhost:5000/api/";
+let baseUrl = "http://192.168.0.108:5000/api/";
+// let baseUrl = process.env.REACT_API_URL;
+console.log(process.env.REACT_APP_API_URL);
+>>>>>>> daa5c7f (react env)
 const Apis = {
   baseUrl,
   login: baseUrl + "auth/login",
