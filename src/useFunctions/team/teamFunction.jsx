@@ -1,30 +1,22 @@
 import { API_AXIOS } from "../../http/interceptor";
+import Apis from "../../utils/apis";
 
 
 export const getTeams = async ({
-    pageParam = 1,
-  }) => {
-    try {
-      const { data } = await API_AXIOS.get(`${Apis.AllTeamList}`, {
-        params: { page: pageParam },
-      });
-      return data || {};
-    } catch (error) {
-      
-      console.log(error);
-    }
-  };
+  pageParam = 1,
+  search = ''
+}) => {
+  try {
+    const { data } = await API_AXIOS.get(`team`, {
+      params: {
+        page: pageParam,
+        search
+      },
+    });
+    return data || {};
+  } catch (error) {
 
-  export const getTeamSelect = async ({ status, role
-  }) => {
-    try {
-      const { data } = await API_AXIOS.get(`${Apis.getTeamSelect}`, {
-        params: {status, role },
-      });
-      return data || {};
-    } catch (error) {
-      
-      console.log(error);
-    }
-  };
-  
+    console.log(error);
+  }
+};
+
