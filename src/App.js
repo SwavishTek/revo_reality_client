@@ -35,7 +35,9 @@ const ChangePasswords = Loadable(
 const GeneralChanges = Loadable(
   lazy(() => import("./pages/User/GeneralChanges.jsx"))
 );
-
+const OfferLetter = Loadable(
+  lazy(() => import("./pages/User/OfferLetter.jsx"))
+);
 function App() {
   const router = createBrowserRouter([
     {
@@ -105,6 +107,10 @@ function App() {
         {
           path: "leaves/:id",
           element: <LeaveDetails />,
+        },
+        {
+          path: "users/offerletter",
+          element: <OfferLetter />
         },
       ],
     },
