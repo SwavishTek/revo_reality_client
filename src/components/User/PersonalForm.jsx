@@ -13,8 +13,10 @@ import { useUserDetailsQuery } from "../../Queries/user/userUserQuery";
 import CustomSelect from "../BasicSelect";
 import { userRoles } from "../../utils/menuItems";
 import LoadButton from "../LoadButton";
+import useCustomToast from "../../hooks/useCustomToast";
 
 const PersonalForm = ({ setCurrentStep }) => {
+  const { showError, showSuccess } = useCustomToast();
   const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get("id");
   const { data: user, refetch } = useUserDetailsQuery(id);
@@ -50,16 +52,17 @@ const PersonalForm = ({ setCurrentStep }) => {
           });
           refetch();
           setSearchParams({ id: data?.data?._id });
-          toast({
-            title: data?.message,
-            status: "success",
-            isClosable: true,
-            duration: 1000,
-          });
-
-          setCurrentStep(2);
+          // toast({
+          //   title: data?.message,
+          //   status: "success",
+          //   isClosable: true,
+          //   duration: 1000,
+          // });
+          showSuccess({ message: data?.message });
+          setCurrentStep((step) => step + 1);
         } catch (err) {
           console.log(err);
+          showError({ message: err?.response?.data?.message });
         }
       },
     });

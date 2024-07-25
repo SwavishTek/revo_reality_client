@@ -1,8 +1,8 @@
-import { Box, Card, Grid, GridItem } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Card, Grid, GridItem } from "@chakra-ui/react";
+import React from "react";
 import Header from "../../components/Header";
-import Title from '../../components/Title';
-import { Link } from 'react-router-dom';
+import Title from "../../components/Title";
+import { Link } from "react-router-dom";
 
 const ProfileSettings = () => {
   return (
@@ -14,15 +14,19 @@ const ProfileSettings = () => {
             <Title title="SETTING OPTIONS" />
           </GridItem>
           <GridItem>
-            <Link to={''} style={{fontWeight:'bold'}}>Change Password</Link>
+            <Link to={"/users/changepassword"} style={{ fontWeight: "bold" }}>
+              Change Password
+            </Link>
           </GridItem>
           <GridItem>
-            <Link to={''} style={{fontWeight:'bold'}}>General Settings</Link>
+            <Link to={"/users/generalchanges"} style={{ fontWeight: "bold" }}>
+              General Settings
+            </Link>
           </GridItem>
         </Grid>
       </Card>
     </Box>
-  )
-}
+  );
+};
 
-export default ProfileSettings
+export default ProfileSettings;

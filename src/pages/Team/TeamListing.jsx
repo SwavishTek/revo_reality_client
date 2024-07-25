@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 
-const AttList = () => {
+const TeamListing = () => {
   return (
     <Box
       display={"flex"}
@@ -16,4 +16,4 @@ const AttList = () => {
   );
 };
 
-export default AttList;
+export default TeamListing;

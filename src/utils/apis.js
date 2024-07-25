@@ -5,6 +5,7 @@ const Apis = {
   baseUrl,
   login: baseUrl + "auth/login",
   verifyOTP: baseUrl + "auth/verifyOTP",
+  changePassword: baseUrl + "auth/changePassword",
   profile: baseUrl + "auth/profile",
   user: baseUrl + "users",
   userStatusChangeById: baseUrl + "users/userStatusChangeById",

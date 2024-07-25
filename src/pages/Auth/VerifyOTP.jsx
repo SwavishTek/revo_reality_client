@@ -12,20 +12,24 @@ import {
 import OTPInput from "../../components/OTPInput";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { verifyOtp } from "../../useFunctions/auth/auth";
+import useCustomToast from "../../hooks/useCustomToast";
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
   const password = searchParams.get("pass");
+  const { showError, showSuccess } = useCustomToast();
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
     try {
-      const data = await verifyOtp({ email, otp });
-      navigate("/users");
+      const { data } = await verifyOtp({ email, otp });
+      navigate("/dashboard");
+      showSuccess({ message: data?.message });
     } catch (err) {
       console.error(err);
+      // showError({ message: err?.response?.data?.message });
     }
   };
 

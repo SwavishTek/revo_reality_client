@@ -12,22 +12,27 @@ import { useFormik } from "formik";
 import axios from "axios";
 import Apis from "../../utils/apis";
 import { useNavigate } from "react-router-dom";
+import useCustomToast from "../../hooks/useCustomToast";
+import LoadButton from "../../components/LoadButton";
 
 const Login = () => {
   //   const [show, setShow] = React.useState(false);
   //   const handleClick = () => setShow(!show);
   const navigate = useNavigate();
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { showError, showSuccess } = useCustomToast();
+  const { values, handleChange, handleSubmit, isSubmitting } = useFormik({
     initialValues: { email: "", password: "" },
     onSubmit: async (values) => {
       try {
-        await axios.post(Apis.login, values);
+        const { data } = await axios.post(Apis.login, values);
         navigate({
           pathname: "/auth/verifyOTP",
           search: `email=${values.email}&pass=${values.password}`,
         });
+        showSuccess({ message: data.message });
       } catch (err) {
         console.log(err.response.data.message || err);
+        showError({ message: err.response.data.message || err });
       }
     },
   });
@@ -81,9 +86,15 @@ const Login = () => {
             Forgot Password ?
           </Text>
         </div>
-        <Button onClick={handleSubmit} colorScheme="brand" w={"100%"} marginTop={"1rem"}>
+        <LoadButton
+          onClick={handleSubmit}
+          colorScheme="brand"
+          w={"100%"}
+          marginTop={"1rem"}
+          isLoading={isSubmitting}
+        >
           Login
-        </Button>
+        </LoadButton>
       </Box>
     </AuthBack>
   );

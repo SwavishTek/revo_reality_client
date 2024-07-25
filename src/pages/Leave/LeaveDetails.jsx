@@ -16,7 +16,7 @@ import { formatDate } from "../../useFunctions/commonFunctions";
 import ImagePreview from "../../components/ImagePreview";
 import { useLeaveActions } from "../../useFunctions/leave/leaveFunctions";
 import LoadButton from "../../components/LoadButton";
-import { adminArr } from "../../utils/menuItems";
+import { adminArr, userRolesObj } from "../../utils/menuItems";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import ReviseLeave from "../../components/Leave/ReviseLeave";
 
@@ -52,39 +52,42 @@ const LeaveDetails = () => {
   return (
     <Box>
       <BackButton title={"Leave Detail"}>
-        {adminArr.includes(auth?.role) && (
-          <>
-            <Box display={"flex"} alignItems={"center"} gap={2}>
-              <LoadButton
-                isLoading={approveLoad}
-                bg="brand.success"
-                color={"white"}
-                onClick={handleApprove}
-              >
-                Approve
-              </LoadButton>
-              <LoadButton
-                isLoading={holdLoad}
-                bg="brand.info"
-                color={"white"}
-                onClick={handleOnHold}
-              >
-                On Hold
-              </LoadButton>
-              <LoadButton bg="brand.orange" onClick={onOpen} color={"white"}>
-                Revise
-              </LoadButton>
-              <LoadButton
-                isLoading={rejectLoad}
-                bg="brand.error"
-                color={"white"}
-                onClick={handleReject}
-              >
-                Reject
-              </LoadButton>
-            </Box>
-          </>
-        )}
+        {adminArr.includes(auth?.role) &&
+          (data?.status === "new" ||
+            data?.status === "onHold" ||
+            data?.status === "revise") && (
+            <>
+              <Box display={"flex"} alignItems={"center"} gap={2}>
+                <LoadButton
+                  isLoading={approveLoad}
+                  bg="brand.success"
+                  color={"white"}
+                  onClick={handleApprove}
+                >
+                  Approve
+                </LoadButton>
+                <LoadButton
+                  isLoading={holdLoad}
+                  bg="brand.info"
+                  color={"white"}
+                  onClick={handleOnHold}
+                >
+                  On Hold
+                </LoadButton>
+                <LoadButton bg="brand.orange" onClick={onOpen} color={"white"}>
+                  Revise
+                </LoadButton>
+                <LoadButton
+                  isLoading={rejectLoad}
+                  bg="brand.error"
+                  color={"white"}
+                  onClick={handleReject}
+                >
+                  Reject
+                </LoadButton>
+              </Box>
+            </>
+          )}
       </BackButton>
       <Card p={"2rem"} mt={6}>
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
@@ -93,9 +96,9 @@ const LeaveDetails = () => {
           </GridItem>
           <CustomGridItem
             title={"Employee Name"}
-            value={`${data.name} ${data.lastName}`}
+            value={`${data.name || ""} ${data.lastName || ""}`}
           />
-          <CustomGridItem title={"Role"} value={data.status} />
+          <CustomGridItem title={"Role"} value={userRolesObj[data?.role]} />
           <CustomGridItem title={"Mobile Number"} value={data.mobile} />
           <GridItem colSpan={5} my={4}>
             <Title title="LEAVE INFORMAION" />

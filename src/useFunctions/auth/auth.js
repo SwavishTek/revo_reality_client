@@ -9,7 +9,8 @@ export const verifyOtp = async ({ email, otp }) => {
     localStorage.setItem("refreshToken", data.data.refreshToken);
     return data;
   } catch (error) {
-    throw new Error(error.response.data.error);
+    console.log(error);
+    throw new Error(error);
   }
 };
 

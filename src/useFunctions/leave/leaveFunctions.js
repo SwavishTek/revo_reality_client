@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { API_AXIOS } from "../../http/interceptor";
 import Apis from "../../utils/apis";
+import useCustomToast from "../../hooks/useCustomToast";
 
 export const applyLeave = async (values) => {
   try {
@@ -87,6 +88,7 @@ export const getLeaveById = async (id) => {
 
 export const useLeaveActions = () => {
   const queryClient = useQueryClient();
+  // const {} =useCustomToast()
 
   const rejectLeaveById = async (id) => {
     try {
@@ -121,7 +123,7 @@ export const useLeaveActions = () => {
   };
   const onHoldLeaveById = async (id) => {
     try {
-      const { data } = await API_AXIOS.post(`${Apis.leaveApproveById}/${id}`);
+      const { data } = await API_AXIOS.post(`${Apis.leaveOnHoldById}/${id}`);
       //   removeLeaveData("new", id);
       //   updateLeaveData("rejected", data.data);
       queryClient.refetchQueries(["leaves"]);
