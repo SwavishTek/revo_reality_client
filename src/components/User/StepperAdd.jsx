@@ -18,6 +18,7 @@ const StepperAdd = ({ currentStep, setCurrentStep }) => {
         {steps?.map((step, i) => (
           <div
             key={i}
+            style={{}}
             className={`step-item ${currentStep === i + 1 && "active"}  ${
               (i + 1 < currentStep || complete) && "complete"
             }`}
@@ -25,7 +26,8 @@ const StepperAdd = ({ currentStep, setCurrentStep }) => {
             <div className="step">
               {i + 1 < currentStep || complete ? <CheckIcon /> : i + 1}
             </div>
-            <p>{step}</p>
+            <div style={{ marginRight: 100 }} />
+            {/* <p>{step}</p> */}
           </div>
         ))}
       </Box>

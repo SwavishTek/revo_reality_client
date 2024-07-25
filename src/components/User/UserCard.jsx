@@ -45,7 +45,7 @@ const UserCard = ({ item = {}, refetch }) => {
               value={item.dateOfJoining ? formatDate(item.dateOfJoining) : "NA"}
             />
           </GridItem>
-          <GridItem>
+          {/* <GridItem>
             <CardItem
               title={"Address line 1:"}
               value={item.currentAddress?.currentAdd || "NA"}
@@ -80,7 +80,7 @@ const UserCard = ({ item = {}, refetch }) => {
               title={"Postal Code"}
               value={item.currentAddress?.currentPostCode || "NA"}
             />
-          </GridItem>
+          </GridItem> */}
         </Grid>
       </Link>
 

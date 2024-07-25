@@ -17,43 +17,50 @@ import UploadInput from "../../components/UploadInput";
 import { useFormik } from "formik";
 import DatePicker from "react-datepicker";
 import CustomSelect from "../../components/BasicSelect";
-import { leaveTypes } from "../../utils/menuItems";
+import { leaveTypes, userRoles } from "../../utils/menuItems";
 import { applyLeave } from "../../useFunctions/leave/leaveFunctions";
 import { useNavigate } from "react-router-dom";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
+import { useQueryClient } from "@tanstack/react-query";
+import LoadButton from "../../components/LoadButton";
+import useCustomToast from "../../hooks/useCustomToast";
 
 const LeaveForm = () => {
   const { data: auth } = useProfileQuery();
+  const { showSuccess } = useCustomToast();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const toast = useToast();
-  const { values, handleChange, handleSubmit, setFieldValue, setValues } =
-    useFormik({
-      initialValues: {
-        name: auth?.name || "",
-        lastName: auth?.lastName || "",
-        role: auth?.role || "",
-        mobile: auth?.mobile || "",
-        reason: "",
-        start: "",
-        end: "",
-        payType: "",
-        doc: [],
-      },
-      onSubmit: async (values) => {
-        try {
-          const data = await applyLeave(values);
-          navigate("/leaves");
-          // toast({
-          //   title: data?.message,
-          //   status: "succcess",
-          //   duration: 1000,
-          //   isClosable: true,
-          // });
-        } catch (err) {
-          console.log("apply leave", err);
-        }
-      },
-    });
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    setFieldValue,
+    setValues,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      name: auth?.name || "",
+      lastName: auth?.lastName || "",
+      role: auth?.role || "",
+      mobile: auth?.mobile || "",
+      reason: "",
+      start: "",
+      end: "",
+      payType: "",
+      doc: [],
+    },
+    onSubmit: async (values) => {
+      try {
+        const data = await applyLeave(values);
+        navigate("/leaves");
+        queryClient.refetchQueries(["leaves"]);
+        showSuccess({ message: data?.message });
+      } catch (err) {
+        console.log("apply leave", err);
+      }
+    },
+  });
   useEffect(() => {
     if (auth) {
       setValues({
@@ -103,12 +110,13 @@ const LeaveForm = () => {
           </GridItem>
 
           <GridItem colSpan={1}>
-            <InputField
-              id="role"
-              label="Role"
-              placeholder="Role"
-              value={values.lastName}
+            <CustomSelect
+              label={"Role"}
+              id={"role"}
+              placeholder="Select an option"
+              options={userRoles}
               onChange={handleChange}
+              value={values.role}
             />
           </GridItem>
 
@@ -195,7 +203,8 @@ const LeaveForm = () => {
             />
           </GridItem>
         </Grid>
-        <Button
+        <LoadButton
+          isLoading={isSubmitting}
           onClick={handleSubmit}
           colorScheme="brand"
           mt={8}
@@ -203,7 +212,7 @@ const LeaveForm = () => {
           width={"fit-content"}
         >
           Apply
-        </Button>
+        </LoadButton>
       </Card>
     </div>
   );

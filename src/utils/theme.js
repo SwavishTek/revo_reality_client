@@ -23,12 +23,34 @@ const customTheme = extendTheme({
     },
   },
   components: {
+    // Input: {
+    //   baseStyle: {
+    //     field: {
+    //       bg: "white", // White with 80% opacity
+    //     },
+    //   },
+    //   variants: {
+    //     outline: {
+    //       field: {
+    //         borderColor: "gray.300",
+    //         _hover: {
+    //           borderColor: "gray.500",
+    //         },
+    //         _focus: {
+    //           borderColor: "blue.500",
+    //           bg: "white", // Ensure the background remains white on focus
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
     Button: {
       baseStyle: {
         borderRadius: "10px",
 
         // Set your desired border radius here
       },
+
       variants: {
         solid: (props) => {
           const { colorScheme } = props;

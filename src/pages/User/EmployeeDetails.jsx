@@ -19,13 +19,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useUserDetailsQuery } from "../../Queries/user/userUserQuery";
 import { formatDate } from "../../useFunctions/commonFunctions";
 import ImagePreview from "../../components/ImagePreview";
-import { userRolesObj, userStatusObj } from "../../utils/menuItems";
+import { adminArr, userRolesObj, userStatusObj } from "../../utils/menuItems";
 import {
   changeUserStatus,
   userPermanantDelete,
 } from "../../useFunctions/user/userFunctions";
 import { useQueryClient } from "@tanstack/react-query";
 import Confirmation from "../../components/Confirmation";
+import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 
 const EmployeeDetails = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const EmployeeDetails = () => {
   const { id } = useParams();
   const { data: user, refetch } = useUserDetailsQuery(id);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data: auth } = useProfileQuery();
 
   const handleStatusChange = async (newStatus) => {
     try {
@@ -61,50 +63,56 @@ const EmployeeDetails = () => {
 
   return (
     <Box>
-      <BackButton title={"Employee Detail"}>
-        <Box display={"flex"} alignItems={"center"} gap={2}>
-          <Button
-            bg="gray.500"
-            color={"white"}
-            borderRadius={100}
-            height={"50px"}
-            width={"50px"}
-          >
-            <img src={CopyedUserIcon} alt="" />
-          </Button>
-          <Link to={`/users/addEmployee?id=${user?._id}`}>
+      <BackButton
+        title={user?._id === auth?._id ? "Profile" : "Employee Detail"}
+      >
+        {adminArr.includes(auth?.role) && user?._id !== auth?._id && (
+          <Box display={"flex"} alignItems={"center"} gap={2}>
             <Button
-              bg="brand.success"
+              bg="gray.500"
               color={"white"}
               borderRadius={100}
               height={"50px"}
               width={"50px"}
             >
-              <img src={EditUserIcon} alt="" />
+              <img src={CopyedUserIcon} alt="" />
             </Button>
-          </Link>
+            <Link to={`/users/addEmployee?id=${user?._id}`}>
+              <Button
+                bg="brand.success"
+                color={"white"}
+                borderRadius={100}
+                height={"50px"}
+                width={"50px"}
+              >
+                <img src={EditUserIcon} alt="" />
+              </Button>
+            </Link>
 
-          <Button
-            bg="red.800"
-            color={"white"}
-            borderRadius={100}
-            height={"50px"}
-            width={"50px"}
-            onClick={handleStatusChange}
-          >
-            <img src={BlockUserIcon} alt="" />
-          </Button>
-          <Button
-            bg="red.600"
-            color={"white"}
-            borderRadius={100}
-            height={"50px"}
-            width={"50px"}
-            onClick={onOpen}
-          >
-            <img src={DeleteUserIcon} alt="" />
-          </Button>
-        </Box>
+            {user?.status === "approved" && (
+              <Button
+                bg="red.800"
+                color={"white"}
+                borderRadius={100}
+                height={"50px"}
+                width={"50px"}
+                onClick={handleStatusChange}
+              >
+                <img src={BlockUserIcon} alt="" />
+              </Button>
+            )}
+            <Button
+              bg="red.600"
+              color={"white"}
+              borderRadius={100}
+              height={"50px"}
+              width={"50px"}
+              onClick={onOpen}
+            >
+              <img src={DeleteUserIcon} alt="" />
+            </Button>
+          </Box>
+        )}
       </BackButton>
       <Card p={"2rem"} mt={6}>
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>

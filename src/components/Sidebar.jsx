@@ -70,7 +70,9 @@ const Sidebar = ({ items = [] }) => {
               <Avatar />
             </Link>
           </div>
-          <CiSettings size={"1.6rem"} />
+          <Link to={`/users/profilesettings`}>
+            <CiSettings size={"1.6rem"} />
+          </Link>
           <CiBellOn size={"1.6rem"} />
         </Box>
         <Text my={2}>{`${auth?.name || ""} ${auth?.lastName || ""}`}</Text>

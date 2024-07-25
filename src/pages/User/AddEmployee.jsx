@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import PersonalForm from "../../components/User/PersonalForm";
 import AddIcon from "../../assets/Vector.png";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, useSteps } from "@chakra-ui/react";
 import BankInformation from "../../components/User/BankInformation";
 import UploadOfferLetter from "../../components/User/UploadOfferLetter";
 import StepperAdd from "../../components/User/StepperAdd";
 import MyStepper from "../../components/User/StepperAdd";
 import BackButton from "../../components/BackButton";
+import NewStepper from "../../components/User/NewStpper";
 
 const AddEmployee = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  // const [currentStep, setCurrentStep] = useState(1);
+  const { activeStep, setActiveStep } = useSteps({
+    // index: 1,
+    // count: steps.length,
+    initialStep: 0,
+  });
 
+  console.log(activeStep);
   return (
     <div>
       {/* <Box
@@ -45,13 +52,14 @@ const AddEmployee = () => {
         </Button>
       </BackButton>
 
-      <MyStepper currentStep={currentStep} setCurrentStep={setCurrentStep} />
-      {currentStep === 1 ? (
-        <PersonalForm setCurrentStep={setCurrentStep} />
-      ) : currentStep === 2 ? (
-        <BankInformation setCurrentStep={setCurrentStep} />
-      ) : currentStep === 3 ? (
-        <UploadOfferLetter setCurrentStep={setCurrentStep} />
+      {/* <MyStepper currentStep={activeStep} setCurrentStep={setActiveStep} /> */}
+      <NewStepper activeStep={activeStep} />
+      {activeStep === 0 ? (
+        <PersonalForm setCurrentStep={setActiveStep} />
+      ) : activeStep === 1 ? (
+        <BankInformation setCurrentStep={setActiveStep} />
+      ) : activeStep === 2 ? (
+        <UploadOfferLetter setCurrentStep={setActiveStep} />
       ) : null}
       {/* 2 */}
       {/*<BankInformation />*/}

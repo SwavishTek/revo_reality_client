@@ -82,6 +82,8 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
             icon={<Image src={DeleteUserIcon} />}
           />
           <Confirmation
+            line1="Are you sure you want to delete"
+            line2="the user"
             onClose={onClose}
             isOpen={isOpen}
             onSubmit={deleteUser}
@@ -122,6 +124,8 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
             icon={<Image src={DeleteUserIcon} />}
           />
           <Confirmation
+            line1="Are you sure you want to delete"
+            line2="the user"
             onClose={onClose}
             isOpen={isOpen}
             onSubmit={deleteUser}
@@ -142,6 +146,8 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
             icon={<Image src={DeleteUserIcon} />}
           />
           <Confirmation
+            line1="Are you sure you want to delete"
+            line2="the user"
             onClose={onClose}
             isOpen={isOpen}
             onSubmit={deleteUser}
