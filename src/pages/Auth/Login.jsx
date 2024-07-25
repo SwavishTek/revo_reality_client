@@ -24,16 +24,16 @@ const Login = () => {
   const { values, handleChange, handleSubmit, isSubmitting } = useFormik({
     initialValues: { email: "", password: "" },
     onSubmit: async (values, { setSubmitting }) => {
-      console.log('values', values);
+      console.log("values", values);
       try {
-        const { data } = await API_AXIOS.post(`auth/login`, values);
+        const { data } = await axios.post(Apis.login, values);
         navigate({
           pathname: "/auth/verifyOTP",
           search: `email=${values.email}&pass=${values.password}`,
         });
         showSuccess({ message: data.message });
       } catch (err) {
-        console.log('checking', err.response?.data?.message || err);
+        console.log("checking", err.response?.data?.message || err);
         showError({ message: err.response?.data?.message || err.message });
       } finally {
         setSubmitting(false);
