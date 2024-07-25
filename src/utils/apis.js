@@ -1,5 +1,6 @@
 // let baseUrl = "http://localhost:5000/api/";
-let baseUrl = "http://192.168.0.108:5000/api/";
+// let baseUrl = "http://192.168.0.108:5000/api/";
+let baseUrl = process.env.REACT_API_URL;
 
 const Apis = {
   baseUrl,
@@ -20,7 +21,12 @@ const Apis = {
   leaveRejectById: baseUrl + "leave/leaveRejectById",
   leaveApproveById: baseUrl + "leave/leaveApproveById",
   leaveOnHoldById: baseUrl + "leave/leaveOnHoldById",
-  leaveReviseById: baseUrl + "leave/reviseLeavesById",
+  leaveReviseById: baseUrl + "leave/leaveOnHoldById",
+
+  /* Team */
+  team: baseUrl + "team",
+  updateTeam: baseUrl + "team/updateById",
+  getTeamSelect: baseUrl + "users",
 };
 
 export default Apis;
