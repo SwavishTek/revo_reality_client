@@ -6,11 +6,11 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!localStorage.getItem("token")) {
-  //     navigate("/auth/login");
-  //   }
-  // }, [navigate]);
+ useEffect(() => {
+     if (!localStorage.getItem("token")) {
+       navigate("/auth/login");
+     }
+   }, [navigate]);
 
   return (
     <Box display="flex">
