@@ -4,8 +4,8 @@ import React from "react";
 const CardItem = ({ title = "", value = "" }) => {
   return (
     <div>
-      <Text fontWeight={600}>{title}</Text>
-      <Text>{value}</Text>
+      <Text fontWeight={600} color={"#000000"} fontSize={"15px"} >{title}</Text>
+      <Text color={"#000000"} fontWeight={"300"} >{value}</Text>
     </div>
   );
 };
