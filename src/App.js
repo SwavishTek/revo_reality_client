@@ -14,7 +14,7 @@ const MainLayout = Loadable(
 );
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
-const TeamList = Loadable(lazy(() => import("./pages/Team/TeamListing.jsx")));
+// const TeamList = Loadable(lazy(() => import("./pages/Team/TeamListing.jsx")));
 const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.js")));
 const AddEmployee = Loadable(
   lazy(() => import("./pages/User/AddEmployee.jsx"))
@@ -22,6 +22,16 @@ const AddEmployee = Loadable(
 const EmployeeDetails = Loadable(
   lazy(() => import("./pages/User/EmployeeDetails.jsx"))
 );
+
+/* start Team */
+const TeamList = Loadable(lazy(() => import("./pages/Team/TeamList.jsx")));
+const AddTeam = Loadable(lazy(() => import("./pages/Team/TeamForm.jsx")));
+const TeamDetails = Loadable(
+  lazy(() => import("./pages/Team/TeamDetails.jsx"))
+);
+
+/* end Team */
+
 const LeaveForm = Loadable(lazy(() => import("./pages/Leave/LeaveForm.jsx")));
 const LeaveDetails = Loadable(
   lazy(() => import("./pages/Leave/LeaveDetails.jsx"))
@@ -82,6 +92,21 @@ function App() {
           path: "users/:id",
           element: <EmployeeDetails />,
         },
+
+        /* start Team */
+        {
+          path: "teams",
+          element: <TeamList />,
+        },
+        {
+          path: "teams/add_team",
+          element: <AddTeam />,
+        },
+        {
+          path: "teams/:id",
+          element: <TeamDetails />,
+        },
+        /* end Team */
         {
           path: "users/profilesettings",
           element: <ProfileSettings />,
