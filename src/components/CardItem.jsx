@@ -1,12 +1,18 @@
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
-const CardItem = ({ title = "", value = "" }) => {
+const CardItem = ({ title = "", value = "", component = null }) => {
   return (
-    <div>
-      <Text fontWeight={600} color={"#000000"} fontSize={"15px"} >{title}</Text>
-      <Text color={"#000000"} fontWeight={"300"} >{value}</Text>
-    </div>
+    <Box maxWidth="200px">
+      <Text fontWeight={600}>{title}</Text>
+      {component ? (
+        component
+      ) : (
+        <Text overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+          {value}
+        </Text>
+      )}
+    </Box>
   );
 };
 

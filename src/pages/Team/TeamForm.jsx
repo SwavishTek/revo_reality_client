@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import BackButton from "../../components/BackButton";
 import {
   background,
@@ -13,8 +13,22 @@ import Title from "../../components/Title";
 import { useFormik } from "formik";
 import CustomSelect from "../../components/BasicSelect";
 import LoadButton from "../../components/LoadButton";
+import { useGetAgent } from "./useQuery/useQuery";
+import { debounce } from "lodash";
+import { Select } from 'chakra-react-select';
 
 const TeamForm = () => {
+  const [inputValue, setInputValue] = useState('');
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isLoading
+  } = useGetAgent({
+    search: inputValue
+  });
+
   const { values, handleChange, handleSubmit } = useFormik({
     initialValues: {
       name: "",
@@ -26,6 +40,7 @@ const TeamForm = () => {
       console.log("values", values);
     },
   });
+
 
   const managerOption = [
     {
@@ -57,7 +72,26 @@ const TeamForm = () => {
       label: "member2",
     },
   ];
+  const options = data?.pages?.flatMap((page) => page?.data || []) || [];
 
+  const debouncedHandleInputChange = useMemo(
+    () => debounce((newValue) => {
+      setInputValue(newValue);
+    }, 1000),
+    []
+  );
+
+  const handleInputChange = (newValue) => {
+    debouncedHandleInputChange(newValue);
+  };
+
+  const handleMenuScrollToBottom = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  console.log('options', options)
   return (
     <div>
       <BackButton title="Add Team" />
@@ -72,7 +106,7 @@ const TeamForm = () => {
           <Title title="Create Team" />
         </Box>
 
-        <Grid
+        {/* <Grid
           templateColumns={{
             base: "repeat(1, 1fr)",
             md: "repeat(2, 1fr)",
@@ -115,7 +149,7 @@ const TeamForm = () => {
           </GridItem>
           <GridItem>
             <CustomSelect
-              style={{ background: "#F9F9F9"}}
+              style={{ background: "#F9F9F9" }}
               label={"Select Member"}
               id={"memberRole"}
               placeholder="Select Members"
@@ -124,8 +158,17 @@ const TeamForm = () => {
               value={values.memberRole}
             />
           </GridItem>
-        </Grid>
-
+        </Grid> */}
+        <Box>
+          <Select
+            placeholder="Search and select..."
+            options={options}
+            isLoading={isLoading || isFetching}
+            onInputChange={handleInputChange}
+            onMenuScrollToBottom={handleMenuScrollToBottom}
+            isMulti
+          />
+        </Box>
         <Box
           display="flex"
           justifyContent="center"
@@ -133,9 +176,9 @@ const TeamForm = () => {
           height="100%"
         >
           <LoadButton
-           colorScheme="brand"
+            colorScheme="brand"
             onClick={handleSubmit}
-            mt={8}ho
+            mt={8} ho
             mb={6}
             alignContent={"center"}
             width={"fit-content"}

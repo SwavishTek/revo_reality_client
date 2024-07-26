@@ -1,40 +1,38 @@
-import { Button, Card, Grid, GridItem, Stack } from "@chakra-ui/react";
+import { Box, Button, Card, Grid, GridItem, HStack, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import CardItem from "../CardItem";
 import { Link } from "react-router-dom";
 import { ReactComponent as TeamUpdateIcons } from "../../assets/teamUpdateIcons.svg";
 import { ReactComponent as DeleteIcons } from "../../assets/deleteIcons.svg";
+import { formatDate } from "../../useFunctions/commonFunctions";
 
 const TeamCard = ({ item }) => {
+  const arrData = (arr) => {
+    return arr.length > 0 ? arr?.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>
+  };
+  console.log('item?.teamMembers', item?.teamMembers)
   return (
     <Card
+      minWidth={1000}
     // avatarName={item?.teamName || ""}
     //   avatarSrc={"img"}
     >
       <Link to={`/teams/${item._id}`}>
-        <Grid templateColumns="repeat(6, 1fr)" gap={6} py={4} px={4}>
-          <GridItem>
-            <CardItem title={"Team Name"} value={item?.teamName} />
-          </GridItem>
-          <GridItem>
-            <CardItem title={"Creation Date:"} value={item?.creationDate} />
-          </GridItem>
-          <GridItem>
-            <CardItem title={"Last Update:"} value={item?.lastUpdate} />
-          </GridItem>
-          <GridItem>
-            <CardItem title={"Manager Name:"} value={item?.teamManager} />
-          </GridItem>
-          <GridItem>
-            <CardItem title={"Team Lead Name:"} value={item?.teamLeadName} />
-          </GridItem>
-          <GridItem>
-            <CardItem title={"Total Team Name:"} value={item?.totalTeamName} />
-          </GridItem>
-          <GridItem>
-            <CardItem title={"Memebers:"} value={item?.members} />
-          </GridItem>
-        </Grid>
+        <HStack
+          gap={7}
+          alignItems={'flex-start'}
+          justifyContent={'space-between'}
+          padding={5}
+          minWidth={1000}
+        >
+          <CardItem title={"Team Name"} value={item?.teamName} />
+          <CardItem title={"Creation Date:"} value={formatDate(item?.createdAt)} />
+          <CardItem title={"Last Update:"} value={formatDate(item?.updatedAt)} />
+          <CardItem title={"Manager Name:"} component={arrData(item?.manager)} />
+          <CardItem title={"Team Lead Name:"} component={arrData(item?.teamLead)} />
+          <CardItem title={"Team Members:"} component={arrData(item?.agent)} />
+          <CardItem title={"Total Members:"} value={item?.teamMembers?.length || 0} />
+        </HStack>
       </Link>
       <Stack direction="row" spacing={0}>
         <Button
@@ -49,7 +47,7 @@ const TeamCard = ({ item }) => {
           color={"#000000"}
           borderColor="#ADADAD"
         >
-           Update
+          Update
         </Button>
         <Button
           leftIcon={<DeleteIcons />}
@@ -63,9 +61,9 @@ const TeamCard = ({ item }) => {
           color={"#000000"}
           borderColor="#ADADAD"
         >
-           Delete
+          Delete
         </Button>
-       
+
       </Stack>
     </Card>
   );

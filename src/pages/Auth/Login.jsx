@@ -14,6 +14,7 @@ import Apis from "../../utils/apis";
 import { useNavigate } from "react-router-dom";
 import useCustomToast from "../../hooks/useCustomToast";
 import LoadButton from "../../components/LoadButton";
+import { API_AXIOS } from "../../http/interceptor";
 
 const Login = () => {
   //   const [show, setShow] = React.useState(false);
@@ -22,17 +23,20 @@ const Login = () => {
   const { showError, showSuccess } = useCustomToast();
   const { values, handleChange, handleSubmit, isSubmitting } = useFormik({
     initialValues: { email: "", password: "" },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log('values', values);
       try {
-        const { data } = await axios.post(Apis.login, values);
+        const { data } = await API_AXIOS.post(`auth/login`, values);
         navigate({
           pathname: "/auth/verifyOTP",
           search: `email=${values.email}&pass=${values.password}`,
         });
         showSuccess({ message: data.message });
       } catch (err) {
-        console.log(err.response.data.message || err);
-        showError({ message: err.response.data.message || err });
+        console.log('checking', err.response?.data?.message || err);
+        showError({ message: err.response?.data?.message || err.message });
+      } finally {
+        setSubmitting(false);
       }
     },
   });
