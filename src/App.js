@@ -48,6 +48,9 @@ const GeneralChanges = Loadable(
 const OfferLetter = Loadable(
   lazy(() => import("./pages/User/OfferLetter.jsx"))
 );
+const OfferLetterList = Loadable(
+  lazy(() => import("./pages/User/OfferLetterList.jsx"))
+);
 function App() {
   const router = createBrowserRouter([
     {
@@ -137,6 +140,10 @@ function App() {
           path: "users/offerletter",
           element: <OfferLetter />
         },
+        {
+          path: "users/offerletterlist",
+          element: <OfferLetterList />
+        }
       ],
     },
   ]);
