@@ -4,8 +4,9 @@ import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 import Filters from "../../components/Filters";
 import TeamCard from "../../components/Team/TeamCard";
-import { useTeamQuery } from "../../Queries/team/useTeamQuery";
+// import { useTeamQuery } from "../../Queries/team/useTeamQuery";
 import { useInView } from "react-intersection-observer";
+import { useTeamQuery } from "./useQuery/useQuery";
 
 const TeamList = () => {
   const [search, setSearch] = useState("");
@@ -47,13 +48,33 @@ const TeamList = () => {
         </Header>
         <Filters onSearchChange={setSearch} />
         <Box maxHeight={"100%"} my={4} overflowY="auto" >
-          {allTeams.length > 0 && (
-            <VStack spacing={6} align="stretch">
-              {allTeams?.map((item) => (
-                <TeamCard item={item} key={item?._id} />
-              ))}
-            </VStack>
-          )}
+          {allTeams.length > 0
+            ? (
+              <VStack spacing={6} align="stretch">
+                {allTeams?.map((item) => (
+                  <TeamCard item={item} key={item?._id} />
+                ))}
+              </VStack>
+            )
+            :
+            status === "pending" ?
+              (
+                <Text>Loading...</Text>
+              )
+              :
+              (
+                <Text>No Leaves found</Text>
+              )
+          }
+          <Box ref={ref}>
+            {isFetchingNextPage ? (
+              <Text>Loading more...</Text>
+            ) : (
+              hasNextPage && (
+                <Button onClick={() => fetchNextPage()}>Load More</Button>
+              )
+            )}
+          </Box>
         </Box>
       </Box>
     </VStack>
