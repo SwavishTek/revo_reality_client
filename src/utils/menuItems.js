@@ -96,6 +96,34 @@ export const leaveHeaderItems = [
   },
 ];
 
+export const attendanceHeaderItems = [
+  {
+    label: "Issues Raised",
+    value: "issuesRaised",
+    color: "#740707",
+  },
+  {
+    label: "Present",
+    value: "present",
+    color: "#4ABC04",
+  },
+  {
+    label: "Absent",
+    value: "absent",
+    color: "#FF0000",
+  },
+  {
+    label: "On Leave",
+    value: "onLeave",
+    color: "#0095FF",
+  },
+  {
+    label: "Half Day",
+    value: "haffDay",
+    color: "#FF8A00",
+  },
+];
+
 export const userStatusObj = {
   approve: "approved",
   reject: "rejected",

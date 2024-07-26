@@ -3,7 +3,7 @@ import React from "react";
 
 const Header = ({ title = "title", children }) => {
   return (
-    <Box display={"flex"} alignItems={"center"} my={2}>
+    <Box display={"flex"} alignItems={"center"} my={2} flexDirection={['column', 'column', 'row']} gap={3}>
       <Text flex={1} fontWeight={"semibold"} fontSize={"30px"}>
         {title}
       </Text>

@@ -15,7 +15,17 @@ const MainLayout = Loadable(
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
 // const TeamList = Loadable(lazy(() => import("./pages/Team/TeamListing.jsx")));
-const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.js")));
+
+/* start Attendance */
+const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.jsx")));
+const AttDetails = Loadable(
+  lazy(() => import("./pages/Attendance/AttDetails.jsx"))
+);
+const AttUpdate = Loadable(
+  lazy(() => import("./pages/Attendance/AttDetails.jsx"))
+);
+/* end Attendance */
+
 const AddEmployee = Loadable(
   lazy(() => import("./pages/User/AddEmployee.jsx"))
 );
@@ -128,6 +138,15 @@ function App() {
           path: "attendance",
           element: <AttList />,
         },
+        {
+          path: "attendance/:id",
+          element: <AttDetails />,
+        },
+        {
+          path: "attendace/AttUpdate",
+          element: <AttUpdate />,
+        },
+
         {
           path: "leaves/apply_leave",
           element: <LeaveForm />,
