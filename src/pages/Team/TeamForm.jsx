@@ -7,6 +7,8 @@ import {
   Card,
   Grid,
   GridItem,
+  HStack,
+  Text,
 } from "@chakra-ui/react";
 import InputField from "../../components/InputField";
 import Title from "../../components/Title";
@@ -16,6 +18,8 @@ import LoadButton from "../../components/LoadButton";
 import { useGetAgent } from "./useQuery/useQuery";
 import { debounce } from "lodash";
 import { Select } from 'chakra-react-select';
+import DropDown from "../../components/DropDown/DropDown";
+import { CustomInput } from "../../components/CustomInput";
 
 const TeamForm = () => {
   const [inputValue, setInputValue] = useState('');
@@ -73,6 +77,9 @@ const TeamForm = () => {
     },
   ];
   const options = data?.pages?.flatMap((page) => page?.data || []) || [];
+  // const options = data?.pages.flatMap(page =>
+  //   page?.data?.map(item => ({ label: item.name, value: item._id }))
+  // ) || [];
 
   const debouncedHandleInputChange = useMemo(
     () => debounce((newValue) => {
@@ -95,97 +102,82 @@ const TeamForm = () => {
   return (
     <div>
       <BackButton title="Add Team" />
-      <Card my={"2rem"} p={6}>
-        <Box
-          display="flex"
-          justifyContent="center"
-          marginTop={3}
-          alignItems="center"
-          height="100%"
-        >
-          <Title title="Create Team" />
-        </Box>
+      <Card my={"2rem"} p={10} minWidth={600} margin={'70px 70px'}>
 
-        {/* <Grid
-          templateColumns={{
-            base: "repeat(1, 1fr)",
-            md: "repeat(2, 1fr)",
-            lg: "repeat(2, 1fr)",
-          }}
-          gap={6}
-          mt={8}
+        <Title title="Create Team" boxStyle={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          marginBottom: 30
+        }} />
+
+        <HStack
+          justifyContent={'space-between'}
+          mb={6}
         >
-          <GridItem>
-            <InputField
-              style={{ background: "#F9F9F9" }}
-              id="name"
-              label="Team Name"
-              placeholder="Team Name"
-              onChange={handleChange}
-              value={values.name}
-            />
-          </GridItem>
-          <GridItem>
-            <CustomSelect
-              style={{ background: "#F9F9F9" }}
-              label={"Select Manager"}
-              id={"managerRole"}
-              placeholder="Select Manager"
-              options={managerOption}
-              onChange={handleChange}
-              value={values.managerRole}
-            />
-          </GridItem>
-          <GridItem>
-            <CustomSelect
-              style={{ background: "#F9F9F9" }}
-              label={"Select Team Lead"}
-              id={"teamRole"}
-              placeholder="Select Team Lead"
-              options={teamOption}
-              onChange={handleChange}
-              value={values.teamRole}
-            />
-          </GridItem>
-          <GridItem>
-            <CustomSelect
-              style={{ background: "#F9F9F9" }}
-              label={"Select Member"}
-              id={"memberRole"}
-              placeholder="Select Members"
-              options={memberOption}
-              onChange={handleChange}
-              value={values.memberRole}
-            />
-          </GridItem>
-        </Grid> */}
-        <Box>
-          <Select
-            placeholder="Search and select..."
+          <CustomInput
+            label={'Team Name'}
+            width={'45%'}
+          />
+          <DropDown
+            label={'select Team Lead'}
             options={options}
             isLoading={isLoading || isFetching}
             onInputChange={handleInputChange}
             onMenuScrollToBottom={handleMenuScrollToBottom}
-            isMulti
+            isMulti={false}
+            onChange={(e) => console.log('first', e)}
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option._id}
+            useBasicStyles={true}
+            width={'45%'}
           />
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100%"
+        </HStack>
+
+        <HStack
+          justifyContent={'space-between'}
+          mb={5}
         >
-          <LoadButton
-            colorScheme="brand"
-            onClick={handleSubmit}
-            mt={8} ho
-            mb={6}
-            alignContent={"center"}
-            width={"fit-content"}
-          >
-            Create Team
-          </LoadButton>
-        </Box>
+          <DropDown
+            label={'Select Manager'}
+            options={options}
+            isLoading={isLoading || isFetching}
+            onInputChange={handleInputChange}
+            onMenuScrollToBottom={handleMenuScrollToBottom}
+            isMulti={false}
+            onChange={(e) => console.log('first', e)}
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option._id}
+            useBasicStyles={true}
+            width={'45%'}
+          />
+          <DropDown
+            label={'Select Team Lead'}
+            options={options}
+            isLoading={isLoading || isFetching}
+            onInputChange={handleInputChange}
+            onMenuScrollToBottom={handleMenuScrollToBottom}
+            isMulti={false}
+            onChange={(e) => console.log('first', e)}
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option._id}
+            useBasicStyles={true}
+            width={'45%'}
+          />
+        </HStack>
+
+        <LoadButton
+          colorScheme="brand"
+          onClick={handleSubmit}
+          mt={8}
+          alignContent={"center"}
+          width={"fit-content"}
+          alignSelf={'center'}
+        >
+          Create Team
+        </LoadButton>
+
       </Card>
     </div>
   );
