@@ -14,6 +14,7 @@ const BackButton = ({ title = "Back", children }) => {
         fontSize={"1.8rem"}
         display={"flex"}
         alignItems={"center"}
+        color={"#000000"}
         gap={2}
       >
         <ArrowBackIcon onClick={() => navigate(-1)} cursor={"pointer"} />

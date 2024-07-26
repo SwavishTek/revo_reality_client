@@ -12,8 +12,6 @@ import React from "react";
 import CardItem from "../CardItem";
 import { Link } from "react-router-dom";
 
-
-
 const AttendanceCard = ({ item, color }) => {
   return (
     <Card
@@ -21,11 +19,11 @@ const AttendanceCard = ({ item, color }) => {
     // avatarName={item?.teamName || ""}
     //   avatarSrc={"img"}
     >
-      <Link to={""}>
+      <Link to={`/attendance/${item._id}`}>
         <Grid templateColumns="repeat(6, 1fr)" gap={10} py={4} px={4}>
           <GridItem>
-          <Stack direction={"row"} spacing={6}>
-              <Checkbox size="md" colorScheme={color} justifyContent={"start"} mb={10}>
+            <Stack direction={"row"} spacing={6}>
+              <Checkbox size="md" justifyContent={"start"} mb={10}>
                 {/* <Box
                   display="flex"
                   justifyContent="center"
@@ -40,29 +38,28 @@ const AttendanceCard = ({ item, color }) => {
                 >
                   <Text>E</Text>
                 </Box> */}
-                
               </Checkbox>
-        
-            <GridItem>
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                width="45px"
-                height="45px"
-                borderRadius="50%"
-                bg={color}
-                color="white"
-                fontSize="24px"
-                fontWeight="bold"
-              >
-                <Text>E</Text>
-              </Box>
-            </GridItem>
-            <GridItem>
-              <CardItem title={"Employee Name"} value={item?.employeeName} />
-            </GridItem>
-          </Stack>
+
+              <GridItem>
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  width="45px"
+                  height="45px"
+                  borderRadius="50%"
+                  bg={color}
+                  color="white"
+                  fontSize="24px"
+                  fontWeight="bold"
+                >
+                  <Text>E</Text>
+                </Box>
+              </GridItem>
+              <GridItem width="150px">
+                <CardItem title={"Employee Name"} value={item?.employeeName} />
+              </GridItem>
+            </Stack>
           </GridItem>
           <GridItem>
             <CardItem title={"Email Address:"} value={item?.email} />

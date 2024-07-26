@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Header from "../../components/Header";
 import { Box, VStack, Button, Stack } from "@chakra-ui/react";
 import CardHeader from "../../components/CardHeader";
-import { attendanceHeaderItems} from "../../utils/menuItems";
+import { attendanceHeaderItems } from "../../utils/menuItems";
 import AttendanceCard from "../../components/Attendance/AttendanceCard";
 
 const AttList = () => {
@@ -13,28 +13,27 @@ const AttList = () => {
 
   const allAttendance = [
     {
-     _id: 1,
+      _id: 1,
       employeeName: "Lead_01",
       email: "lead@gamil.com",
       mobileNumber: "7084930106",
       role: "Manager",
       joiningDate: "10/06/2024",
-     
     },
-    
-      {
-        _id: 2,
-         employeeName: "Lead_01",
-         email: "lead@gamil.com",
-         mobileNumber: "7084930106",
-         role: "Manager",
-         joiningDate: "10/06/2024",
-        
-       },
-    
+
+    {
+      _id: 2,
+      employeeName: "Lead_01",
+      email: "lead@gamil.com",
+      mobileNumber: "7084930106",
+      role: "Manager",
+      joiningDate: "10/06/2024",
+    },
   ];
 
-  const activeItem = attendanceHeaderItems.find(item => item.value === attStatus);
+  const activeItem = attendanceHeaderItems.find(
+    (item) => item.value === attStatus
+  );
 
   return (
     <VStack spacing={4} align="stretch" height="100%" width={"100%"} p={4}>
@@ -42,17 +41,27 @@ const AttList = () => {
         <Header title="Attendance">
           <Stack direction="row" spacing={2}>
             <Link to={""}>
-              <Button colorScheme="brand" boxShadow="2.63px 3.5px 9.38px 0px #00000029">Remote Punch-In</Button>
+              <Button
+                colorScheme=""
+                background={"#9A4D49"}
+                boxShadow="2.63px 3.5px 9.38px 0px #00000029"
+              >
+                Remote Punch-In
+              </Button>
             </Link>
             <Link to={""}>
-              <Button colorScheme="" background={"#D0837F"} boxShadow="2.63px 3.5px 9.38px 0px #00000029">
+              <Button
+                colorScheme=""
+                background={"#D0837F"}
+                boxShadow="2.63px 3.5px 9.38px 0px #00000029"
+              >
                 Remote Punch-Out
               </Button>
             </Link>
           </Stack>
         </Header>
         <Stack
-          direction={['column', 'row']}
+          direction={["column", "row"]}
           justifyContent={"space-between"}
           alignItems={"center"}
         >
@@ -69,20 +78,23 @@ const AttList = () => {
         </Stack>
       </Box>
       <CardHeader
-          value={attStatus}
-          items={attendanceHeaderItems}
-          onChange={setAttStatus}
-        />
-         <Box maxHeight={"400px"} my={4} overflowY="auto" maxWidth={"100%"}>
-          {allAttendance.length > 0 && (
-            <VStack spacing={{ base: 2, md: 4 }} align="stretch">
-              {allAttendance.map((item) => (
-                <AttendanceCard item={item} key={item._id}  color={activeItem ? activeItem.color : ""}/>
-              ))}
-            </VStack>
-          ) }
-          
-        </Box>
+        value={attStatus}
+        items={attendanceHeaderItems}
+        onChange={setAttStatus}
+      />
+      <Box maxHeight={"400px"} my={4} overflowY="auto" maxWidth={"100%"}>
+        {allAttendance.length > 0 && (
+          <VStack spacing={{ base: 2, md: 4 }} align="stretch">
+            {allAttendance.map((item) => (
+              <AttendanceCard
+                item={item}
+                key={item._id}
+                color={activeItem ? activeItem.color : ""}
+              />
+            ))}
+          </VStack>
+        )}
+      </Box>
     </VStack>
   );
 };

@@ -32,13 +32,24 @@ const Filters = ({
   };
 
   return (
-    <Box display={"flex"} alignItems={"center"} gap={4} my={6}>
-      <Box minWidth={{ md: "27rem" }}>
+    <Box display={"flex"} alignItems={"center"} gap={"10px"} my={6}>
+      <Box minWidth={{ base: "10rem", sm: "15rem", md: "25rem" }}>
         <Input
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           borderRadius={20}
+          height={"2rem"}
+          padding={"0.6rem 1rem 1rem"}
+          background={"#fff"}
+          width={"100%"}
+          sx={{
+            '::placeholder': {
+              color: '#131313', 
+              fontSize: "15px",
+              fontWeight: "500"
+            },
+          }}
         />
       </Box>
       {showDates && (
@@ -47,16 +58,16 @@ const Filters = ({
             <DatePicker
               selected={startDate}
               onChange={(date) => dateChange(date, setStartDate, onStartChange)}
-              placeholderText="Select start date"
-              customInput={<Input borderRadius={20} />}
+              placeholderText="DD/MM/YYYY"
+              customInput={<Input borderRadius={8} background={"#FFFFFF"} />}
             />
           </Box>
           <Box>
             <DatePicker
               selected={endDate}
               onChange={(date) => dateChange(date, setEndDate, onEndChange)}
-              placeholderText="Select end date"
-              customInput={<Input borderRadius={20} />}
+              placeholderText="DD/MM/YYYY"
+              customInput={<Input borderRadius={8} background={"#FFFFFF"} />}
             />
           </Box>
         </>
