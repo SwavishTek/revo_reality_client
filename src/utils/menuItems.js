@@ -132,9 +132,14 @@ export const userStatusObj = {
   pending: "pending",
 };
 
-export const leaveTypes = [
+export const leavePaidTypes = [
   { value: "paid", label: "Paid" },
   { value: "unpaid", label: "Un Paid" },
+];
+
+export const leaveTypes = [
+  { value: "full", label: "Full Day" },
+  { value: "half", label: "Half Day" },
 ];
 
 export const userRoles = [

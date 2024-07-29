@@ -48,7 +48,6 @@ const LeaveList = () => {
             <Button colorScheme="brand">Apply For Leave</Button>
           </Link>
         </BackButton>
-
         <Filters onSearchChange={setSearch} showDates />
         <CardHeader
           value={leaveStatus}
@@ -56,7 +55,7 @@ const LeaveList = () => {
           onChange={setLeaveStatus}
         />
 
-        <Box maxHeight={"400px"} my={4} overflowY="auto">
+        <Box maxHeight={"100%"} my={4} overflowY="auto">
           {allLeaves.length > 0 ? (
             <VStack spacing={4} align="stretch">
               {allLeaves.map((item) => (

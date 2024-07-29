@@ -1,13 +1,13 @@
 import {
-  Box,
-  Card,
+  // Card,
   Grid,
   GridItem,
-  Stack,
-  WrapItem,
-  Text,
-  Checkbox,
+  // Stack,
+  // WrapItem,
+  // Text,
+  // Checkbox,
 } from "@chakra-ui/react";
+import Card from "../Card";
 import React from "react";
 import CardItem from "../CardItem";
 import { Link } from "react-router-dom";
@@ -15,32 +15,16 @@ import { Link } from "react-router-dom";
 const AttendanceCard = ({ item, color }) => {
   return (
     <Card
-
-    // avatarName={item?.teamName || ""}
-    //   avatarSrc={"img"}
+      minWidth={1000}
+      backgroundColor={color}
+      avatarName={item?.employeeName || ""}
+      color="#fff"
     >
       <Link to={`/attendance/${item._id}`}>
-        <Grid templateColumns="repeat(6, 1fr)" gap={10} py={4} px={4}>
+        <Grid templateColumns="repeat(6, 1fr)" gap={10}>
           <GridItem>
-            <Stack direction={"row"} spacing={6}>
-              <Checkbox size="md" justifyContent={"start"} mb={10}>
-                {/* <Box
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  width="45px"
-                  height="45px"
-                  borderRadius="50%"
-                  bg={color}
-                  color="white"
-                  fontSize="24px"
-                  fontWeight="bold"
-                >
-                  <Text>E</Text>
-                </Box> */}
-              </Checkbox>
-
-              <GridItem>
+            {/* <Checkbox size="md" justifyContent={"start"} mb={10}></Checkbox> */}
+            {/* <GridItem>
                 <Box
                   display="flex"
                   justifyContent="center"
@@ -55,11 +39,10 @@ const AttendanceCard = ({ item, color }) => {
                 >
                   <Text>E</Text>
                 </Box>
-              </GridItem>
-              <GridItem width="150px">
-                <CardItem title={"Employee Name"} value={item?.employeeName} />
-              </GridItem>
-            </Stack>
+              </GridItem> */}
+            <GridItem width="150px">
+              <CardItem title={"Employee Name"} value={item?.employeeName} />
+            </GridItem>
           </GridItem>
           <GridItem>
             <CardItem title={"Email Address:"} value={item?.email} />

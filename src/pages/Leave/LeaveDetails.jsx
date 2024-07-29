@@ -19,10 +19,11 @@ import LoadButton from "../../components/LoadButton";
 import { adminArr, userRolesObj } from "../../utils/menuItems";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import ReviseLeave from "../../components/Leave/ReviseLeave";
+import Loader from "../../components/Loader";
 
 const LeaveDetails = () => {
   const { id } = useParams();
-  const { data = {}, refetch } = useLeaveDetailsQuery(id);
+  const { data = {}, refetch, isFetching } = useLeaveDetailsQuery(id);
   const { data: auth } = useProfileQuery();
   const [rejectLoad, setRejectLoad] = useState(false);
   const [approveLoad, setApproveLoad] = useState(false);
@@ -50,7 +51,7 @@ const LeaveDetails = () => {
   };
 
   return (
-    <Box>
+    <Box position={"relative"}>
       <BackButton title={"Leave Detail"}>
         {adminArr.includes(auth?.role) &&
           (data?.status === "new" ||
@@ -83,13 +84,14 @@ const LeaveDetails = () => {
                   color={"white"}
                   onClick={handleReject}
                 >
-                  Reject
+                  Rejected
                 </LoadButton>
               </Box>
             </>
           )}
       </BackButton>
       <Card p={"2rem"} mt={6}>
+        {isFetching && <Loader />}
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
           <GridItem colSpan={5} my={4}>
             <Title title="EMPLOYEE INFORMATION" />

@@ -8,6 +8,9 @@ const VerifyOTP = Loadable(lazy(() => import("./pages/Auth/VerifyOTP.jsx")));
 const ResetPassword = Loadable(
   lazy(() => import("./pages/Auth/ResetPassword.jsx"))
 );
+const ForgotPassword = Loadable(
+  lazy(() => import("./pages/Auth/ForgotPassword.jsx"))
+);
 const Dashboard = Loadable(lazy(() => import("./pages/Dashboard/index.js")));
 const MainLayout = Loadable(
   lazy(() => import("./components/layout/MainLayout.jsx"))
@@ -69,6 +72,10 @@ function App() {
     {
       path: "/auth/resetpassword",
       element: <ResetPassword />,
+    },
+    {
+      path: "/auth/Forgot_Password",
+      element: <ForgotPassword />,
     },
     // {
     //   path: "/dashboard",

@@ -82,7 +82,7 @@ const AttList = () => {
         items={attendanceHeaderItems}
         onChange={setAttStatus}
       />
-      <Box maxHeight={"400px"} my={4} overflowY="auto" maxWidth={"100%"}>
+      <Box maxHeight={"100%"} my={4} overflowY="auto" maxWidth={"100%"}>
         {allAttendance.length > 0 && (
           <VStack spacing={{ base: 2, md: 4 }} align="stretch">
             {allAttendance.map((item) => (

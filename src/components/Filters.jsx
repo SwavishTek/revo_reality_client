@@ -44,10 +44,10 @@ const Filters = ({
           background={"#fff"}
           width={"100%"}
           sx={{
-            '::placeholder': {
-              color: '#131313', 
+            "::placeholder": {
+              color: "#131313",
               fontSize: "15px",
-              fontWeight: "500"
+              fontWeight: "500",
             },
           }}
         />
@@ -77,4 +77,3 @@ const Filters = ({
 };
 
 export default Filters;
-

@@ -18,6 +18,7 @@ import { useFormik } from "formik";
 import { API_AXIOS } from "../../http/interceptor";
 import Apis from "../../utils/apis";
 import { useQueryClient } from "@tanstack/react-query";
+import InputField from "../InputField";
 
 const ReviseLeave = ({ isOpen = false, onClose, id, refetch }) => {
   const queryClient = useQueryClient();
@@ -59,7 +60,7 @@ const ReviseLeave = ({ isOpen = false, onClose, id, refetch }) => {
           >
             <GridItem colSpan={2}>
               <Text
-                fontSize={"1rem"}
+                fontSize={"1.37rem"}
                 textAlign={"center"}
                 my={4}
                 fontWeight={"bold"}
@@ -96,8 +97,16 @@ const ReviseLeave = ({ isOpen = false, onClose, id, refetch }) => {
               />
             </GridItem>
             <GridItem colSpan={2}>
-              <Text>Reason/Remarks</Text>
-              <Input onChange={handleChange} />
+              {/* <Text>Reason/Remarks</Text> */}
+              <InputField
+                id="reviseRemarks"
+                textarea={true}
+                label="Reason/Remarks"
+                placeholder="Enter Offer Package"
+                value={values.reviseRemarks}
+                onChange={handleChange}
+              />
+              {/* <Input onChange={handleChange} /> */}
             </GridItem>
           </Grid>
         </ModalBody>

@@ -1,12 +1,22 @@
 import { Box, Card, Center, Grid, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Confirmation from "../../components/Confirmation";
 import CustomGridItem from "../CustomGridItem";
 import ConfirmationDialog from "../ConfirmationDialog";
 
-const Calender = ({ date, color, isTop, isBottom, isFirst, isLast, day }) => {
+const Calender = ({
+  date,
+  color,
+  isTop,
+  isBottom,
+  isFirst,
+  isLast,
+  day,
+  key,
+}) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const [selectedDetails, setSelectedDetails] = useState({});
   const borderRadius = {
     topLeft: isTop && isFirst ? "8px 0 0 0" : "0",
@@ -20,6 +30,7 @@ const Calender = ({ date, color, isTop, isBottom, isFirst, isLast, day }) => {
       setSelectedDetails({
         day: day,
         date: date,
+        key: key,
       });
       setOpen(true);
     }
@@ -27,6 +38,11 @@ const Calender = ({ date, color, isTop, isBottom, isFirst, isLast, day }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleUpdate = () => {
+    navigate("/attendace/AttUpdate");
+    handleClose();
   };
 
   return (
@@ -69,6 +85,7 @@ const Calender = ({ date, color, isTop, isBottom, isFirst, isLast, day }) => {
         title="INFORMATION"
         isOpen={open}
         onClose={handleClose}
+        handleUpdate={handleUpdate}
       >
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={4}>
           <CustomGridItem title={"Day"} value={selectedDetails?.day} />

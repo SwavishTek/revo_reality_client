@@ -30,3 +30,25 @@ export const getProfile = async () => {
     console.log(error);
   }
 };
+
+export const resetPass = async ({ id, password }) => {
+  try {
+    const { data } = await API_AXIOS.post(`auth/resetPassword/${id}`, {
+      password,
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const forgetPass = async ({ email }) => {
+  try {
+    const { data } = await API_AXIOS.post(`auth/forgotPassword`, { email });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};

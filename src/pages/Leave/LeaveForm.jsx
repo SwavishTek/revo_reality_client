@@ -3,9 +3,13 @@ import BackButton from "../../components/BackButton";
 import {
   Button,
   Card,
+  FormLabel,
   Grid,
   GridItem,
   Input,
+  Radio,
+  RadioGroup,
+  Stack,
   Text,
   useDisclosure,
   useToast,
@@ -17,13 +21,14 @@ import UploadInput from "../../components/UploadInput";
 import { useFormik } from "formik";
 import DatePicker from "react-datepicker";
 import CustomSelect from "../../components/BasicSelect";
-import { leaveTypes, userRoles } from "../../utils/menuItems";
+import { leavePaidTypes, leaveTypes, userRoles } from "../../utils/menuItems";
 import { applyLeave } from "../../useFunctions/leave/leaveFunctions";
 import { useNavigate } from "react-router-dom";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import { useQueryClient } from "@tanstack/react-query";
 import LoadButton from "../../components/LoadButton";
 import useCustomToast from "../../hooks/useCustomToast";
+import CustomRadio from "../../components/CustomRadio";
 
 const LeaveForm = () => {
   const { data: auth } = useProfileQuery();
@@ -52,6 +57,7 @@ const LeaveForm = () => {
     },
     onSubmit: async (values) => {
       try {
+        console.log("values", values);
         const data = await applyLeave(values);
         navigate("/leaves");
         queryClient.refetchQueries(["leaves"]);
@@ -72,6 +78,7 @@ const LeaveForm = () => {
         start: "",
         end: "",
         payType: "",
+        type: "",
         doc: [],
       });
     }
@@ -174,13 +181,23 @@ const LeaveForm = () => {
           </GridItem>
 
           <GridItem colSpan={1}>
-            <CustomSelect
+            {/* <CustomSelect
               label={"Type"}
               id={"payType"}
               placeholder="Select an option"
               options={leaveTypes}
               onChange={handleChange}
               value={values.payType}
+            /> */}
+
+            <CustomRadio
+              label="Paid Type"
+              value={values.payType}
+              defaultValue={"paid"}
+              onChange={(value) =>
+                handleChange({ target: { id: "payType", value } })
+              }
+              options={leavePaidTypes}
             />
             {/* <InputField
               id="payType"
@@ -190,6 +207,17 @@ const LeaveForm = () => {
               onChange={handleChange}
             /> */}
           </GridItem>
+          <GridItem colSpan={1}>
+            <CustomSelect
+              label={"Select Leave Type"}
+              id={"type"}
+              placeholder="Select an option"
+              options={leaveTypes}
+              onChange={handleChange}
+              value={values.type}
+            />
+          </GridItem>
+
           <GridItem colSpan={2}>
             {/* <InputField
               id="last-name"
