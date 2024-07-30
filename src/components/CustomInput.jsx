@@ -5,6 +5,7 @@ export const CustomInput = ({
     style,
     props,
     type = 'text',
+    name,
     value,
     onChange,
     placeholder,
@@ -24,6 +25,7 @@ export const CustomInput = ({
                 >{label}</Text>
             }
             <Input
+                name={name}
                 placeholder={placeholder || label || "Search and select..."}
                 type={type}
                 value={value}

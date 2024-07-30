@@ -11,10 +11,11 @@ export default function DropDown({
     isLoading,
     onInputChange,
     onMenuScrollToBottom,
-    isMulti = false,
     onChange,
+    value,
     getOptionValue,
     getOptionLabel,
+    isMulti = false,
     props
 }) {
     return (
@@ -32,6 +33,7 @@ export default function DropDown({
                 placeholder={placeholder || label || "Search and select..."}
                 options={options}
                 isLoading={isLoading}
+                value={value}
                 onInputChange={onInputChange}
                 onMenuScrollToBottom={onMenuScrollToBottom}
                 isMulti={isMulti}
@@ -77,8 +79,8 @@ export default function DropDown({
                         color: 'gray',
                         padding: '0px',
                         'svg': {
-                            width: '20px', // Adjust the thickness by changing the width and height
-                            height: '20px',
+                            width: '10px', // Adjust the thickness by changing the width and height
+                            height: '10px',
                         },
                     }),
                 }}

@@ -1,7 +1,7 @@
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Filters from "../../components/Filters";
 import TeamCard from "../../components/Team/TeamCard";
 // import { useTeamQuery } from "../../Queries/team/useTeamQuery";
@@ -9,9 +9,10 @@ import { useInView } from "react-intersection-observer";
 import { useTeamQuery } from "./useQuery/useQuery";
 
 const TeamList = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const {
-    data,
+    data: allTeams,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -19,7 +20,6 @@ const TeamList = () => {
     refetch,
   } = useTeamQuery({ search });
   const { ref, inView } = useInView();
-  console.log('teamList', data);
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -35,7 +35,11 @@ const TeamList = () => {
     return <Text>Error fetching data</Text>;
   }
 
-  const allTeams = data?.pages?.flatMap((page) => page?.data || []) || [];
+  const navToUpdateTeam = (data) => {
+    navigate("/teams/add_team", { state: data });
+  };
+
+  // const allTeams = data?.pages?.flatMap((page) => page?.data || []) || [];
 
 
   return (
@@ -48,11 +52,11 @@ const TeamList = () => {
         </Header>
         <Filters onSearchChange={setSearch} />
         <Box maxHeight={"100%"} my={4} overflowY="auto" >
-          {allTeams.length > 0
+          {allTeams?.length > 0
             ? (
               <VStack spacing={6} align="stretch">
                 {allTeams?.map((item) => (
-                  <TeamCard item={item} key={item?._id} />
+                  <TeamCard item={item} key={item?._id} onClickUpdate={() => navToUpdateTeam(item)} />
                 ))}
               </VStack>
             )
@@ -81,4 +85,4 @@ const TeamList = () => {
   );
 };
 
-export default TeamList;
+export default React.memo(TeamList);
