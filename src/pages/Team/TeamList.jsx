@@ -51,7 +51,7 @@ const TeamList = () => {
           </Link>
         </Header>
         <Filters onSearchChange={setSearch} />
-        <Box maxHeight={"100%"} my={4} overflowY="auto" >
+        <Box maxHeight={"100%"} overflowY="auto" marginEnd={10} >
           {allTeams?.length > 0
             ? (
               <VStack spacing={6} align="stretch">
