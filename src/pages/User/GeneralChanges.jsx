@@ -1,65 +1,140 @@
-import { Box, Button, Card, Grid, GridItem, Stack } from '@chakra-ui/react'
-import React from 'react'
-import BackButton from '../../components/BackButton'
-import InputField from '../../components/InputField'
-import CustomSelect from '../../components/BasicSelect'
-import UploadInput from '../../components/UploadInput'
+import { Box, Button, Card, Input, Stack, Text } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import BackButton from '../../components/BackButton';
+import CustomSelect from '../../components/BasicSelect';
+import { monthOptions, generateYearOptions } from "../../utils/menuItems.js";
+import { uploadHoliday } from '../../useFunctions/user/holidayCount.js';
+import { excelToJson } from '../../useFunctions/commonFunctions.js';
+import CustomFileInput from './CustomFileInput.jsx';
 
 const GeneralChanges = () => {
-    
+  const [fileData, setFileData] = useState([]);
+  const [monthYearOptions, setMonthYearOptions] = useState([]);
+
+  // Initialize Formik directly with useFormik
+  const { values, handleSubmit, setFieldValue, getFieldProps,handleChange,handleBlur } = useFormik({
+    initialValues: {
+      type: 'year',
+      monthOrYear: '',
+      workingDays: '',
+    },
+    onSubmit: async (values) => {
+      console.log("Form Data:", values);
+
+      const sendData = {
+        type: values.type,
+        monthOrYear: values.monthOrYear,
+        workingDays: values.workingDays,
+        holidayList: fileData,
+      };
+
+      try {
+        const response = await uploadHoliday({ data: sendData });
+        console.log('HolidayData:', response);
+      } catch (error) {
+        console.log('ErrorHoliday:', error);
+      }
+    },
+  });
+
+  // Handle file change
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const data = excelToJson(e); // Call your excelToJson function
+      setFileData(data); // Save parsed data to state
+      setFieldValue('holidayList', data); // Update Formik's field value
+    }
+  };
+
+  // Handle type change
+  useEffect(() => {
+    if (values.type === 'month') {
+      setMonthYearOptions(monthOptions);
+    } else if (values.type === 'year') {
+      setMonthYearOptions(generateYearOptions());
+    } else {
+      setMonthYearOptions([]);
+    }
+  }, [values.type]);
+console.log('object',getFieldProps('workingDays'));
+console.log('values',values.workingDays);
   return (
     <Box>
-    <BackButton title={"General Chnages"}>
- </BackButton>
- <Card p={"2rem"} mt={6}>
- <Grid templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }} gap={6} >
-    <GridItem w={'50%'}>
-    <InputField
-         id="daysYear"
-         label="Working Days (Year)"
-         placeholder="Enter working days"
-         value={""}
-         style={{
-          backgroundColor: '#f2f2f2'
-         }}
-       />
-     </GridItem>
-     <GridItem w={'50%'}>
-    <InputField
-         id="daysMonth"
-         label="Working Days (Month)"
-         placeholder="Enter working days"
-         value={""}
-       />
-     </GridItem>
-     <GridItem w={'50%'}>
-        <CustomSelect 
-            label={"Select Region"}
-              id={"selectRegion"}
-              placeholder="Select Region"
-              options={[]}
-        />
-     </GridItem>
-     <GridItem w={'50%'}>
-     <UploadInput
-              onChange={[]}
-              label={"Upload Holiday List"}
+      <BackButton title={"General Changes"} />
+      
+      <Card p={"2rem"} mt={6}>
+        <Stack spacing={4}>
+          <Box width={{ base: "100%", md: "50%" }} mb={4}>
+            <CustomSelect
+              label={"Select Type"}
+              id="type"
+              placeholder="Select Type"
+              options={[
+                { value: 'month', label: 'Month' },
+                { value: 'year', label: 'Year' },
+              ]}
+              value={values.type}
+              onChange={(e) => setFieldValue('type', e.target.value)}
+              width="100%"
             />
-     </GridItem>
- </Grid>
- <Stack mt={6} spacing={6} direction="row" align="center">
-     <Button
-       size="lg"
-       fontSize="18px"
-       colorScheme="brand"
-       fontWeight="normal"
-     >
-      Update
-     </Button>
-     </Stack>
- </Card>
-</Box>
-  )
-}
+          </Box>
+          {values.type && (
+            <Box width={{ base: "100%", md: "50%" }} mb={4}>
+              <CustomSelect
+                label={values.type === 'month' ? "Select Month" : "Select Year"}
+                id="monthOrYear"
+                placeholder={`Select ${values.type === 'month' ? 'Month' : 'Year'}`}
+                options={monthYearOptions}
+                value={values.monthOrYear}
+                onChange={(e) => setFieldValue('monthOrYear', e.target.value)}
+                width="100%"
+              />
+            </Box>
+          )}
+          {values.type && (
+            <Box width={{ base: "100%", md: "50%" }} mb={4}>
+              <Text fontSize={"1rem"} fontWeight={"semibold"} mb={'0.55rem'}>
+                {values.type === 'month' ? "Working Days in Month" : "Working Days in Year"}
+              </Text>
+              <Input
+                id="workingDays"
+                placeholder={`Enter Working Days in ${values.type === 'month' ? 'Month' : 'Year'}`}
+                {...getFieldProps('workingDays')}
+                // name='workingDays'
+                // value={values.workingDays}
+                // onChange={handleChange}
+                // onBlur={handleBlur}
+                // width="100%"
+              />
+            </Box>
+          )}
+          <Box width={{ base: "100%", md: "50%" }} mb={4}>
+            <Text fontSize={"1rem"} fontWeight={"semibold"} mb={'0.55rem'}>
+              Upload Holiday List
+            </Text>
+            <CustomFileInput
+              onChange={handleFileChange}
+              placeholder="Upload Holiday List"
+              width="100%"
+            />
+          </Box>
+          <Box width="100%">
+            <Button
+              onClick={handleSubmit} // Use handleSubmit directly
+              size="lg"
+              fontSize="18px"
+              colorScheme="brand"
+              fontWeight="normal"
+            >
+              Update
+            </Button>
+          </Box>
+        </Stack>
+      </Card>
+    </Box>
+  );
+};
 
-export default GeneralChanges
+export default GeneralChanges;

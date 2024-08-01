@@ -6,10 +6,13 @@ import Title from "../../components/Title";
 import PieChartComponent from "../../components/Dashboard/EmployeeStatus";
 import ItemCard from "../../components/ItemCard";
 import DashboardListing from "../../components/Dashboard/DashboardListing";
+import { useGetHolidayCount } from "../User/useQuery/useHolidayCountQuery";
 
 const Dashboard = () => {
   const { data } = useProfileQuery();
-  console.log(data);
+
+  const {data:senddata} = useGetHolidayCount({ type:'monthly' });
+  console.log('HolidayMonthly', senddata);
 
   const employeeStatusData = [
     { title: "NEW", value: 15, color: "#CDE7FF" },
@@ -95,4 +98,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default React.memo(Dashboard);
