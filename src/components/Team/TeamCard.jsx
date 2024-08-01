@@ -6,7 +6,7 @@ import { ReactComponent as TeamUpdateIcons } from "../../assets/teamUpdateIcons.
 import { ReactComponent as DeleteIcons } from "../../assets/deleteIcons.svg";
 import { formatDate } from "../../useFunctions/commonFunctions";
 
-const TeamCard = ({ item }) => {
+const TeamCard = ({ item, onClickUpdate }) => {
   const arrData = (arr) => {
     return arr.length > 0 ? arr?.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>
   };
@@ -46,6 +46,7 @@ const TeamCard = ({ item }) => {
           _hover={""}
           color={"#000000"}
           borderColor="#ADADAD"
+          onClick={onClickUpdate}
         >
           Update
         </Button>
