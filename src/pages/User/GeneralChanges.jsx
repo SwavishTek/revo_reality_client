@@ -102,11 +102,7 @@ console.log('values',values.workingDays);
                 id="workingDays"
                 placeholder={`Enter Working Days in ${values.type === 'month' ? 'Month' : 'Year'}`}
                 {...getFieldProps('workingDays')}
-                // name='workingDays'
-                // value={values.workingDays}
-                // onChange={handleChange}
-                // onBlur={handleBlur}
-                // width="100%"
+                width="100%"
               />
             </Box>
           )}

@@ -1,52 +1,76 @@
-import { Box, Button, Card, Grid, GridItem, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Grid, GridItem, Stack, Text, Checkbox } from "@chakra-ui/react";
 import React from "react";
 import CardItem from "../CardItem";
-import { Link } from "react-router-dom";
 import { ReactComponent as TeamUpdateIcons } from "../../assets/teamUpdateIcons.svg";
 import { ReactComponent as DeleteIcons } from "../../assets/deleteIcons.svg";
 import { formatDate } from "../../useFunctions/commonFunctions";
 
-const TeamCard = ({ item, onClickUpdate }) => {
+const TeamCard = ({ item, onClickUpdate, onClickDelete }) => {
+  
   const arrData = (arr) => {
-    return arr.length > 0 ? arr?.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>
+    return arr.length > 0 ? arr.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>;
   };
-  console.log('item?.teamMembers', item?.teamMembers)
+
+  const cardItems = [
+    { title: "Creation Date:", value: formatDate(item?.createdAt) },
+    { title: "Last Update:", value: formatDate(item?.updatedAt) },
+    { title: "Manager Name:", component: arrData(item?.manager) },
+    { title: "Team Lead Name:", component: arrData(item?.teamLead) },
+    { title: "Team Members:", component: arrData(item?.agent) },
+    { title: "Total Members:", value: item?.teamMembers?.length || 0 }
+  ];
+
+
   return (
-    <Card
-      minWidth={1000}
-    // avatarName={item?.teamName || ""}
-    //   avatarSrc={"img"}
+    <Box borderColor="#ADADAD" borderWidth="1px" borderRadius="md" overflow="hidden" background="#fff" overflowX="auto" whiteSpace="nowrap"
     >
-      <Link to={`/teams/${item._id}`}>
-        <HStack
-          gap={7}
-          alignItems={'flex-start'}
-          justifyContent={'space-between'}
-          padding={5}
-          minWidth={1000}
-        >
-          <CardItem title={"Team Name"} value={item?.teamName} />
-          <CardItem title={"Creation Date:"} value={formatDate(item?.createdAt)} />
-          <CardItem title={"Last Update:"} value={formatDate(item?.updatedAt)} />
-          <CardItem title={"Manager Name:"} component={arrData(item?.manager)} />
-          <CardItem title={"Team Lead Name:"} component={arrData(item?.teamLead)} />
-          <CardItem title={"Team Members:"} component={arrData(item?.agent)} />
-          <CardItem title={"Total Members:"} value={item?.teamMembers?.length || 0} />
-        </HStack>
-      </Link>
-      <Stack direction="row" spacing={0}>
+      {/*<Link to={`/teams/${item._id}`}>*/}
+      <Grid templateColumns="repeat(7, 1fr)" gap={4} py={4} px={4}>
+        <GridItem>
+          <Stack direction={"row"} spacing={5}>
+            <Checkbox size="md" justifyContent={"start"} mb={10}/>
+            
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="45px"
+              height="45px"
+              borderRadius="50%"
+              background="#E9A80A"
+              color="white"
+              fontSize="24px"
+              fontWeight="bold"
+            >
+              <Text>A</Text>
+            </Box>
+            <Box minWidth="120px">
+              <CardItem title="Team Name:" value={item?.teamName} />
+            </Box>
+          </Stack>
+        </GridItem>
+        {cardItems.map((item, index) => (
+          <GridItem key={index}>
+            <CardItem title={item.title} value={item.value} component={item.component} />
+          </GridItem>
+        ))}
+      </Grid>
+      {/*</Link>*/}
+      <Stack direction="row" spacing={0} background="#fff">
         <Button
           leftIcon={<TeamUpdateIcons />}
           size="md"
           height="40px"
           width="200px"
           border="1px"
-          borderRadius="0 0 0 8px"
-          bg={"#F5F5F5"}
-          _hover={""}
-          color={"#000000"}
+          bg="#F5F5F5"
+          color="#000"
+          borderRadius="0px"
           borderColor="#ADADAD"
+          borderBottom="none"
+          borderLeft="none"
           onClick={onClickUpdate}
+          _hover={{ bg: "#F5F5F5", borderColor: "#ADADAD" }}
         >
           Update
         </Button>
@@ -56,17 +80,19 @@ const TeamCard = ({ item, onClickUpdate }) => {
           height="40px"
           width="200px"
           border="1px"
-          bg={"#F5F5F5"}
-          borderRadius={"0px"}
-          _hover={""}
-          color={"#000000"}
+          bg="#F5F5F5"
+          color="#000"
+          borderRadius="0px"
           borderColor="#ADADAD"
+          borderLeft="none"
+          borderBottom="none"
+          onClick={onClickDelete}
+          _hover={{ bg: "#F5F5F5", borderColor: "#ADADAD" }}
         >
           Delete
         </Button>
-
       </Stack>
-    </Card>
+    </Box>
   );
 };
 
