@@ -9,6 +9,8 @@ import LeaveCard from "../../components/Leave/LeaveCard";
 import BackButton from "../../components/BackButton";
 import { Link } from "react-router-dom";
 import { useLeaveQuery } from "../../Queries/leave/useLeaveQuery";
+import NoDataFound from "../../pages/User/components/NoDataFound"; // Import the ImageWithText component
+
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
@@ -66,7 +68,10 @@ const LeaveList = () => {
           ) : status === "pending" ? (
             <Text>Loading...</Text>
           ) : (
-            <Text>No Leaves found</Text>
+            <NoDataFound
+                  name={'NoLeave'}
+                  message="No Teams In The System"
+                />
           )}
           <Box ref={ref}>
             {isFetchingNextPage ? (

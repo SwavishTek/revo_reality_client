@@ -31,7 +31,7 @@ const OfferLetter = () => {
           <Link to={"/"}>
             <Button colorScheme="brand">Employees</Button>
           </Link>
-          <Link to={"/"}>
+          <Link to={"/users/offerletterlist"}>
             <Button colorScheme="brand">Create Offer Letter</Button>
           </Link>
         </Box>

@@ -7,6 +7,8 @@ import TeamCard from "../../components/Team/TeamCard";
 // import { useTeamQuery } from "../../Queries/team/useTeamQuery";
 import { useInView } from "react-intersection-observer";
 import { useTeamQuery } from "./useQuery/useQuery";
+import NoDataFound from "../../pages/User/components/NoDataFound"; // Import the ImageWithText component
+
 
 const TeamList = () => {
   const navigate = useNavigate();
@@ -67,7 +69,10 @@ const TeamList = () => {
               )
               :
               (
-                <Text>No Leaves found</Text>
+                <NoDataFound
+                  name={'NoTeamImage'}
+                  message="No Teams In The System"
+                />
               )
           }
           <Box ref={ref}>
