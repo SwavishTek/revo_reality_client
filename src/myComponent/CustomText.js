@@ -9,10 +9,12 @@ export const CustomText = ({
     marginBottom,
     noOfLines,
     style,
+    fontFamily,
     ...props
 }) => {
     return (
         <Text
+            fontFamily={fontFamily || 'Roboto'}
             noOfLines={noOfLines}
             fontSize={fontSize}
             fontWeight={fontWeight}
