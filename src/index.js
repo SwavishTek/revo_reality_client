@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import customTheme from "./utils/theme";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-input-2/lib/style.css";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={customTheme}>
         <App />
+        <Toaster />
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>

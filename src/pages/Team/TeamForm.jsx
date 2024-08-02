@@ -22,10 +22,11 @@ import DropDown from "../../components/DropDown/DropDown";
 import { CustomInput } from "../../components/CustomInput";
 import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
 import { useLocation } from "react-router-dom";
+import { showSuccess } from "../../utils/toastHelpers";
 
 const TeamForm = () => {
   const { state: prams } = useLocation();
-  console.log('prams', prams)
+  const isUpdate = prams?._id;
   const [inputValue, setInputValue] = useState('');
   const [isLoadingBtn, setIsLoadingBtn] = useState(false)
   const {
@@ -74,8 +75,6 @@ const TeamForm = () => {
       memberIds: prams?.agent || [],
     },
     onSubmit: async (value) => {
-      const isUpdate = !!prams?._id;
-      console.log("values", value);
       try {
         setIsLoadingBtn(true)
         const { name, managerIds, memberIds, teamLeadIds } = value;
@@ -90,7 +89,8 @@ const TeamForm = () => {
           const resUpdate = await updateTeam({
             data: sendData,
             id: prams?._id
-          })
+          });
+
         } else {
           const resAdd = await addTeam({
             data: sendData
@@ -210,14 +210,15 @@ const TeamForm = () => {
 
         <LoadButton
           colorScheme="brand"
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
+          onClick={() => showSuccess('team add succefully')}
           mt={8}
           alignContent={"center"}
           width={"fit-content"}
           alignSelf={'center'}
           isLoading={isLoadingBtn}
         >
-          Create Team
+          Create Team s
         </LoadButton>
 
       </Card>

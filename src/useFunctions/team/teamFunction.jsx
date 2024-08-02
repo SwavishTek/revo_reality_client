@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_AXIOS } from "../../http/interceptor";
 import Apis from "../../utils/apis";
 import useCustomToast from "../../hooks/useCustomToast";
+import { showSuccess } from "../../utils/toastHelpers";
 
 
 export const getTeams = async ({
@@ -25,9 +26,7 @@ export const getTeams = async ({
 export const addTeam = async ({ data }) => {
   try {
     const res = await API_AXIOS.post('team', data);
-    // useCustomToast().showSuccess({
-    //   message: res?.data?.message || 'Team Added successfully '
-    // })
+    showSuccess(res?.data?.message || "Team Added successfully M");
     return res.data;
   } catch (error) {
     console.log('AddTeam Error', error);
