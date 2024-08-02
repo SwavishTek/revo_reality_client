@@ -5,6 +5,7 @@ import Title from "../../components/Title";
 import BackButton from "../../components/BackButton";
 import { ReactComponent as TeamUpdateIcons } from "../../assets/teamUpdateIcons.svg";
 import { useLocation, useParams } from "react-router-dom";
+import { MainTitle } from "../../myComponent/MainTitle";
 
 const TeamDetails = () => {
   const { id } = useParams();
@@ -17,6 +18,9 @@ const TeamDetails = () => {
           Update Team
         </Button>
       </BackButton>
+      {/*  */}
+      <MainTitle />
+      {/*  */}
       <Card p={"2rem"} mt={6} overflowY={"auto"}>
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
           <GridItem colSpan={5} my={4}>
