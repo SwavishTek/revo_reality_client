@@ -11,7 +11,7 @@ export const CustomBtn = ({
     containerStyle,
     bgColor = color.primaryBtn,
     textColor = color.white,
-    fontSize = "18px",
+    fontSize = "16px",
     fontWeight = '400',
     padding = '5px 15px',
     borderRadius = '11px',

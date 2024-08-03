@@ -55,7 +55,7 @@ const LeaveList = () => {
         />
       </>}
     >
-      {/* <Box >
+      <Box paddingBottom={10}>
         {allLeaves.length > 0 ? (
           <VStack spacing={4} align="stretch">
             {allLeaves.map((item) => (
@@ -76,7 +76,7 @@ const LeaveList = () => {
             )
           )}
         </Box>
-      </Box> */}
+      </Box>
     </MyContainer>
   );
 };

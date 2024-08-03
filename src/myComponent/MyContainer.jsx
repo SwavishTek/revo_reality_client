@@ -1,15 +1,19 @@
-import { Box } from '@chakra-ui/react'
+import { Box, HStack } from '@chakra-ui/react'
 import React from 'react'
 import { CustomText } from './CustomText'
 import { font } from '../consts/font'
 import { CustomBtn } from './CustomBtn'
 import { color } from '../consts/color'
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { useNavigate } from 'react-router-dom'
 
 export const MyContainer = ({
     children,
     header,
-    btnComponent
+    btnComponent,
+    childContainer
 }) => {
+    const navigate = useNavigate();
     return (
         <Box
             width="100%"
@@ -17,7 +21,7 @@ export const MyContainer = ({
             display="flex"
             flexDirection="column"
             paddingStart={'8px'}
-            paddingEnd={'16px'}
+            // paddingEnd={'16px'}
             bgColor={'#F9F9F9'}
         >
             <Box
@@ -28,13 +32,24 @@ export const MyContainer = ({
                 justifyContent="space-between"
                 padding={'10px'}
             >
-                <CustomText
-                    fontFamily={font.Oswald}
-                    fontSize="30px"
-                    fontWeight="500"
+                <HStack
+                    justifyContent={'flex-start'}
+                    gap={'15px'}
                 >
-                    {header || 'N/A'}
-                </CustomText>
+                    <ArrowBackIcon
+                        onClick={() => navigate(-1)}
+                        cursor={"pointer"}
+                        width={35}
+                        height={35}
+                    />
+                    <CustomText
+                        fontFamily={font.Oswald}
+                        fontSize="30px"
+                        fontWeight="500"
+                    >
+                        {header || 'N/A'}
+                    </CustomText>
+                </HStack>
                 <Box
                     display="flex"
                     gap="20px"
@@ -49,7 +64,12 @@ export const MyContainer = ({
                 overflow="auto"
             >
                 <Box
-                    padding={'10px'}
+                    // padding={'10px'}
+                    style={{
+                        marginLeft: '10px',
+                        marginRight: '50px',
+                        ...childContainer
+                    }}
                 > {children}</Box>
             </Box>
         </Box>
