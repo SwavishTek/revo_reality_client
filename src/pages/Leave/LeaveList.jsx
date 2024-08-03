@@ -12,6 +12,8 @@ import { useLeaveQuery } from "../../Queries/leave/useLeaveQuery";
 import { CardBorder } from "../../myComponent/CardBorder";
 import { MyContainer } from "../../myComponent/MyContainer";
 import { CustomText } from "../../myComponent/CustomText";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
@@ -44,50 +46,50 @@ const LeaveList = () => {
 
   const allLeaves = data?.pages?.flatMap((page) => page?.data || []) || [];
   return (
-    // <VStack spacing={4} align="stretch" height="100vh" p={4}>
-    //   <Box>
-    //     <BackButton title={"My Leave List"}>
-    //       <Link to={"/leaves/apply_leave"}>
-    //         <Button colorScheme="brand">Apply For Leave</Button>
-    //       </Link>
-    //     </BackButton>
 
-    //     <Filters onSearchChange={setSearch} showDates />
-    //     <CardHeader
-    //       value={leaveStatus}
-    //       items={leaveHeaderItems}
-    //       onChange={setLeaveStatus}
-    //     />
-
-    //     <Box maxHeight={"400px"} my={4} overflowY="auto">
-    //       {allLeaves.length > 0 ? (
-    //         <VStack spacing={4} align="stretch">
-    //           {allLeaves.map((item) => (
-    //             <LeaveCard item={item} key={item._id} refetch={refetch} />
-    //           ))}
-    //         </VStack>
-    //       ) : status === "pending" ? (
-    //         <Text>Loading...</Text>
-    //       ) : (
-    //         <Text>No Leaves found</Text>
-    //       )}
-    //       <Box ref={ref}>
-    //         {isFetchingNextPage ? (
-    //           <Text>Loading more...</Text>
-    //         ) : (
-    //           hasNextPage && (
-    //             <Button onClick={() => fetchNextPage()}>Load More</Button>
-    //           )
-    //         )}
-    //       </Box>
-    //     </Box>
-    //   </Box>
-    // </VStack>
-    // <CardBorder />
-    <MyContainer>
-      {[...new Array(100)].map((el, i) => <CustomText
-        fontSize="30"
-      >sdfwsd</CustomText>)}
+    <MyContainer
+      header={'All Leaves'}
+      btnComponent={<>
+        <CustomBtn
+          title={'My Leaves'}
+        />
+        <CustomBtn
+          title={'My Employee'}
+          bgColor={color.danger}
+        />
+        <CustomBtn
+          title={'On Hold'}
+          bgColor={color.success}
+          isDisabled={true}
+        />
+        <CustomBtn
+          title={'My Employee'}
+          bgColor={color.info}
+        />
+      </>}
+    >
+      {/* <Box >
+        {allLeaves.length > 0 ? (
+          <VStack spacing={4} align="stretch">
+            {allLeaves.map((item) => (
+              <LeaveCard item={item} key={item._id} refetch={refetch} />
+            ))}
+          </VStack>
+        ) : status === "pending" ? (
+          <Text>Loading...</Text>
+        ) : (
+          <Text>No Leaves found</Text>
+        )}
+        <Box ref={ref}>
+          {isFetchingNextPage ? (
+            <Text>Loading more...</Text>
+          ) : (
+            hasNextPage && (
+              <Button onClick={() => fetchNextPage()}>Load More</Button>
+            )
+          )}
+        </Box>
+      </Box> */}
     </MyContainer>
   );
 };

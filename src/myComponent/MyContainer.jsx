@@ -1,15 +1,24 @@
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 import { CustomText } from './CustomText'
-import { fontFamily } from '../consts/font'
+import { font } from '../consts/font'
+import { CustomBtn } from './CustomBtn'
+import { color } from '../consts/color'
 
-export const MyContainer = ({ children }) => {
+export const MyContainer = ({
+    children,
+    header,
+    btnComponent
+}) => {
     return (
         <Box
             width="100%"
             height="100vh"
             display="flex"
             flexDirection="column"
+            paddingStart={'8px'}
+            paddingEnd={'8px'}
+            bgColor={'#F9F9F9'}
         >
             <Box
                 width="100%"
@@ -18,17 +27,20 @@ export const MyContainer = ({ children }) => {
                 alignItems="center"
                 justifyContent="space-between"
                 padding={'10px'}
-                bg={'red'}
             >
                 <CustomText
-                    fontFamily={fontFamily.Oswald}
+                    fontFamily={font.Oswald}
                     fontSize="30px"
-                    fontWeight="300"
+                    fontWeight="500"
                 >
-                    Attendance
+                    {header || 'N/A'}
                 </CustomText>
-                <Box>
-                    <CustomText>sdfdsf</CustomText>
+                <Box
+                    display="flex"
+                    gap="20px"
+                    alignItems={'center'}
+                >
+                    {btnComponent}
                 </Box>
             </Box>
             <Box

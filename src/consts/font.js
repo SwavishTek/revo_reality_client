@@ -1,4 +1,4 @@
-export const fontFamily = {
+export const font = {
     Roboto: 'Roboto',
     Oswald: 'Oswald',
     inter: 'Inter',
