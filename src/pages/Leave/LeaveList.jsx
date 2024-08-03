@@ -53,19 +53,6 @@ const LeaveList = () => {
         <CustomBtn
           title={'My Leaves'}
         />
-        <CustomBtn
-          title={'My Employee'}
-          bgColor={color.danger}
-        />
-        <CustomBtn
-          title={'On Hold'}
-          bgColor={color.success}
-          isDisabled={true}
-        />
-        <CustomBtn
-          title={'My Employee'}
-          bgColor={color.info}
-        />
       </>}
     >
       {/* <Box >

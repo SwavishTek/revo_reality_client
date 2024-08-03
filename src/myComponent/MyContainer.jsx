@@ -17,7 +17,7 @@ export const MyContainer = ({
             display="flex"
             flexDirection="column"
             paddingStart={'8px'}
-            paddingEnd={'8px'}
+            paddingEnd={'16px'}
             bgColor={'#F9F9F9'}
         >
             <Box
