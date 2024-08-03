@@ -1,5 +1,6 @@
 import { Text } from '@chakra-ui/react'
 import React from 'react'
+import { font } from '../consts/font'
 
 export const CustomText = ({
     fontSize = '12px',
@@ -14,7 +15,7 @@ export const CustomText = ({
 }) => {
     return (
         <Text
-            fontFamily={fontFamily || 'Roboto'}
+            fontFamily={fontFamily || font.inter}
             noOfLines={noOfLines}
             fontSize={fontSize}
             fontWeight={fontWeight}

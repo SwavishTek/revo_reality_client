@@ -9,8 +9,11 @@ import LeaveCard from "../../components/Leave/LeaveCard";
 import BackButton from "../../components/BackButton";
 import { Link } from "react-router-dom";
 import { useLeaveQuery } from "../../Queries/leave/useLeaveQuery";
-import NoDataFound from "../../pages/User/components/NoDataFound"; // Import the ImageWithText component
-
+import { CardBorder } from "../../myComponent/CardBorder";
+import { MyContainer } from "../../myComponent/MyContainer";
+import { CustomText } from "../../myComponent/CustomText";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
@@ -43,48 +46,38 @@ const LeaveList = () => {
 
   const allLeaves = data?.pages?.flatMap((page) => page?.data || []) || [];
   return (
-    <VStack spacing={4} align="stretch" height="100vh" p={4}>
-      <Box>
-        <BackButton title={"My Leave List"}>
-          <Link to={"/leaves/apply_leave"}>
-            <Button colorScheme="brand">Apply For Leave</Button>
-          </Link>
-        </BackButton>
 
-        <Filters onSearchChange={setSearch} showDates />
-        <CardHeader
-          value={leaveStatus}
-          items={leaveHeaderItems}
-          onChange={setLeaveStatus}
+    <MyContainer
+      header={'All Leaves'}
+      btnComponent={<>
+        <CustomBtn
+          title={'My Leaves'}
         />
-
-        <Box maxHeight={"400px"} my={4} overflowY="auto">
-          {allLeaves.length > 0 ? (
-            <VStack spacing={4} align="stretch">
-              {allLeaves.map((item) => (
-                <LeaveCard item={item} key={item._id} refetch={refetch} />
-              ))}
-            </VStack>
-          ) : status === "pending" ? (
-            <Text>Loading...</Text>
+      </>}
+    >
+      {/* <Box >
+        {allLeaves.length > 0 ? (
+          <VStack spacing={4} align="stretch">
+            {allLeaves.map((item) => (
+              <LeaveCard item={item} key={item._id} refetch={refetch} />
+            ))}
+          </VStack>
+        ) : status === "pending" ? (
+          <Text>Loading...</Text>
+        ) : (
+          <Text>No Leaves found</Text>
+        )}
+        <Box ref={ref}>
+          {isFetchingNextPage ? (
+            <Text>Loading more...</Text>
           ) : (
-            <NoDataFound
-                  name={'NoLeave'}
-                  message="No Teams In The System"
-                />
+            hasNextPage && (
+              <Button onClick={() => fetchNextPage()}>Load More</Button>
+            )
           )}
-          <Box ref={ref}>
-            {isFetchingNextPage ? (
-              <Text>Loading more...</Text>
-            ) : (
-              hasNextPage && (
-                <Button onClick={() => fetchNextPage()}>Load More</Button>
-              )
-            )}
-          </Box>
         </Box>
-      </Box>
-    </VStack>
+      </Box> */}
+    </MyContainer>
   );
 };
 
