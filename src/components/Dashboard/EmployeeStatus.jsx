@@ -14,7 +14,6 @@ const PieChartComponent = ({ title, data = [] }) => {
       >
         {title}
       </Text>
-
       <Box px={4} pt={4}>
         <CustomPieChart data={data} />
       </Box>

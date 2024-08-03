@@ -1,5 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { CustomText } from "../myComponent/CustomText";
 
 const CardHeader = ({ items = [], onChange, value }) => {
   const [active, setActive] = useState(value ?? "");
@@ -26,15 +27,17 @@ const CardHeader = ({ items = [], onChange, value }) => {
     >
       {
         items.map((item) => (
-          <Text
+          <CustomText
             key={item.label}
             onClick={() => handleClick(item.value)}
             textDecoration={item.value === active ? "underline" : "none"}
             color={item.value === active ? item.color : "gray"}
             cursor={"pointer"}
+            fontSize="16px"
+            fontWeight="400"
           >
             {item.label}
-          </Text>
+          </CustomText>
         ))
 
         // Add more items as needed

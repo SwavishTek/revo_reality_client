@@ -1,12 +1,11 @@
 import { API_AXIOS } from "../../http/interceptor";
-import Apis from "../../utils/apis";
 
 
-export const getHolidayCount = async ({ }) => {
+export const getHolidayCount = async ({type }) => {
   try {
     const { data } = await API_AXIOS.get(`holiday/stats`, {
       params: {
-        type: 'monthly'
+        type
       }
     });
     return data || {};

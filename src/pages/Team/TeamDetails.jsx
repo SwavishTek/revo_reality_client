@@ -18,8 +18,8 @@ const TeamDetails = () => {
           Update Team
         </Button>
       </BackButton>
-      {/*  */}
-      <MainTitle />
+      {/* <MainTitle /> */}
+      
       {/*  */}
       <Card p={"2rem"} mt={6} overflowY={"auto"}>
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>

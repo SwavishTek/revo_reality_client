@@ -1,8 +1,6 @@
 import React from "react";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
-import EmployeeStatus from "../../components/Dashboard/EmployeeStatus";
-import Title from "../../components/Title";
 import PieChartComponent from "../../components/Dashboard/EmployeeStatus";
 import ItemCard from "../../components/ItemCard";
 import DashboardListing from "../../components/Dashboard/DashboardListing";
@@ -11,49 +9,42 @@ import { useGetHolidayCount } from "../User/useQuery/useHolidayCountQuery";
 const Dashboard = () => {
   const { data } = useProfileQuery();
 
-  const {data:senddata} = useGetHolidayCount({ type:'monthly' });
-  console.log('HolidayMonthly', senddata);
+  // Fetch both yearly and monthly holiday count data
+  const { data: yearlyData } = useGetHolidayCount({ type: 'yearly' });
+  const { data: monthlyData } = useGetHolidayCount({ type: 'monthly' });
 
-  const employeeStatusData = [
-    { title: "NEW", value: 15, color: "#CDE7FF" },
-    { title: "DRAFT", value: 15, color: "#FF8A00" },
-    { title: "ACTIVE/APPROVED ", value: 8, color: "#4ABC04" },
-    { title: "DEACTIVATED ", value: 5, color: "#740707" },
-    { title: "ACTIVE ", value: 8, color: "#FF0000" },
-  ];
-
-  const yearlyWorkingDays = [
-    { title: "Working Days ", value: 8, color: "#CDE7FF" },
-    { title: "Public Holidays ", value: 8, color: "#4ABC04" },
-  ];
-
-  const monthlyWorkingDays = [
-    { title: "Working Days ", value: 8, color: "#F6C244" },
-    { title: "Public Holidays ", value: 8, color: "#FF8A00" },
-  ];
+  console.log('YearlyHolidayData', yearlyData);
+  console.log('MonthlyHolidayData', monthlyData);
 
   return (
     <div>
       <Text fontWeight={"medium"} fontSize={"1.8rem"} mb={4}>
         Dashboard
       </Text>
+
       <Grid templateColumns="repeat(4, 1fr)" gap={6} mt={2}>
         <GridItem>
           <PieChartComponent
             title={"Employee Status"}
-            data={employeeStatusData}
+            data={[
+              { title: "NEW", value: 15, color: "#CDE7FF" },
+              { title: "DRAFT", value: 15, color: "#FF8A00" },
+              { title: "ACTIVE/APPROVED", value: 8, color: "#4ABC04" },
+              { title: "DEACTIVATED", value: 5, color: "#740707" },
+              { title: "ACTIVE", value: 8, color: "#FF0000" },
+            ]}
           />
         </GridItem>
         <GridItem>
           <PieChartComponent
             title={"Working Days This Year"}
-            data={yearlyWorkingDays}
+            data={yearlyData || []} // Display yearly data
           />
         </GridItem>
         <GridItem>
           <PieChartComponent
             title={"Working Days This Month"}
-            data={monthlyWorkingDays}
+            data={monthlyData || []} // Display monthly data
           />
         </GridItem>
         <GridItem>

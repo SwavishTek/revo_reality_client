@@ -1,5 +1,6 @@
 import React from "react";
 import { Select, Text } from "@chakra-ui/react";
+import { CustomText } from "../myComponent/CustomText";
 
 const CustomSelect = ({
   options = [],
@@ -11,9 +12,9 @@ const CustomSelect = ({
 }) => {
   return (
     <>
-      <Text fontWeight={"semibold"} mb={2}>
+      <CustomText fontWeight={"semibold"} mb={2} fontSize="1rem">
         {label}
-      </Text>
+      </CustomText>
       <Select
         placeholder={placeholder}
         onChange={onChange}

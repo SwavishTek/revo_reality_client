@@ -13,7 +13,7 @@ const GeneralChanges = () => {
   const [monthYearOptions, setMonthYearOptions] = useState([]);
 
   // Initialize Formik directly with useFormik
-  const { values, handleSubmit, setFieldValue, getFieldProps,handleChange,handleBlur } = useFormik({
+  const { values, handleSubmit, setFieldValue, getFieldProps } = useFormik({
     initialValues: {
       type: 'year',
       monthOrYear: '',
@@ -42,9 +42,9 @@ const GeneralChanges = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const data = excelToJson(e); // Call your excelToJson function
-      setFileData(data); // Save parsed data to state
-      setFieldValue('holidayList', data); // Update Formik's field value
+      const data = excelToJson(e); 
+      setFileData(data); 
+      setFieldValue('holidayList', data); 
     }
   };
 
@@ -118,7 +118,7 @@ console.log('values',values.workingDays);
           </Box>
           <Box width="100%">
             <Button
-              onClick={handleSubmit} // Use handleSubmit directly
+              onClick={handleSubmit} 
               size="lg"
               fontSize="18px"
               colorScheme="brand"
