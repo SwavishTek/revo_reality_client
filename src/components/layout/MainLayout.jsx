@@ -6,18 +6,18 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
   const navigate = useNavigate();
- useEffect(() => {
-     if (!localStorage.getItem("token")) {
-       navigate("/auth/login");
-     }
-   }, [navigate]);
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/auth/login");
+    }
+  }, [navigate]);
 
   return (
     <Box display="flex">
       <Sidebar items={menuItems} />
       <Box
         flex="1"
-        p={4}
+        // p={4}
         bg={"brand.900"}
         overflowY={"scroll"}
         height={"100vh"}
