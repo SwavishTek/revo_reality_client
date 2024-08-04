@@ -1,19 +1,12 @@
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import Filters from "../../components/Filters";
-import CardHeader from "../../components/CardHeader";
-import { leaveHeaderItems } from "../../utils/menuItems";
-import { useUserQuery } from "../../Queries/user/userUserQuery";
 import { useInView } from "react-intersection-observer";
-import LeaveCard from "../../components/Leave/LeaveCard";
-import BackButton from "../../components/BackButton";
-import { Link } from "react-router-dom";
 import { useLeaveQuery } from "../../Queries/leave/useLeaveQuery";
-import { CardBorder } from "../../myComponent/CardBorder";
-import { MyContainer } from "../../myComponent/MyContainer";
-import { CustomText } from "../../myComponent/CustomText";
+import LeaveCard from "../../components/Leave/LeaveCard";
 import { CustomBtn } from "../../myComponent/CustomBtn";
-import { color } from "../../consts/color";
+import { MyContainer } from "../../myComponent/MyContainer";
+import { BoarderBox } from "../../myComponent/BoarderBox";
+import { CustomText } from "../../myComponent/CustomText";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
@@ -55,6 +48,7 @@ const LeaveList = () => {
         />
       </>}
     >
+
       <Box paddingBottom={10}>
         {allLeaves.length > 0 ? (
           <VStack spacing={4} align="stretch">
@@ -77,6 +71,7 @@ const LeaveList = () => {
           )}
         </Box>
       </Box>
+
     </MyContainer>
   );
 };
