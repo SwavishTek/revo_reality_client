@@ -1,4 +1,4 @@
-import { Box, HStack } from '@chakra-ui/react'
+import { Box, HStack, Image } from '@chakra-ui/react'
 import React from 'react'
 import { CustomText } from './CustomText'
 import { font } from '../consts/font'
@@ -6,12 +6,14 @@ import { CustomBtn } from './CustomBtn'
 import { color } from '../consts/color'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
+import backIcon from '../assets/backIcon.svg'
 
 export const MyContainer = ({
     children,
     header,
     btnComponent,
-    childContainer
+    childContainer,
+    isBack
 }) => {
     const navigate = useNavigate();
     return (
@@ -23,6 +25,7 @@ export const MyContainer = ({
             paddingStart={'8px'}
             // paddingEnd={'16px'}
             bgColor={'#F9F9F9'}
+            minWidth={'1000px'}
         >
             <Box
                 width="100%"
@@ -34,14 +37,14 @@ export const MyContainer = ({
             >
                 <HStack
                     justifyContent={'flex-start'}
-                    gap={'15px'}
+                    gap={'20px'}
                 >
-                    <ArrowBackIcon
+                    {isBack && <Image
+                        src={backIcon}
+                        alt="No Data"
+                        objectFit="contain"
                         onClick={() => navigate(-1)}
-                        cursor={"pointer"}
-                        width={35}
-                        height={35}
-                    />
+                    />}
                     <CustomText
                         fontFamily={font.Oswald}
                         fontSize="30px"
@@ -68,6 +71,7 @@ export const MyContainer = ({
                     style={{
                         marginLeft: '10px',
                         marginRight: '50px',
+                        paddingTop: '10px',
                         ...childContainer
                     }}
                 > {children}</Box>

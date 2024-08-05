@@ -1,13 +1,11 @@
-import { Box, Button, Text, VStack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Button, VStack } from "@chakra-ui/react";
+import React, { useState } from "react";
 import Header from "../../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import Filters from "../../components/Filters";
 import TeamCard from "../../components/Team/TeamCard";
-// import { useTeamQuery } from "../../Queries/team/useTeamQuery";
-import { useInView } from "react-intersection-observer";
 import { useTeamQuery } from "./useQuery/useQuery";
-import NoDataFound from "../../pages/User/components/NoDataFound"; // Import the ImageWithText component
+import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
 
 
 const TeamList = () => {
@@ -18,31 +16,13 @@ const TeamList = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-    refetch,
+    isLoading,
+    isFetching,
   } = useTeamQuery({ search });
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage]);
-
-  if (status === "loading") {
-    return <Text>Loading...</Text>;
-  }
-
-  if (status === "error") {
-    return <Text>Error fetching data</Text>;
-  }
 
   const navToUpdateTeam = (data) => {
     navigate("/teams/add_team", { state: data });
   };
-
-  // const allTeams = data?.pages?.flatMap((page) => page?.data || []) || [];
-
 
   return (
     <VStack spacing={4} align="stretch" height="100%" width={"100%"} p={4}>
@@ -53,37 +33,25 @@ const TeamList = () => {
           </Link>
         </Header>
         <Filters onSearchChange={setSearch} />
-        <Box maxHeight={"100%"} overflowY="auto" marginEnd={10} >
-          {allTeams?.length > 0
-            ? (
-              <VStack spacing={6} align="stretch">
-                {allTeams?.map((item) => (
-                  <TeamCard item={item} key={item?._id} onClickUpdate={() => navToUpdateTeam(item)} />
-                ))}
-              </VStack>
-            )
-            :
-            status === "pending" ?
-              (
-                <Text>Loading...</Text>
-              )
-              :
-              (
-                <NoDataFound
-                  name={'NoTeamImage'}
-                  message="No Teams In The System"
-                />
-              )
-          }
-          <Box ref={ref}>
-            {isFetchingNextPage ? (
-              <Text>Loading more...</Text>
-            ) : (
-              hasNextPage && (
-                <Button onClick={() => fetchNextPage()}>Load More</Button>
-              )
+        <Box maxHeight={"100%"} overflowY="auto" marginEnd={10}>
+          <InfiniteScrollList
+            data={allTeams}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            renderItem={(item) => (
+              <TeamCard
+                item={item}
+                key={item?._id}
+                onClickUpdate={() => navToUpdateTeam(item)}
+              />
             )}
-          </Box>
+            loadingMessage="Loading teams..."
+            errorMessage="Error fetching teams"
+            noDataMessage="No Teams In The System"
+          />
         </Box>
       </Box>
     </VStack>
