@@ -16,17 +16,22 @@ const GeneralChanges = () => {
   const { values, handleSubmit, setFieldValue, getFieldProps } = useFormik({
     initialValues: {
       type: 'year',
-      monthOrYear: '',
-      workingDays: '',
+      month: '',
+      year: '',
+      monthlyWorkingDays: '',
+      yearlyWorkingDays: '',
     },
     onSubmit: async (values) => {
       console.log("Form Data:", values);
 
+      // Construct data in the required format
       const sendData = {
+        year: values.type === 'year' ? values.year : '',
+        yearlyWorkingDays: values.type === 'year' ? values.yearlyWorkingDays : '',
+        month: values.type === 'month' ? values.month : '',
+        monthlyWorkingDays: values.type === 'month' ? values.monthlyWorkingDays : '',
         type: values.type,
-        monthOrYear: values.monthOrYear,
-        workingDays: values.workingDays,
-        holidayList: fileData,
+        data: fileData,  // Ensure fileData is correctly formatted
       };
 
       try {
@@ -38,13 +43,15 @@ const GeneralChanges = () => {
     },
   });
 
+  console.info(fileData);
   // Handle file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const data = excelToJson(e); 
+      const data = excelToJson(e);
+      // Ensure the data extracted from the file matches the API format
       setFileData(data); 
-      setFieldValue('holidayList', data); 
+      // No need to set field value here since fileData is managed separately
     }
   };
 
@@ -58,12 +65,11 @@ const GeneralChanges = () => {
       setMonthYearOptions([]);
     }
   }, [values.type]);
-console.log('object',getFieldProps('workingDays'));
-console.log('values',values.workingDays);
+
   return (
     <Box>
       <BackButton title={"General Changes"} />
-      
+
       <Card p={"2rem"} mt={6}>
         <Stack spacing={4}>
           <Box width={{ base: "100%", md: "50%" }} mb={4}>
@@ -84,11 +90,11 @@ console.log('values',values.workingDays);
             <Box width={{ base: "100%", md: "50%" }} mb={4}>
               <CustomSelect
                 label={values.type === 'month' ? "Select Month" : "Select Year"}
-                id="monthOrYear"
+                id={values.type === 'month' ? 'month' : 'year'}
                 placeholder={`Select ${values.type === 'month' ? 'Month' : 'Year'}`}
                 options={monthYearOptions}
-                value={values.monthOrYear}
-                onChange={(e) => setFieldValue('monthOrYear', e.target.value)}
+                value={values.type === 'month' ? values.month : values.year}
+                onChange={(e) => setFieldValue(values.type === 'month' ? 'month' : 'year', e.target.value)}
                 width="100%"
               />
             </Box>
@@ -99,9 +105,9 @@ console.log('values',values.workingDays);
                 {values.type === 'month' ? "Working Days in Month" : "Working Days in Year"}
               </Text>
               <Input
-                id="workingDays"
+                id={values.type === 'month' ? 'monthlyWorkingDays' : 'yearlyWorkingDays'}
                 placeholder={`Enter Working Days in ${values.type === 'month' ? 'Month' : 'Year'}`}
-                {...getFieldProps('workingDays')}
+                {...getFieldProps(values.type === 'month' ? 'monthlyWorkingDays' : 'yearlyWorkingDays')}
                 width="100%"
               />
             </Box>
@@ -118,7 +124,7 @@ console.log('values',values.workingDays);
           </Box>
           <Box width="100%">
             <Button
-              onClick={handleSubmit} 
+              onClick={handleSubmit}
               size="lg"
               fontSize="18px"
               colorScheme="brand"

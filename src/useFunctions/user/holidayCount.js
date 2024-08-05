@@ -15,17 +15,16 @@ export const getHolidayCount = async ({type }) => {
   }
 };
 
-export const uploadHoliday = async ({
-  data
-}) => {
+export const uploadHoliday = async ({ data }) => {
   try {
     const res = await API_AXIOS.post('holiday', data);
-    return res;
+    return res.data;  // Assuming the response data is needed
   } catch (error) {
     console.log('ErrorUploadHoliday:', error);
+    throw error;  // Rethrow error to handle it in the calling function
   }
+};
 
-}
 
 
 
