@@ -1,5 +1,5 @@
 // Sidebar.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -23,17 +23,16 @@ import { useQueryClient } from "@tanstack/react-query";
 const Sidebar = ({ items = [] }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
   const location = useLocation();
-  const [activeItem, setActiveItem] = React.useState(null);
   const { data: auth } = useProfileQuery();
+  const [activeItem, setActiveItem] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const activeParent = items.find((item) => {
       if (item.children) {
-        return item.children.some((child) => child.href === location.pathname);
+        return item.children.some((child) => location.pathname.includes(child.href));
       }
-      return item.href === location.pathname;
+      return location.pathname.includes(item.href);
     });
 
     setActiveItem(activeParent ? activeParent.label : null);
@@ -41,7 +40,6 @@ const Sidebar = ({ items = [] }) => {
 
   const handleItemClick = (item) => {
     setActiveItem(item);
-    // setActiveItem(activeItem === item ? null : item);
   };
 
   return (

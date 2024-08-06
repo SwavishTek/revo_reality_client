@@ -26,8 +26,8 @@ export const CustomCheckBox = ({
         <Box
             bg={'green'}
             display={'flex'}
-            width={'20px'}
-            height={'20px'}
+            width={'15px'}
+            height={'15px'}
             borderRadius={'5px'}
             borderWidth={'0.5px'}
             bgColor={'#F5F5F5'}

@@ -1,19 +1,27 @@
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 import { CustomText } from './CustomText'
+import { color } from '../consts/color'
 
-export const MainTitle = () => {
+export const MainTitle = ({
+    title,
+    mb = 5
+}) => {
     return (
-        <Box>
+        <Box
+            marginBottom={mb}
+        >
             <CustomText
-                // fontFamily="Oswald"
                 fontFamily="Inter"
-                fontSize="19.34px"
+                fontSize="20px"
                 fontWeight="600"
-            // lineHeight="23.4px"
-            // textAlign="left"
+                style={{
+                    borderBottom: "0.5px solid",
+                    borderBottomColor: color.spanishGrey,
+                    paddingBottom: "5px"
+                }}
             >
-                EMPLOYEE  INFORMATION
+                {title || 'N/A'}
             </CustomText>
         </Box>
     )

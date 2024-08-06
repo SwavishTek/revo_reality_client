@@ -8,7 +8,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
 import backIcon from '../assets/backIcon.svg'
 
-export const MyContainer = ({
+const MyContainer = ({
     children,
     header,
     btnComponent,
@@ -33,7 +33,7 @@ export const MyContainer = ({
                 display="flex"
                 alignItems="center"
                 justifyContent="space-between"
-                padding={'10px'}
+                padding={'10px 25px 10px 10px'}
             >
                 <HStack
                     justifyContent={'flex-start'}
@@ -79,3 +79,5 @@ export const MyContainer = ({
         </Box>
     )
 }
+
+export default React.memo(MyContainer);
