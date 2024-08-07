@@ -13,6 +13,7 @@ const InfiniteScrollList = ({
     loadingMessage = "Loading...",
     errorMessage = "Error fetching data",
     noDataMessage = "No Data Found",
+    containerStyle
 }) => {
     const { ref, inView } = useInView();
     const [listData, setListData] = useState(data);
@@ -43,7 +44,7 @@ const InfiniteScrollList = ({
     }
 
     return (
-        <VStack spacing={4} align="stretch" width="100%" marginBottom={4}>
+        <VStack spacing={4} align="stretch" width="100%" marginBottom={4} style={{...containerStyle}}>
             {listData?.length > 0 ? (
                 renderItems
             ) : (

@@ -24,6 +24,8 @@ import { changeUserStatus, userPermanantDelete } from "../../useFunctions/user/u
 import { useQueryClient } from "@tanstack/react-query";
 import Confirmation from "../../components/Confirmation";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
+import MyContainer from "../../myComponent/MyContainer";
+import { CustomBtn } from "../../myComponent/CustomBtn";
 
 const EmployeeDetails = () => {
   const navigate = useNavigate();
@@ -62,7 +64,31 @@ const EmployeeDetails = () => {
   };
 
   return (
-    <Box >
+    <MyContainer
+   header={'Employee Detail'}
+   isBack
+   btnComponent={
+        <>
+          <CustomBtn
+            title={<><img src={CopyedUserIcon} alt="Copy" /></>}
+            borderRadius={'50px'}
+          />
+          <CustomBtn
+            title={<><img src={EditUserIcon} alt="Edit" /></>}
+           
+          />
+          <CustomBtn
+            title={<><img src={BlockUserIcon} alt="Block" /></>}
+            
+          />
+          <CustomBtn
+            title={<><img src={DeleteUserIcon} alt="Delete" /></>}
+            
+          />
+        </>
+      }
+      >nc n</MyContainer>
+   /* <Box >
       <BackButton title={user?._id === auth?._id ? "Profile" : "Employee Detail"}>
         {adminArr.includes(auth?.role) && user?._id !== auth?._id && (
           <Box display="flex" alignItems="center" gap={2}>
@@ -200,8 +226,9 @@ const EmployeeDetails = () => {
         </Grid>
       </Card>
       <Confirmation onClose={onClose} isOpen={isOpen} onSubmit={deleteUser} />
-    </Box>
+    </Box>*/
   );
 };
+
 
 export default EmployeeDetails;
