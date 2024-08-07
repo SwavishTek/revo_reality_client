@@ -90,6 +90,7 @@ const LeaveDetails = () => {
           title={'EMPLOYEE  Information '}
         />
         <RowItem
+          containerStyle={{ alignItems: 'flex-start' }}
           title={"Employee Name"}
           value={`${data.name || ""} ${data.lastName || ""} sf sdfdfsdfds s fsdf  sdfsdfsdfdsf  s fsdfsdfsdfdsfdsf s f sdfsf sdfs sd fsdfsdfs sdfd sfsd sd fsdfsdfsdf sd fsdfdsf sd fsdfsdfsdf sdfdsfsdfds sdfdsfsdf`}
         />
