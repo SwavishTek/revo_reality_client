@@ -23,7 +23,7 @@ const TeamList = () => {
   const navToUpdateTeam = (data) => {
     navigate("/teams/add_team", { state: data });
   };
-
+  console.log('allTeams', allTeams)
   return (
     <VStack spacing={4} align="stretch" height="100%" width={"100%"} p={4}>
       <Box>
@@ -35,7 +35,7 @@ const TeamList = () => {
         <Filters onSearchChange={setSearch} />
         <Box maxHeight={"100%"} overflowY="auto" marginEnd={10}>
           <InfiniteScrollList
-            data={allTeams}
+            data={allTeams || []}
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}

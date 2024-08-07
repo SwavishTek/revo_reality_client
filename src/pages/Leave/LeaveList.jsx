@@ -4,40 +4,27 @@ import { useInView } from "react-intersection-observer";
 import { useLeaveQuery } from "../../Queries/leave/useLeaveQuery";
 import LeaveCard from "../../components/Leave/LeaveCard";
 import { CustomBtn } from "../../myComponent/CustomBtn";
-import { MyContainer } from "../../myComponent/MyContainer";
 import { BoarderBox } from "../../myComponent/BoarderBox";
 import { CustomText } from "../../myComponent/CustomText";
+import MyContainer from "../../myComponent/MyContainer";
+import LeaveListItem from "./component/LeaveListItem";
+import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
+import { useNavigate } from "react-router-dom";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
+  const navigate = useNavigate();
   const [leaveStatus, setLeaveStatus] = useState("new");
   const [search, setSearch] = useState("");
   const {
-    data,
+    data: allLeaves,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-    refetch,
+    isLoading,
+    isFetching,
   } = useLeaveQuery({ status: leaveStatus, search });
-  const { ref, inView } = useInView();
-  console.log(data);
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage]);
-
-  if (status === "loading") {
-    return <Text>Loading...</Text>;
-  }
-
-  if (status === "error") {
-    return <Text>Error fetching data</Text>;
-  }
-
-  const allLeaves = data?.pages?.flatMap((page) => page?.data || []) || [];
   return (
 
     <MyContainer
@@ -48,29 +35,33 @@ const LeaveList = () => {
         />
       </>}
     >
-
-      <Box paddingBottom={10}>
-        {allLeaves.length > 0 ? (
-          <VStack spacing={4} align="stretch">
-            {allLeaves.map((item) => (
-              <LeaveCard item={item} key={item._id} refetch={refetch} />
-            ))}
-          </VStack>
-        ) : status === "pending" ? (
-          <Text>Loading...</Text>
-        ) : (
-          <Text>No Leaves found</Text>
+      <InfiniteScrollList
+        data={allLeaves || []}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        renderItem={(item) => (
+          // <TeamCard
+          //   item={item}
+          //   key={item?._id}
+          //   onClickUpdate={() => navToUpdateTeam(item)}
+          // />
+          <LeaveListItem
+            item={item}
+            onClickBox={() => navigate(`/leaves/${item?._id}`, { state: item })}
+            onClickCheckbox={(v) => console.log('firscheckBox', v)}
+          />
         )}
-        <Box ref={ref}>
-          {isFetchingNextPage ? (
-            <Text>Loading more...</Text>
-          ) : (
-            hasNextPage && (
-              <Button onClick={() => fetchNextPage()}>Load More</Button>
-            )
-          )}
-        </Box>
-      </Box>
+        loadingMessage="Loading teams..."
+        errorMessage="Error fetching teams"
+        noDataMessage="No Teams In The System"
+      />
+      {/* {[...new Array(20)].map((el) => {
+        return <LeaveListItem />
+      })} */}
+
 
     </MyContainer>
   );
