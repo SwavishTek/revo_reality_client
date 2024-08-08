@@ -1,7 +1,7 @@
 import { Box, Checkbox, Image } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { CustomText } from './CustomText';
-import checkIcon from '../assets/checkIcon.svg'
+import { svg } from '../assets/svg.js'
 
 export const CustomCheckBox = ({
     isCheck,
@@ -37,7 +37,7 @@ export const CustomCheckBox = ({
         >
             {
                 check ? <Image
-                    src={checkIcon}
+                    src={svg.checkIcon}
                     alt={'checkIcon'}
                     objectFit={'contain'}
                 /> : null

@@ -12,12 +12,7 @@ import { MdCancel } from "react-icons/md";
 import { WarningIcon } from "@chakra-ui/icons";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
-import DeleteUserIcon from "../../assets/deleteIcon.svg";
-import Edit from "../../assets/Edit.svg";
-import Check from "../../assets/Check_Mark.svg";
-import Reject from "../../assets/Reject.svg";
-import Deactive from "../../assets/Deactive.svg";
-import Warning from "../../assets/Warning.svg";
+import { svg } from "../../assets/svg.js"
 
 const UserActions = ({ status = "draft", userId = "", refetch }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,17 +48,17 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Pending"
             onClick={() => handleStatusChange(userStatusObj.pending)}
-            icon={<Image src={Warning} />}
+            icon={<Image src={svg.Warning} />}
           />
           <CardActionButton
             title="Approve"
             onClick={() => handleStatusChange(userStatusObj.approve)}
-            icon={<Image src={Check} />}
+            icon={<Image src={svg.Check} />}
           />
           <CardActionButton
             title="Reject"
             onClick={() => handleStatusChange(userStatusObj.reject)}
-            icon={<Image src={Reject} />}
+            icon={<Image src={svg.Reject} />}
           />
         </>
       );
@@ -74,12 +69,12 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Edit"
             onClick={navigateEdit}
-            icon={<Image src={Edit} />}
+            icon={<Image src={svg.Edit} />}
           />
           <CardActionButton
             title="Delete"
             onClick={onOpen}
-            icon={<Image src={DeleteUserIcon} />}
+            icon={<Image src={svg.DeleteUsersIcon} />}
           />
           <Confirmation
             line1="Are you sure you want to delete"
@@ -96,12 +91,12 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Approve"
             onClick={() => handleStatusChange(userStatusObj.approve)}
-            icon={<Image src={Check} />}
+            icon={<Image src={svg.Check} />}
           />
           <CardActionButton
             title="Reject"
             onClick={() => handleStatusChange(userStatusObj.reject)}
-            icon={<Image src={Reject} />}
+            icon={<Image src={svg.Reject} />}
           />
         </>
       );
@@ -111,17 +106,17 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Edit"
             onClick={navigateEdit}
-            icon={<Image src={Edit} />}
+            icon={<Image src={svg.Edit} />}
           />
           <CardActionButton
             title="Deactivate"
             onClick={() => handleStatusChange(userStatusObj.deactive)}
-            icon={<Image src={Deactive} />}
+            icon={<Image src={svg.Deactive} />}
           />
           <CardActionButton
             title="Delete"
             onClick={onOpen}
-            icon={<Image src={DeleteUserIcon} />}
+            icon={<Image src={svg.DeleteUsersIcon} />}
           />
           <Confirmation
             line1="Are you sure you want to delete"
@@ -138,12 +133,12 @@ const UserActions = ({ status = "draft", userId = "", refetch }) => {
           <CardActionButton
             title="Active"
             onClick={() => handleStatusChange(userStatusObj.approve)}
-            icon={<Image src={Check} />}
+            icon={<Image src={svg.Check} />}
           />
           <CardActionButton
             title="Delete"
             onClick={onOpen}
-            icon={<Image src={DeleteUserIcon} />}
+            icon={<Image src={svg.DeleteUsersIcon} />}
           />
           <Confirmation
             line1="Are you sure you want to delete"

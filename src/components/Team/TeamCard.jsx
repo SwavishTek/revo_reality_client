@@ -2,8 +2,7 @@ import { Box, Button, Grid, GridItem, Stack, Text, Checkbox } from "@chakra-ui/r
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import CardItem from "../CardItem";
-import { ReactComponent as TeamUpdateIcons } from "../../assets/teamUpdateIcons.svg";
-import { ReactComponent as DeleteIcons } from "../../assets/deleteIcons.svg";
+import { svg } from "../../assets/svg.js";
 import { formatDate } from "../../useFunctions/commonFunctions";
 
 const TeamCard = ({ item, onClickUpdate, onClickDelete }) => {
@@ -69,7 +68,7 @@ const TeamCard = ({ item, onClickUpdate, onClickDelete }) => {
       </Grid>
       <Stack direction="row" spacing={0} background="#fff">
         <Button
-          leftIcon={<TeamUpdateIcons />}
+          leftIcon={<img src={svg.TeamUpdateIcons} />}
           size="md"
           height="40px"
           width="200px"
@@ -86,7 +85,7 @@ const TeamCard = ({ item, onClickUpdate, onClickDelete }) => {
           Update
         </Button>
         <Button
-          leftIcon={<DeleteIcons />}
+          leftIcon={<img src={svg.DeleteIcons} />}
           size="md"
           height="40px"
           width="200px"

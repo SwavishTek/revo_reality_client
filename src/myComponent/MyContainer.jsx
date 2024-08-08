@@ -6,7 +6,7 @@ import { CustomBtn } from './CustomBtn'
 import { color } from '../consts/color'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
-import backIcon from '../assets/backIcon.svg'
+import { svg } from '../assets/svg.js'
 
 const MyContainer = ({
     children,
@@ -40,7 +40,7 @@ const MyContainer = ({
                     gap={'20px'}
                 >
                     {isBack && <Image
-                        src={backIcon}
+                        src={svg.backIcon}
                         alt="No Data"
                         objectFit="contain"
                         onClick={() => navigate(-1)}

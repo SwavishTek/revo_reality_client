@@ -1,6 +1,6 @@
 import { Box, Image, Text, Tooltip } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import CopyUser from '../assets/Group (1).svg'
+import { svg } from '../assets/svg.js'
 
 const CopyLink = ({link}) => {
     const [copied, setCopied] = useState(false);
@@ -15,7 +15,7 @@ const CopyLink = ({link}) => {
         <Text>{link}</Text>
         <Tooltip label={copied ? 'Copied!' : 'Copy link'}>
 
-        <Image alt='' src={CopyUser} cursor={"pointer"} onClick={copyToClipboard} ml={2}/>
+        <Image alt='' src={svg.CopyUser} cursor={"pointer"} onClick={copyToClipboard} ml={2}/>
         </Tooltip> 
         </Box>
     )

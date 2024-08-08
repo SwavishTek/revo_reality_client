@@ -3,9 +3,9 @@ import CustomGridItem from "../../components/CustomGridItem";
 import { Box, Button, Card, Grid, GridItem } from "@chakra-ui/react";
 import Title from "../../components/Title";
 import BackButton from "../../components/BackButton";
-import { ReactComponent as TeamUpdateIcons } from "../../assets/teamUpdateIcons.svg";
 import { useLocation, useParams } from "react-router-dom";
 import { MainTitle } from "../../myComponent/MainTitle";
+import { svg } from "../../assets/svg.js"
 
 const TeamDetails = () => {
   const { id } = useParams();
@@ -14,7 +14,7 @@ const TeamDetails = () => {
   return (
     <Box>
       <BackButton title={"Team Detail"}>
-        <Button leftIcon={<TeamUpdateIcons />} variant="solid" bg={"#fff"} color={"#898989"} _hover={"#898989"}>
+        <Button leftIcon={<><img src={svg.TeamUpdateIcons} /></>} variant="solid" bg={"#fff"} color={"#898989"} _hover={"#898989"}>
           Update Team
         </Button>
       </BackButton>

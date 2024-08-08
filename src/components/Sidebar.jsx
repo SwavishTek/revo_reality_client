@@ -13,7 +13,7 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import { svg } from "../assets/svg.js";
 import { CiSettings, CiBellOn } from "react-icons/ci";
 import { useProfileQuery } from "../Queries/auth/useProfileQuery";
 import { PiPowerFill } from "react-icons/pi";
@@ -57,7 +57,7 @@ const Sidebar = ({ items = [] }) => {
     >
       <Box mb={6}>
         {/* Replace with your logo */}
-        <Image src={logo} alt="Revo Reality" />
+        <Image src={svg.logos} alt="Revo Reality" />
       </Box>
 
       {/* //user personal section */}

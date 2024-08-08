@@ -1,7 +1,7 @@
 import React from "react";
 import "../../style/AuthBackground.css"; // Import the CSS file
 import imageUrl from "../../assets/AuthBack.png";
-import logo from "../../assets/logowhite.svg";
+import { svg } from "../../assets/svg.js";
 import { Box } from "@chakra-ui/react";
 
 const AuthBack = ({ children }) => {
@@ -14,7 +14,7 @@ const AuthBack = ({ children }) => {
       </div> */}
       <Box display={"flex"} flexDirection={"column"} gap={6}>
         <Box width={"220px"} alignSelf={"center"}>
-          <img src={logo} alt="Logo" />
+          <img src={svg.logo} alt="Logo" />
         </Box>
         <div className="auth-content">{children}</div>
       </Box>

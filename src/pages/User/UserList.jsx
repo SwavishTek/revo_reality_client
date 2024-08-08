@@ -56,8 +56,10 @@ const UserList = () => {
         <CustomBtn
           title={'Offer Letters'}
           onClick={() => navigate('/users/offerletter')}
+
         />
         <CustomBtn
+          bgColor={color.secondaryBtn}
           title={'Add Employee'}
           onClick={() => navigate('/users/addEmployee')} />
       </>}>
