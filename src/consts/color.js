@@ -7,5 +7,8 @@ export const color = {
     info: '#0095FF',
     bg: '#F9F9F9',
     white: '#FFFFFF',
-    spanishGrey: '#979797'
+    spanishGrey: '#979797',
+    blockbtn: '#740707',
+    deletebtn: '#BC1C1C',
+    copybtn: '#818181'
 }

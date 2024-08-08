@@ -8,10 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import BackButton from "../../components/BackButton";
-import CopyedUserIcon from "../../assets/Component 2.svg";
-import EditUserIcon from "../../assets/Component 2 (1).svg";
-import BlockUserIcon from "../../assets/Vector.svg";
-import DeleteUserIcon from "../../assets/Component 2 (2).svg";
+import { svg } from "../../assets/svg.js";
 import Title from "../../components/Title";
 import CustomGridItem from "../../components/CustomGridItem";
 import CopyLink from "../../components/CopyLink";
@@ -26,6 +23,10 @@ import Confirmation from "../../components/Confirmation";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import MyContainer from "../../myComponent/MyContainer";
 import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
+import { ShadowBox } from "../../myComponent/ShadowBox";
+import { MainTitle } from "../../myComponent/MainTitle";
+import RowItem from "../../myComponent/RowItem";
 
 const EmployeeDetails = () => {
   const navigate = useNavigate();
@@ -65,29 +66,182 @@ const EmployeeDetails = () => {
 
   return (
     <MyContainer
-   header={'Employee Detail'}
+   header={user?._id === auth?._id ? "Profile" : "Employee Detail"}
    isBack
    btnComponent={
         <>
+         {adminArr.includes(auth?.role) && user?._id !== auth?._id && (
+          <>
           <CustomBtn
-            title={<><img src={CopyedUserIcon} alt="Copy" /></>}
+            title={<><img src={svg.CopyedUserIcon} alt="Copy" /></>}
+            borderRadius={'50%'}
+            padding={'10px'}
+            bgColor={color.copybtn}
+          />
+          <CustomBtn
+            title={<><img src={svg.EditUserIcon} alt="Edit" /></>}
             borderRadius={'50px'}
+            padding={'10px'}
+            bgColor={color.success}
           />
+          {user?.status === "approved" && (
           <CustomBtn
-            title={<><img src={EditUserIcon} alt="Edit" /></>}
-           
+            title={<><img src={svg.BlockUserIcon} alt="Block" /></>}
+            borderRadius={'50px'}
+            padding={'10px'}
+            bgColor={color.blockbtn}
+            onClick={() => handleStatusChange(userStatusObj.deactive)}
           />
+          )}
           <CustomBtn
-            title={<><img src={BlockUserIcon} alt="Block" /></>}
-            
+            title={<><img src={svg.DeleteUserIcon} alt="Delete" /></>}
+            borderRadius={'50px'}
+            padding={'10px'}
+            bgColor={color.deletebtn}
+            onClick={onOpen}
           />
-          <CustomBtn
-            title={<><img src={DeleteUserIcon} alt="Delete" /></>}
-            
-          />
+          </>
+           )}
         </>
       }
-      >nc n</MyContainer>
+      >
+        <ShadowBox
+        containerStyle={{ width: '96%', padding: '50px 50px', marginBottom: '50px' }}
+      >
+        <MainTitle
+          title={'EMPLOYEE  INFORMATION '}
+        />
+        <RowItem
+          containerStyle={{ alignItems: 'flex-start' }}
+          title={"Employee Name"}
+          value={`${user?.name || ""} ${user?.lastName || ""}`}
+        />
+        <RowItem
+        containerStyle={{ alignItems: 'flex-start'}}
+        title={"Email Address"}
+        value={`${user?.email || ""}`}
+        />
+        <RowItem
+        containerStyle={{alignItems: 'flex-start'}}
+        title={"Mobile Number"}
+        value={`${user?.mobile || ""}`}
+        />
+        <RowItem
+        containerStyle={{alignItems: 'flex-start'}}
+        title={"Role"}
+        value={userRolesObj[user?.role]}
+        />
+        <RowItem
+        containerStyle={{alignItems: 'flex-start'}}
+        title={"Department"}
+        value={`${user?.department || ""}`}  mb={10}
+        />
+
+       <MainTitle
+          title={'ADDRESS  INFORMATION '}
+        />
+        <RowItem
+        containerStyle={{alignItems: 'flex-start'}}
+        title={"House/Flat Address"}
+        value={user?.currentAddress?.currentAdd}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Address line 2"}
+        value={user?.currentAddress?.currentAdd2}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"City"}
+        value={user?.currentAddress?.currentCity || "NA"}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"State"}
+        value={user?.currentAddress?.currentState || "NA"}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Country"}
+        value={user?.currentAddress?.currentCountry || "NA"}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Post Code"}
+        value={user?.currentAddress?.currentPostCode || "NA"}
+        mb={10}
+        />
+        <MainTitle
+          title={'BANK  INFORMATION '}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Name of Bank"}
+        value={user?.bankDetails?.nameOnBank || "NA"}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Name on Bank Ac."}
+        value={user?.bankDetails?.nameOnBank || "NA"}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Account No."}
+        value={user?.bankDetails?.accountNumber}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Sort Code"}
+        value={user?.bankDetails?.sortCode}
+        mb={10}
+        />
+        
+        <MainTitle
+          title={'SOCIAL MEDIA LINKS '}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Facebook"}
+        value={<CopyLink link="https://www.facebook.com/sharer/sharer.php?u=REVO%20Reality" />}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Instagram"}
+        value={<CopyLink link="https://www.instagram.com/sharer/sharer.php?u=REVO%20Reality" />}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"YouTube"}
+        value={<CopyLink link="https://www.youtube.com/sharer/sharer.php?u=REVO%20Reality" />}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"TikTok"}
+        value={<CopyLink link="https://www.tiktok.com/sharer/sharer.php?u=REVO%20Reality" />}
+        mb={10}
+        />
+
+       <MainTitle
+          title={'ATTACHMENTS '}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Offer Letter"}
+        img={user?.offerLetter || []}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Address Proof"}
+        img={user?.addressProof || []}
+        />
+        <RowItem
+        containerStyle={{alignItem: 'flex-start'}}
+        title={"Bank Statements"}
+        img={user?.bankStatement || []}
+        />
+      </ShadowBox>
+      <Confirmation onClose={onClose} isOpen={isOpen} onSubmit={deleteUser} />
+      </MyContainer>
    /* <Box >
       <BackButton title={user?._id === auth?._id ? "Profile" : "Employee Detail"}>
         {adminArr.includes(auth?.role) && user?._id !== auth?._id && (

@@ -83,6 +83,7 @@ const LeaveDetails = () => {
         </>
       }
     >
+    
       <ShadowBox
         containerStyle={{ width: '96%', padding: '50px 50px', marginBottom: '50px' }}
       >
