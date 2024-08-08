@@ -50,7 +50,7 @@ const Calender = ({ date, color, isTop, isBottom, isFirst, isLast, day }) => {
         </Text>
         {day !== "Sunday" && (
           <Text
-            height={"1rem"}
+            height={"7px"}
             width={"60%"}
             background={color}
             marginTop={3}

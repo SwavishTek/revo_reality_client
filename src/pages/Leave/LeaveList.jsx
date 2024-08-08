@@ -43,11 +43,6 @@ const LeaveList = () => {
         isLoading={isLoading}
         isFetching={isFetching}
         renderItem={(item) => (
-          // <TeamCard
-          //   item={item}
-          //   key={item?._id}
-          //   onClickUpdate={() => navToUpdateTeam(item)}
-          // />
           <LeaveListItem
             item={item}
             onClickBox={() => navigate(`/leaves/${item?._id}`, { state: item })}
