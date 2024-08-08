@@ -19,7 +19,7 @@ const AttendanceCard = ({ item, color }) => {
     // avatarName={item?.teamName || ""}
     //   avatarSrc={"img"}
     >
-      <Link to={`/attendance/${item._id}`}>
+      <Link to={`/attendance/${item?._id}`}>
         <Grid templateColumns="repeat(6, 1fr)" gap={10} py={4} px={4}>
           <GridItem>
             <Stack direction={"row"} spacing={6}>
