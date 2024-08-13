@@ -24,6 +24,9 @@ import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import { useQueryClient } from "@tanstack/react-query";
 import LoadButton from "../../components/LoadButton";
 import useCustomToast from "../../hooks/useCustomToast";
+import MyContainer from "../../myComponent/MyContainer";
+import { ShadowBox } from "../../myComponent/ShadowBox";
+import { MainTitle } from "../../myComponent/MainTitle";
 
 const LeaveForm = () => {
   const { data: auth } = useProfileQuery();
@@ -82,7 +85,18 @@ const LeaveForm = () => {
   };
 
   return (
-    <div>
+   <MyContainer
+    isBack
+    header={'Apply For Leave'}>
+   <ShadowBox>
+   <MainTitle 
+    title={'PERSONAL INFORMATION'}
+   />
+
+   </ShadowBox>
+
+    </MyContainer>
+   /* <div>
       <BackButton title="Apply For Leave" />
       <Card my={"2rem"} p={6}>
         <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
@@ -143,7 +157,6 @@ const LeaveForm = () => {
             />
           </GridItem>
 
-          {/* /st */}
           <GridItem colSpan={1}>
             <Text fontWeight={"semibold"} mb={1}>
               Start Date
@@ -182,20 +195,20 @@ const LeaveForm = () => {
               onChange={handleChange}
               value={values.payType}
             />
-            {/* <InputField
+           ///  <InputField
               id="payType"
               label="Type"
               placeholder="Type"
               value={values.reason}
               onChange={handleChange}
-            /> */}
+            /> 
           </GridItem>
           <GridItem colSpan={2}>
-            {/* <InputField
+           // <InputField
               id="last-name"
               label="Last Name"
               placeholder="Last Name"
-            /> */}
+            /> //
             <UploadInput
               onChange={(files) => {
                 setFieldValue("doc", files);
@@ -214,7 +227,7 @@ const LeaveForm = () => {
           Apply
         </LoadButton>
       </Card>
-    </div>
+    </div>*/
   );
 };
 

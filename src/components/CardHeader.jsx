@@ -1,14 +1,14 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { CustomText } from "../myComponent/CustomText";
 
 const CardHeader = ({ items = [], onChange, value }) => {
   const [active, setActive] = useState(value ?? "");
 
-  const handleClick = (value) => {
-    setActive(value);
+  const handleClick = (newValue) => {
+    setActive(newValue);
     if (onChange) {
-      onChange(value);
+      onChange(newValue);
     }
   };
 
@@ -25,23 +25,19 @@ const CardHeader = ({ items = [], onChange, value }) => {
       alignItems={"center"}
       justifyContent={"space-between"}
     >
-      {
-        items.map((item) => (
-          <CustomText
-            key={item.label}
-            onClick={() => handleClick(item.value)}
-            textDecoration={item.value === active ? "underline" : "none"}
-            color={item.value === active ? item.color : "gray"}
-            cursor={"pointer"}
-            fontSize="16px"
-            fontWeight="400"
-          >
-            {item.label}
-          </CustomText>
-        ))
-
-        // Add more items as needed
-      }
+      {items.map((item) => (
+        <CustomText
+          key={item.value} // Use item.value for uniqueness
+          onClick={() => handleClick(item.value)}
+          textDecoration={item.value === active ? "underline" : "none"}
+          color={item.value === active ? item.color : "gray"}
+          cursor={"pointer"}
+          fontSize="16px"
+          fontWeight="400"
+        >
+          {item.label}
+        </CustomText>
+      ))}
     </Box>
   );
 };

@@ -68,6 +68,21 @@ export const userHeaderItems = [
     color: "#740707",
   },
 ];
+
+export const userNotificationItems = [
+  {
+    label: "New",
+    value: "new",
+    color: "#E9A80A",
+  },
+  {
+    label: "Read",
+    value: "read",
+    color: "#FF8A00",
+  },
+  
+];
+
 export const leaveHeaderItems = [
   {
     label: "New",

@@ -41,6 +41,10 @@ const Sidebar = ({ items = [] }) => {
   const handleItemClick = (item) => {
     setActiveItem(item);
   };
+  const handleNotificationClick = () => {
+    navigate('/users/notification');
+  };
+
 
   return (
     <Flex
@@ -71,7 +75,10 @@ const Sidebar = ({ items = [] }) => {
           <Link to={`/users/profilesettings`}>
             <CiSettings size={"1.6rem"} />
           </Link>
-          <CiBellOn size={"1.6rem"} />
+          <CiBellOn size={"1.6rem"} 
+             onClick={handleNotificationClick} 
+             style={{ cursor: 'pointer' }}
+          />
         </Box>
         <Text my={2}>{`${auth?.name || ""} ${auth?.lastName || ""}`}</Text>
         <Box></Box>

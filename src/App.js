@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loadable from "./components/Loadable";
 import { lazy } from "react";
 
+
 const Login = Loadable(lazy(() => import("./pages/Auth/Login")));
 const VerifyOTP = Loadable(lazy(() => import("./pages/Auth/VerifyOTP.jsx")));
 const ResetPassword = Loadable(
@@ -13,6 +14,7 @@ const MainLayout = Loadable(
   lazy(() => import("./components/layout/MainLayout.jsx"))
 );
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
+const Notification = Loadable(lazy(() => import("./pages/User/Notification.jsx")));
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
 // const TeamList = Loadable(lazy(() => import("./pages/Team/TeamListing.jsx")));
 
@@ -107,7 +109,10 @@ function App() {
           path: "users/:id",
           element: <EmployeeDetails />,
         },
-
+        {
+          path: "users/notification",
+          element: <Notification />,
+        },
         /* start Team */
         {
           path: "teams",
