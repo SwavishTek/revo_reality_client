@@ -1,5 +1,6 @@
 import { Box, Input, Text } from '@chakra-ui/react'
 import React from 'react'
+import { CustomText } from './CustomText'
 
 export const CustomInput = ({
     style,
@@ -11,11 +12,15 @@ export const CustomInput = ({
     placeholder,
     disabled = false,
     width,
-    label
+    label,
+    containerStyle,
+    touched,
+    errors,
 }) => {
     return (
         <Box
             width={width}
+            style={{ ...containerStyle }}
         >
             {label &&
                 <Text
@@ -26,7 +31,7 @@ export const CustomInput = ({
             }
             <Input
                 name={name}
-                placeholder={placeholder || label || "Search and select..."}
+                placeholder={placeholder || label || "Type..."}
                 type={type}
                 value={value}
                 onChange={onChange}
@@ -44,6 +49,10 @@ export const CustomInput = ({
                 style={style}
                 {...props}
             />
+            {touched?.[name] && errors?.[name] ? (
+                <CustomText color='red' fontSize={12}>{errors[name]}</CustomText>
+            ) : null}
+
         </Box>
     )
 }
