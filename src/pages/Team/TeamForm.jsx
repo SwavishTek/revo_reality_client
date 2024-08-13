@@ -1,28 +1,19 @@
-import React, { useMemo, useState } from "react";
-import BackButton from "../../components/BackButton";
 import {
-  background,
-  Box,
-  Button,
   Card,
-  Grid,
-  GridItem,
-  HStack,
-  Text,
+  HStack
 } from "@chakra-ui/react";
-import InputField from "../../components/InputField";
-import Title from "../../components/Title";
 import { useFormik } from "formik";
-import CustomSelect from "../../components/BasicSelect";
-import LoadButton from "../../components/LoadButton";
-import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
 import { debounce } from "lodash";
-import { Select } from 'chakra-react-select';
-import DropDown from "../../components/DropDown/DropDown";
-import { CustomInput } from "../../components/CustomInput";
-import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
+import React, { useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import BackButton from "../../components/BackButton";
+import { CustomInput } from "../../myComponent/CustomInput";
+import DropDown from "../../components/DropDown/DropDown";
+import LoadButton from "../../components/LoadButton";
+import Title from "../../components/Title";
+import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
 import { showSuccess } from "../../utils/toastHelpers";
+import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
 
 const TeamForm = () => {
   const { state: prams } = useLocation();
