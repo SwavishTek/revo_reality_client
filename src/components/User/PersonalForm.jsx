@@ -112,6 +112,7 @@ const PersonalForm = ({ setCurrentStep }) => {
     <>
       <Box
         bg={"white"}
+        marginBottom={'2rem'}
         p={"2.5rem"}
         border={"1px solid #DCDCDC"}
         borderRadius={"6px"}
@@ -292,7 +293,7 @@ const PersonalForm = ({ setCurrentStep }) => {
           </GridItem>
         </Grid>
 
-        <Stack mt={4} spacing={6} direction="row" align="center">
+        <Stack mt={5} spacing={6} direction="row" align="center">
           <LoadButton
             onClick={handleSubmit}
             size="md"

@@ -6,8 +6,13 @@ import InputField from '../../components/InputField';
 import DatePicker from 'react-datepicker';
 import CustomSelect from '../../components/BasicSelect';
 import { useFormik } from 'formik';
+import MyContainer from '../../myComponent/MyContainer';
+import { color } from '../../consts/color';
+import { CustomBtn } from '../../myComponent/CustomBtn';
+import { useNavigate } from "react-router-dom"; 
 
 const OfferLetter = () => {
+  const navigate = useNavigate();
   // Initialize Formik
   const formik = useFormik({
     initialValues: {
@@ -25,24 +30,25 @@ const OfferLetter = () => {
   });
 
   return (
-    <Box>
-      <Header title="Offer Letters">
-        <Box display={"flex"} alignItems={"center"} gap={2}>
-          <Link to={"/"}>
-            <Button colorScheme="brand">Employees</Button>
-          </Link>
-          <Link to={"/users/offerletterlist"}>
-            <Button colorScheme="brand">Create Offer Letter</Button>
-          </Link>
-        </Box>
-      </Header>
-      <Box
-        bg={"white"}
+    <MyContainer
+    header={'Offer Letter'}
+    btnComponent={<>
+      <CustomBtn title={'Employees'}
+      bgColor={color.primaryBtn} 
+      onClick={() => navigate('/users/offerletterlist')} />
+      <CustomBtn title={'Create Offer Letter'}
+      bgColor={color.secondaryBtn}  
+      onClick={() => navigate('/users/offerletterlist')}
+      />
+    </>}
+    >
+    <Box 
+     bg={"white"}
         m={"2rem 5rem"}
         p={"2.5rem"}
         border={"1px solid #DCDCDC"}
-        borderRadius={"6px"}
-      >
+        borderRadius={"6px"}>
+      
         <Text textAlign={'center'} fontWeight={'bold'} fontSize={'1.7rem'} marginBottom={'1rem'}>Offer Letter</Text>     
         <form onSubmit={formik.handleSubmit}>
           <Grid templateColumns="repeat(2, 1fr)" gap={6}>
@@ -122,7 +128,8 @@ const OfferLetter = () => {
           </Stack>
         </form>
       </Box>
-    </Box>
+    
+    </MyContainer>
   );
 };
 

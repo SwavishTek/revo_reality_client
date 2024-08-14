@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Input, InputGroup, InputRightElement, Icon, Text, Box } from '@chakra-ui/react';
 import { DownloadIcon } from '@chakra-ui/icons';
 
-const CustomFileInput = ({ onChange, ...props }) => {
-  const [fileName, setFileName] = useState('Upload Holiday List');
+const CustomFileInput = ({ onChange, containerStyle, ...props }) => {
+  const [fileName, setFileName] = useState('Upload document List');
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -13,12 +13,12 @@ const CustomFileInput = ({ onChange, ...props }) => {
         onChange(e);
       }
     } else {
-      setFileName('Upload Holiday List'); // Reset placeholder if no file
+      setFileName('Upload document List'); // Reset placeholder if no file
     }
   };
 
   return (
-    <InputGroup>
+    <InputGroup style={{ ...containerStyle }}>
       <Input
         type="file"
         display="none" // Hide the default file input

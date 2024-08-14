@@ -1,16 +1,21 @@
-import { Box, Button, Grid, GridItem, Stack, Text, Checkbox } from "@chakra-ui/react";
+import { Box, Button, Grid, GridItem, Stack, Text, Checkbox, HStack, Avatar } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import CardItem from "../CardItem";
 import { svg } from "../../assets/svg.js";
 import { formatDate } from "../../useFunctions/commonFunctions";
+import { BoarderBox } from "../../myComponent/BoarderBox.jsx";
+import ColumnItem from "../../myComponent/ColumnItem.jsx";
 
-const TeamCard = ({ item, onClickUpdate, onClickDelete }) => {
+const TeamCard = ({ item, onClickCheckbox,
+  onClickBox }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const arrData = (arr) => {
     return arr.length > 0 ? arr.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>;
   };
+
+
 
   const cardItems = [
     { title: "Creation Date:", value: formatDate(item?.createdAt) },
@@ -27,7 +32,73 @@ const TeamCard = ({ item, onClickUpdate, onClickDelete }) => {
   };
 
   return (
-    <Box
+
+    <BoarderBox
+     onClickCheckbox={onClickCheckbox}
+     onClickBox={onClickBox}
+     containerStyle={{ padding: '15px'}}>
+      <HStack
+      width={'100%'}
+                alignItems={'flex-start'}
+                marginStart={'15px'}>
+                <Avatar
+                size='sm'
+                    name={item?.teamName || null}
+                    color={'white'}
+                    fontWeight={'900'}
+                    marginTop={'5px'}
+                />
+                <Box 
+                width={'100%'}
+                marginStart={'5px'}>
+                <HStack
+                        width={'100%'}
+                        alignItems={'flex-start'}
+                    >
+                      <ColumnItem 
+                         title={'Team Name :'}
+                            value={item?.teamName || 'N/A'}
+                            width={'20%'}
+                      />
+                      <ColumnItem 
+                         title={'Creation Date :'}
+                            value={formatDate(item?.createdAt) || 'N/A'}
+                            width={'20%'}
+                      />
+                      <ColumnItem
+                      title={'Last Update :'}
+                      value={formatDate(item?.updatedAt) || 'N/A'}
+                      width={'20%'}
+                      />
+                      <ColumnItem
+                      title={'Manager Name :'}
+                      value={arrData(item?.manager) || 'N/A'}
+                      width={'20%'}
+                      />
+                      <ColumnItem
+                      title={'Team Lead Name :'}
+                      value={arrData(item?.teamLead) || 'N/A'}
+                      width={'20%'}
+                      />
+                      <ColumnItem
+                      title={'Team Member :'}
+                      value={arrData(item?.agent) || 'N/A'}
+                      width={'20%'}
+                      />
+                      <ColumnItem
+                      title={'Total Members :'}
+                      value={item?.teamMembers?.length || 0 || 'N/A'}
+                      width={'20%'}
+                      />
+                    </HStack>
+
+                </Box>
+
+      </HStack>
+    </BoarderBox>
+   
+
+   /* <Box
       borderColor="#ADADAD"
       borderWidth="1px"
       borderRadius="md"
@@ -102,7 +173,7 @@ const TeamCard = ({ item, onClickUpdate, onClickDelete }) => {
           Delete
         </Button>
       </Stack>
-    </Box>
+    </Box>*/
   );
 };
 

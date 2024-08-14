@@ -21,10 +21,7 @@ const TeamList = () => {
     isLoading,
     isFetching,
   } = useTeamQuery({ search });
-
-  const navToUpdateTeam = (data) => {
-    navigate("/teams/add_team", { state: data });
-  };
+  
   console.log('allTeams', allTeams)
   return (
     <MyContainer
@@ -33,6 +30,7 @@ const TeamList = () => {
         <CustomBtn title={'Add Team'} onClick={() => navigate('/teams/add_team')} />
       </>}
     >
+    <Filters onSearchChange={setSearch} />
       <InfiniteScrollList
         data={allTeams || []}
         fetchNextPage={fetchNextPage}
@@ -43,8 +41,8 @@ const TeamList = () => {
         renderItem={(item) => (
           <TeamCard
             item={item}
-            key={item?._id}
-            onClickUpdate={() => navToUpdateTeam(item)}
+            onClickBox={() => navigate(`/teams/${item?._id}`, { state: item })}
+            onClickCheckbox={(v) => console.log('firscheckBox', v)}
           />
         )}
         loadingMessage="Loading teams..."

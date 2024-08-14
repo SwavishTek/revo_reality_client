@@ -10,9 +10,15 @@ import {
 } from '@chakra-ui/react'
 import LetterHeader from './components/LetterHeader'
 import LetterRow from './components/LetterRow'
+import MyContainer from '../../myComponent/MyContainer'
+import { CustomBtn } from '../../myComponent/CustomBtn'
+import { color } from '../../consts/color'
+import { useNavigate } from "react-router-dom"; 
+import { ShadowBox } from '../../myComponent/ShadowBox'
 
 const OfferLetterList = () => {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   const columns = [
     'ID',
     'Employee Name',
@@ -50,25 +56,22 @@ const OfferLetterList = () => {
   ];
 
   return (
-    <VStack spacing={4} align="stretch" height="100%" width={"100%"} p={4}>
-      <Box>
-        <Header title="Offer Letters">
-          <Box display={"flex"} alignItems={"center"} gap={2}>
-            <Link to={"/"}>
-              <Button colorScheme="brand">Employees</Button>
-            </Link>
-            <Link to={"/users/offerletter"}>
-              <Button colorScheme="brand">Create Offer Letter</Button>
-            </Link>
-          </Box>
-        </Header>
-        <Filters onSearchChange={setSearch} />
-        <Box
-          bg={"white"}
-          p={"2.5rem"}
-          border={"1px solid #DCDCDC"}
-          borderRadius={"6px"}
-        >
+    <MyContainer
+    header={'Offer Letters'}
+    btnComponent={<>
+      <CustomBtn title={'Employees'}
+      bgColor={color.primaryBtn} 
+      onClick={() => navigate('/users/offerletterlist')} />
+      <CustomBtn title={'Create Offer Letter'}
+      bgColor={color.secondaryBtn}  
+      onClick={() => navigate('/users/offerletterlist')}
+      />
+    </>}
+    >
+    <Filters onSearchChange={setSearch} />
+      <ShadowBox>
+
+      
           <Text fontWeight={'bold'} fontSize={'1.7rem'} marginBottom={'1rem'}>OFFER LETTERS</Text>
           <Divider w={'20%'} borderColor={'#9A4D49'} borderWidth={'1px'} />
           <TableContainer mt={'2rem'}>
@@ -81,9 +84,9 @@ const OfferLetterList = () => {
               </Tbody>
             </Table>
           </TableContainer>
-        </Box>
-      </Box>
-    </VStack>
+          </ShadowBox>
+   
+    </MyContainer>
   )
 }
 
