@@ -49,7 +49,7 @@ const LeaveList = () => {
             onClickCheckbox={(v) => console.log('firscheckBox', v)}
           />
         )}
-        loadingMessage="Loading teams..."
+        loadingMessage="Loading Leave List..."
         errorMessage="Error fetching teams"
         noDataMessage="No Teams In The System"
       />
