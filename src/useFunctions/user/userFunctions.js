@@ -7,10 +7,11 @@ export const getUsers = async ({
   limit = 10,
   status = "new",
   search,
+  role
 }) => {
   try {
     const { data } = await API_AXIOS.get(`${Apis.user}`, {
-      params: { page: pageParam, status, limit, search },
+      params: { page: pageParam, status, limit, search, role },
     });
     return data || {};
   } catch (error) {

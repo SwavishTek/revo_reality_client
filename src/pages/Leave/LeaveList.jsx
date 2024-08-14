@@ -1,85 +1,64 @@
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import Filters from "../../components/Filters";
-import CardHeader from "../../components/CardHeader";
-import { leaveHeaderItems } from "../../utils/menuItems";
-import { useUserQuery } from "../../Queries/user/userUserQuery";
 import { useInView } from "react-intersection-observer";
-import LeaveCard from "../../components/Leave/LeaveCard";
-import BackButton from "../../components/BackButton";
-import { Link } from "react-router-dom";
 import { useLeaveQuery } from "../../Queries/leave/useLeaveQuery";
+import LeaveCard from "../../components/Leave/LeaveCard";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { BoarderBox } from "../../myComponent/BoarderBox";
+import { CustomText } from "../../myComponent/CustomText";
+import MyContainer from "../../myComponent/MyContainer";
+import LeaveListItem from "./component/LeaveListItem";
+import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
+import { useNavigate } from "react-router-dom";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
+  const navigate = useNavigate();
   const [leaveStatus, setLeaveStatus] = useState("new");
   const [search, setSearch] = useState("");
   const {
-    data,
+    data: allLeaves,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-    refetch,
+    isLoading,
+    isFetching,
   } = useLeaveQuery({ status: leaveStatus, search });
-  const { ref, inView } = useInView();
-  console.log(data);
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage]);
-
-  if (status === "loading") {
-    return <Text>Loading...</Text>;
-  }
-
-  if (status === "error") {
-    return <Text>Error fetching data</Text>;
-  }
-
-  const allLeaves = data?.pages?.flatMap((page) => page?.data || []) || [];
   return (
-    <VStack spacing={4} align="stretch" height="100vh" p={4}>
-      <Box>
-        <BackButton title={"My Leave List"}>
-          <Link to={"/leaves/apply_leave"}>
-            <Button colorScheme="brand">Apply For Leave</Button>
-          </Link>
-        </BackButton>
 
-        <Filters onSearchChange={setSearch} showDates />
-        <CardHeader
-          value={leaveStatus}
-          items={leaveHeaderItems}
-          onChange={setLeaveStatus}
+    <MyContainer
+      header={'All Leaves'}
+      btnComponent={<>
+        <CustomBtn
+          title={'My Leaves'}
         />
+      </>}
+    >
+      <InfiniteScrollList
+        data={allLeaves || []}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        renderItem={(item) => (
+          <LeaveListItem
+            item={item}
+            onClickBox={() => navigate(`/leaves/${item?._id}`, { state: item })}
+            onClickCheckbox={(v) => console.log('firscheckBox', v)}
+          />
+        )}
+        loadingMessage="Loading Leave List..."
+        errorMessage="Error fetching teams"
+        noDataMessage="No Teams In The System"
+      />
+      {/* {[...new Array(20)].map((el) => {
+        return <LeaveListItem />
+      })} */}
 
-        <Box maxHeight={"400px"} my={4} overflowY="auto">
-          {allLeaves.length > 0 ? (
-            <VStack spacing={4} align="stretch">
-              {allLeaves.map((item) => (
-                <LeaveCard item={item} key={item._id} refetch={refetch} />
-              ))}
-            </VStack>
-          ) : status === "pending" ? (
-            <Text>Loading...</Text>
-          ) : (
-            <Text>No Leaves found</Text>
-          )}
-          <Box ref={ref}>
-            {isFetchingNextPage ? (
-              <Text>Loading more...</Text>
-            ) : (
-              hasNextPage && (
-                <Button onClick={() => fetchNextPage()}>Load More</Button>
-              )
-            )}
-          </Box>
-        </Box>
-      </Box>
-    </VStack>
+
+    </MyContainer>
   );
 };
 

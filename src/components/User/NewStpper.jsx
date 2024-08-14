@@ -19,7 +19,7 @@ const steps = [
 
 function NewStepper({ activeStep, setActiveStep }) {
   return (
-    <Stepper index={activeStep} colorScheme="brand" my={8} mx={100}>
+    <Stepper index={activeStep} colorScheme="brand"  marginBottom={'2rem'} mx={100}>
       {steps.map((step, index) => (
         <Step key={index}>
           <StepIndicator>

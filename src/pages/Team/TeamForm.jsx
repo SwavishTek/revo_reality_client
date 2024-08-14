@@ -1,151 +1,220 @@
-import React from "react";
-import BackButton from "../../components/BackButton";
 import {
-  background,
-  Box,
-  Button,
   Card,
-  Grid,
-  GridItem,
+  HStack
 } from "@chakra-ui/react";
-import InputField from "../../components/InputField";
-import Title from "../../components/Title";
 import { useFormik } from "formik";
-import CustomSelect from "../../components/BasicSelect";
+import { debounce } from "lodash";
+import React, { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
+import BackButton from "../../components/BackButton";
+import { CustomInput } from "../../myComponent/CustomInput";
+import DropDown from "../../components/DropDown/DropDown";
 import LoadButton from "../../components/LoadButton";
+import Title from "../../components/Title";
+import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
+import { showSuccess } from "../../utils/toastHelpers";
+import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
 
 const TeamForm = () => {
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { state: prams } = useLocation();
+  const isUpdate = prams?._id;
+  const [inputValue, setInputValue] = useState('');
+  const [isLoadingBtn, setIsLoadingBtn] = useState(false)
+  const {
+    data: managerList,
+    fetchNextPage: fetchNextPageManger,
+    hasNextPage: hasNextPageManger,
+    isFetching: isFetchingManger,
+    isLoading: isLoadingManger
+  } = useGetManager({
+    search: inputValue
+  });
+
+  const {
+    data: agentList,
+    fetchNextPage: fetchNextPageAgent,
+    hasNextPage: hasNextPageAgent,
+    isFetching: isFetchingAgent,
+    isLoading: isLoadingAgent
+  } = useGetAgent({
+    search: inputValue
+  });
+
+  const {
+    data: TeamLeadList,
+    fetchNextPage: fetchNextPageTeamLead,
+    hasNextPage: hasNextPageTeamLead,
+    isFetching: isFetchingTeamLead,
+    isLoading: isLoadingTeamLead
+  } = useGetTeamLead({
+    search: inputValue
+  });
+
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+    handleSubmit
+  } = useFormik({
     initialValues: {
-      name: "",
-      managerRole: "",
-      teamRole: "",
-      memberRole: "",
+      name: prams?.teamName || '',
+      managerIds: prams?.manager || [],
+      teamLeadIds: prams?.teamLead || [],
+      memberIds: prams?.agent || [],
     },
-    onSubmit: async (values) => {
-      console.log("values", values);
+    onSubmit: async (value) => {
+      try {
+        setIsLoadingBtn(true)
+        const { name, managerIds, memberIds, teamLeadIds } = value;
+        const teamMemberIds = [...managerIds, ...memberIds, ...teamLeadIds]?.map((el) => el?._id);
+        console.log('teamMemberIds', teamMemberIds)
+        let sendData = {
+          teamName: name,
+          teamMemberIds: teamMemberIds
+        }
+        console.log('sendData', sendData)
+        if (isUpdate) {
+          const resUpdate = await updateTeam({
+            data: sendData,
+            id: prams?._id
+          });
+
+        } else {
+          const resAdd = await addTeam({
+            data: sendData
+          });
+        }
+      }
+      catch (err) {
+        console.log('err', err);
+      }
+      finally {
+        setIsLoadingBtn(false)
+      }
     },
   });
 
-  const managerOption = [
-    {
-      value: "manager1",
-      label: "Manager",
-    },
-    {
-      value: "manager2",
-      label: "Manager2",
-    },
-  ];
-  const teamOption = [
-    {
-      value: "teamOption1",
-      label: "teamOption1",
-    },
-    {
-      value: "teamOption2",
-      label: "teamOption2",
-    },
-  ];
-  const memberOption = [
-    {
-      value: "member1",
-      label: "member1",
-    },
-    {
-      value: "member2",
-      label: "member2",
-    },
-  ];
+
+  const debouncedHandleInputChange = useMemo(
+    () => debounce((newValue) => {
+      setInputValue(newValue);
+    }, 1000),
+    []
+  );
+
+  const handleInputChange = (newValue) => {
+    debouncedHandleInputChange(newValue);
+  };
+
+  const handleMenuScrollToBottom = (key) => {
+    // key-->'manager'|'teamLeader'|'agent'
+    if (key === 'manager') {
+      if (hasNextPageManger) {
+        fetchNextPageManger();
+      }
+    } else if (key === 'teamLeader') {
+      if (hasNextPageTeamLead) {
+        fetchNextPageTeamLead();
+      }
+    } else if (key === 'agent') {
+      if (hasNextPageAgent) {
+        fetchNextPageAgent();
+      }
+    }
+  };
 
   return (
     <div>
       <BackButton title="Add Team" />
-      <Card my={"2rem"} p={6}>
-        <Box
-          display="flex"
-          justifyContent="center"
-          marginTop={3}
-          alignItems="center"
-          height="100%"
-        >
-          <Title title="Create Team" />
-        </Box>
+      <Card my={"2rem"} p={10} minWidth={600} margin={'30px 70px'}>
 
-        <Grid
-          templateColumns={{
-            base: "repeat(1, 1fr)",
-            md: "repeat(2, 1fr)",
-            lg: "repeat(2, 1fr)",
-          }}
-          gap={6}
+        <Title title="Create Team" boxStyle={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          marginBottom: 30
+        }} />
+
+        <HStack
+          justifyContent={'space-between'}
+          mb={6}
+        >
+          <CustomInput
+            label={'Team Name'}
+            width={'45%'}
+            value={values.name}
+            name={'name'}
+            onChange={handleChange}
+          />
+          <DropDown
+            label={'Manager'}
+            options={managerList}
+            onInputChange={handleInputChange}
+            onMenuScrollToBottom={() => handleMenuScrollToBottom('manager')}
+            value={values.managerIds}
+            onChange={(e) => setFieldValue('managerIds', e)}
+            isLoading={isLoadingManger || isFetchingManger}
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option._id}
+            isMulti={true}
+            width={'45%'}
+
+          />
+        </HStack>
+
+        <HStack
+          justifyContent={'space-between'}
+          mb={5}
+        >
+          <DropDown
+            label={'Select Team Lead'}
+            options={TeamLeadList}
+            value={values.teamLeadIds}
+            onChange={(e) => setFieldValue('teamLeadIds', e)}
+            onInputChange={handleInputChange}
+            onMenuScrollToBottom={() => handleMenuScrollToBottom('teamLead')}
+            isLoading={isLoadingTeamLead || isFetchingTeamLead}
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option._id}
+            isMulti={true}
+            width={'45%'}
+          />
+          <DropDown
+            label={'Select Member'}
+            options={agentList}
+            onInputChange={handleInputChange}
+            onMenuScrollToBottom={() => handleMenuScrollToBottom('agent')}
+            value={values.memberIds}
+            onChange={(e) => setFieldValue('memberIds', e)}
+            isLoading={isLoadingAgent || isFetchingAgent}
+            getOptionLabel={(option) => option.name}
+            getOptionValue={(option) => option._id}
+            isMulti={true}
+            width={'45%'}
+          />
+
+        </HStack>
+
+        <LoadButton
+          colorScheme="brand"
+          // onClick={handleSubmit}
+          onClick={() => showSuccess('team add succefully')}
           mt={8}
+          alignContent={"center"}
+          width={"fit-content"}
+          alignSelf={'center'}
+          isLoading={isLoadingBtn}
         >
-          <GridItem>
-            <InputField
-              style={{ background: "#F9F9F9" }}
-              id="name"
-              label="Team Name"
-              placeholder="Team Name"
-              onChange={handleChange}
-              value={values.name}
-            />
-          </GridItem>
-          <GridItem>
-            <CustomSelect
-              style={{ background: "#F9F9F9" }}
-              label={"Select Manager"}
-              id={"managerRole"}
-              placeholder="Select Manager"
-              options={managerOption}
-              onChange={handleChange}
-              value={values.managerRole}
-            />
-          </GridItem>
-          <GridItem>
-            <CustomSelect
-              style={{ background: "#F9F9F9" }}
-              label={"Select Team Lead"}
-              id={"teamRole"}
-              placeholder="Select Team Lead"
-              options={teamOption}
-              onChange={handleChange}
-              value={values.teamRole}
-            />
-          </GridItem>
-          <GridItem>
-            <CustomSelect
-              style={{ background: "#F9F9F9"}}
-              label={"Select Member"}
-              id={"memberRole"}
-              placeholder="Select Members"
-              options={memberOption}
-              onChange={handleChange}
-              value={values.memberRole}
-            />
-          </GridItem>
-        </Grid>
+          Create Team s
+        </LoadButton>
 
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100%"
-        >
-          <LoadButton
-           colorScheme="brand"
-            onClick={handleSubmit}
-            mt={8}ho
-            mb={6}
-            alignContent={"center"}
-            width={"fit-content"}
-          >
-            Create Team
-          </LoadButton>
-        </Box>
       </Card>
     </div>
   );
 };
 
-export default TeamForm;
+export default React.memo(TeamForm);

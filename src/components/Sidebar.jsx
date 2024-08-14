@@ -1,5 +1,5 @@
 // Sidebar.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -13,7 +13,7 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.svg";
+import { svg } from "../assets/svg.js";
 import { CiSettings, CiBellOn } from "react-icons/ci";
 import { useProfileQuery } from "../Queries/auth/useProfileQuery";
 import { PiPowerFill } from "react-icons/pi";
@@ -23,17 +23,16 @@ import { useQueryClient } from "@tanstack/react-query";
 const Sidebar = ({ items = [] }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
   const location = useLocation();
-  const [activeItem, setActiveItem] = React.useState(null);
   const { data: auth } = useProfileQuery();
+  const [activeItem, setActiveItem] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const activeParent = items.find((item) => {
       if (item.children) {
-        return item.children.some((child) => child.href === location.pathname);
+        return item.children.some((child) => location.pathname.includes(child.href));
       }
-      return item.href === location.pathname;
+      return location.pathname.includes(item.href);
     });
 
     setActiveItem(activeParent ? activeParent.label : null);
@@ -41,8 +40,11 @@ const Sidebar = ({ items = [] }) => {
 
   const handleItemClick = (item) => {
     setActiveItem(item);
-    // setActiveItem(activeItem === item ? null : item);
   };
+  const handleNotificationClick = () => {
+    navigate('/users/notification');
+  };
+
 
   return (
     <Flex
@@ -59,7 +61,7 @@ const Sidebar = ({ items = [] }) => {
     >
       <Box mb={6}>
         {/* Replace with your logo */}
-        <Image src={logo} alt="Revo Reality" />
+        <Image src={svg.logos} alt="Revo Reality" />
       </Box>
 
       {/* //user personal section */}
@@ -73,7 +75,10 @@ const Sidebar = ({ items = [] }) => {
           <Link to={`/users/profilesettings`}>
             <CiSettings size={"1.6rem"} />
           </Link>
-          <CiBellOn size={"1.6rem"} />
+          <CiBellOn size={"1.6rem"} 
+             onClick={handleNotificationClick} 
+             style={{ cursor: 'pointer' }}
+          />
         </Box>
         <Text my={2}>{`${auth?.name || ""} ${auth?.lastName || ""}`}</Text>
         <Box></Box>

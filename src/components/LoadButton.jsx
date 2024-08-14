@@ -20,6 +20,7 @@ const LoadButton = ({
       colorScheme={colorScheme}
       onClick={onClick}
       fontSize={fontSize}
+      boxShadow="2.63px 3.5px 9.38px 0px #00000029"
       color={color}
       {...props}
     >

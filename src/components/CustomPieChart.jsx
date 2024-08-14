@@ -3,9 +3,18 @@ import React from "react";
 import { PieChart } from "react-minimal-pie-chart";
 
 const CustomPieChart = ({ lineWidth = 20, data = [] }) => {
+
+  const formatPieChartData = (data) => {
+    return data.map(item => ({
+      title: item.value, 
+      value: item.value || 0, 
+      color: item.color || '#000000' 
+    }));
+  };
+
   return (
     <Box p={4}>
-      <PieChart lineWidth={lineWidth} data={data} animate={true} />
+      <PieChart lineWidth={lineWidth} data={formatPieChartData(data)} animate={true} />
 
       <Box mt={2}>
         {data?.map((item) => (

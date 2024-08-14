@@ -68,6 +68,21 @@ export const userHeaderItems = [
     color: "#740707",
   },
 ];
+
+export const userNotificationItems = [
+  {
+    label: "New",
+    value: "new",
+    color: "#E9A80A",
+  },
+  {
+    label: "Read",
+    value: "read",
+    color: "#FF8A00",
+  },
+  
+];
+
 export const leaveHeaderItems = [
   {
     label: "New",
@@ -93,6 +108,34 @@ export const leaveHeaderItems = [
     label: "Rejected",
     value: "rejected",
     color: "#FF0000",
+  },
+];
+
+export const attendanceHeaderItems = [
+  {
+    label: "Issues Raised",
+    value: "issuesRaised",
+    color: "#740707",
+  },
+  {
+    label: "Present",
+    value: "present",
+    color: "#4ABC04",
+  },
+  {
+    label: "Absent",
+    value: "absent",
+    color: "#FF0000",
+  },
+  {
+    label: "On Leave",
+    value: "onLeave",
+    color: "#0095FF",
+  },
+  {
+    label: "Half Day",
+    value: "haffDay",
+    color: "#FF8A00",
   },
 ];
 
@@ -126,3 +169,39 @@ export const userRolesObj = {
 };
 
 export const adminArr = ["sup_admin", "sub_admin"];
+
+export const generateYearOptions = () => {
+  const currentYear = new Date().getFullYear();
+  const options = [];
+
+  for (let i = currentYear - 10; i <= currentYear + 10; i++) {
+    options.push({ value: i.toString(), label: i.toString() });
+  }
+
+  return options;
+};
+
+export const regionOptions = [
+  { value: 'north-america', label: 'North America' },
+  { value: 'europe', label: 'Europe' },
+  { value: 'asia', label: 'Asia' },
+  { value: 'south-america', label: 'South America' },
+  { value: 'africa', label: 'Africa' },
+  { value: 'oceania', label: 'Oceania' },
+  // Add more regions as needed
+];
+
+export const monthOptions = [
+  { value: '01', label: 'January' },
+  { value: '02', label: 'February' },
+  { value: '03', label: 'March' },
+  { value: '04', label: 'April' },
+  { value: '05', label: 'May' },
+  { value: '06', label: 'June' },
+  { value: '07', label: 'July' },
+  { value: '08', label: 'August' },
+  { value: '09', label: 'September' },
+  { value: '10', label: 'October' },
+  { value: '11', label: 'November' },
+  { value: '12', label: 'December' },
+];

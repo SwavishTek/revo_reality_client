@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loadable from "./components/Loadable";
 import { lazy } from "react";
 
+
 const Login = Loadable(lazy(() => import("./pages/Auth/Login")));
 const VerifyOTP = Loadable(lazy(() => import("./pages/Auth/VerifyOTP.jsx")));
 const ResetPassword = Loadable(
@@ -13,9 +14,20 @@ const MainLayout = Loadable(
   lazy(() => import("./components/layout/MainLayout.jsx"))
 );
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
+const Notification = Loadable(lazy(() => import("./pages/User/Notification.jsx")));
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
 // const TeamList = Loadable(lazy(() => import("./pages/Team/TeamListing.jsx")));
-const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.js")));
+
+/* start Attendance */
+const AttList = Loadable(lazy(() => import("./pages/Attendance/AttList.jsx")));
+const AttDetails = Loadable(
+  lazy(() => import("./pages/Attendance/AttDetails.jsx"))
+);
+const AttUpdate = Loadable(
+  lazy(() => import("./pages/Attendance/AttDetails.jsx"))
+);
+/* end Attendance */
+
 const AddEmployee = Loadable(
   lazy(() => import("./pages/User/AddEmployee.jsx"))
 );
@@ -45,7 +57,12 @@ const ChangePasswords = Loadable(
 const GeneralChanges = Loadable(
   lazy(() => import("./pages/User/GeneralChanges.jsx"))
 );
-
+const OfferLetter = Loadable(
+  lazy(() => import("./pages/User/OfferLetter.jsx"))
+);
+const OfferLetterList = Loadable(
+  lazy(() => import("./pages/User/OfferLetterList.jsx"))
+);
 function App() {
   const router = createBrowserRouter([
     {
@@ -92,7 +109,10 @@ function App() {
           path: "users/:id",
           element: <EmployeeDetails />,
         },
-
+        {
+          path: "users/notification",
+          element: <Notification />,
+        },
         /* start Team */
         {
           path: "teams",
@@ -124,6 +144,15 @@ function App() {
           element: <AttList />,
         },
         {
+          path: "attendance/:id",
+          element: <AttDetails />,
+        },
+        {
+          path: "attendace/AttUpdate",
+          element: <AttUpdate />,
+        },
+
+        {
           path: "leaves/apply_leave",
           element: <LeaveForm />,
         },
@@ -131,6 +160,14 @@ function App() {
           path: "leaves/:id",
           element: <LeaveDetails />,
         },
+        {
+          path: "users/offerletter",
+          element: <OfferLetter />
+        },
+        {
+          path: "users/offerletterlist",
+          element: <OfferLetterList />
+        }
       ],
     },
   ]);

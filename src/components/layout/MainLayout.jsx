@@ -17,7 +17,7 @@ const MainLayout = () => {
       <Sidebar items={menuItems} />
       <Box
         flex="1"
-        p={4}
+        // p={4}
         bg={"brand.900"}
         overflowY={"scroll"}
         height={"100vh"}

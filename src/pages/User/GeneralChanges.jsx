@@ -1,65 +1,213 @@
-import { Box, Button, Card, Grid, GridItem, Stack } from '@chakra-ui/react'
-import React from 'react'
-import BackButton from '../../components/BackButton'
-import InputField from '../../components/InputField'
-import CustomSelect from '../../components/BasicSelect'
-import UploadInput from '../../components/UploadInput'
+import { Box, Button, Card, Input, Stack, Text } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { useFormik } from 'formik';
+import BackButton from '../../components/BackButton';
+import CustomSelect from '../../components/BasicSelect';
+import { monthOptions, generateYearOptions } from "../../utils/menuItems.js";
+import { uploadHoliday } from '../../useFunctions/user/holidayCount.js';
+import { excelToJson } from '../../useFunctions/commonFunctions.js';
+import CustomFileInput from './CustomFileInput.jsx';
+import MyContainer from '../../myComponent/MyContainer.jsx';
 
 const GeneralChanges = () => {
-    
-  return (
-    <Box>
-    <BackButton title={"General Chnages"}>
- </BackButton>
- <Card p={"2rem"} mt={6}>
- <Grid templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }} gap={6} >
-    <GridItem w={'50%'}>
-    <InputField
-         id="daysYear"
-         label="Working Days (Year)"
-         placeholder="Enter working days"
-         value={""}
-         style={{
-          backgroundColor: '#f2f2f2'
-         }}
-       />
-     </GridItem>
-     <GridItem w={'50%'}>
-    <InputField
-         id="daysMonth"
-         label="Working Days (Month)"
-         placeholder="Enter working days"
-         value={""}
-       />
-     </GridItem>
-     <GridItem w={'50%'}>
-        <CustomSelect 
-            label={"Select Region"}
-              id={"selectRegion"}
-              placeholder="Select Region"
-              options={[]}
-        />
-     </GridItem>
-     <GridItem w={'50%'}>
-     <UploadInput
-              onChange={[]}
-              label={"Upload Holiday List"}
-            />
-     </GridItem>
- </Grid>
- <Stack mt={6} spacing={6} direction="row" align="center">
-     <Button
-       size="lg"
-       fontSize="18px"
-       colorScheme="brand"
-       fontWeight="normal"
-     >
-      Update
-     </Button>
-     </Stack>
- </Card>
-</Box>
-  )
-}
+  const [fileData, setFileData] = useState([]);
+  const [monthYearOptions, setMonthYearOptions] = useState([]);
 
-export default GeneralChanges
+  // Initialize Formik directly with useFormik
+  const { values, handleSubmit, setFieldValue, getFieldProps } = useFormik({
+    initialValues: {
+      type: 'year',
+      month: '',
+      year: '',
+      monthlyWorkingDays: '',
+      yearlyWorkingDays: '',
+    },
+    onSubmit: async (values) => {
+      console.log("Form Data:", values);
+
+      // Construct data in the required format
+      const sendData = {
+        year: values.type === 'year' ? values.year : '',
+        yearlyWorkingDays: values.type === 'year' ? values.yearlyWorkingDays : '',
+        month: values.type === 'month' ? values.month : '',
+        monthlyWorkingDays: values.type === 'month' ? values.monthlyWorkingDays : '',
+        type: values.type,
+        data: fileData,  // Ensure fileData is correctly formatted
+      };
+
+      try {
+        const response = await uploadHoliday({ data: sendData });
+        console.log('HolidayData:', response);
+      } catch (error) {
+        console.log('ErrorHoliday:', error);
+      }
+    },
+  });
+
+  console.info(fileData);
+  // Handle file change
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const data = excelToJson(e);
+      // Ensure the data extracted from the file matches the API format
+      setFileData(data);
+      // No need to set field value here since fileData is managed separately
+    }
+  };
+
+  // Handle type change
+  useEffect(() => {
+    if (values.type === 'month') {
+      setMonthYearOptions(monthOptions);
+    } else if (values.type === 'year') {
+      setMonthYearOptions(generateYearOptions());
+    } else {
+      setMonthYearOptions([]);
+    }
+  }, [values.type]);
+
+  return (
+    <MyContainer
+      header={'General Changes'}
+      isBack
+    >
+      <Card p={"2rem"} mt={6}>
+        <Stack spacing={4}>
+          <Box width={{ base: "100%", md: "50%" }} mb={4}>
+            <CustomSelect
+              label={"Select Type"}
+              id="type"
+              placeholder="Select Type"
+              options={[
+                { value: 'month', label: 'Month' },
+                { value: 'year', label: 'Year' },
+              ]}
+              value={values.type}
+              onChange={(e) => setFieldValue('type', e.target.value)}
+              width="100%"
+            />
+          </Box>
+          {values.type && (
+            <Box width={{ base: "100%", md: "50%" }} mb={4}>
+              <CustomSelect
+                label={values.type === 'month' ? "Select Month" : "Select Year"}
+                id={values.type === 'month' ? 'month' : 'year'}
+                placeholder={`Select ${values.type === 'month' ? 'Month' : 'Year'}`}
+                options={monthYearOptions}
+                value={values.type === 'month' ? values.month : values.year}
+                onChange={(e) => setFieldValue(values.type === 'month' ? 'month' : 'year', e.target.value)}
+                width="100%"
+              />
+            </Box>
+          )}
+          {values.type && (
+            <Box width={{ base: "100%", md: "50%" }} mb={4}>
+              <Text fontSize={"1rem"} fontWeight={"semibold"} mb={'0.55rem'}>
+                {values.type === 'month' ? "Working Days in Month" : "Working Days in Year"}
+              </Text>
+              <Input
+                id={values.type === 'month' ? 'monthlyWorkingDays' : 'yearlyWorkingDays'}
+                placeholder={`Enter Working Days in ${values.type === 'month' ? 'Month' : 'Year'}`}
+                {...getFieldProps(values.type === 'month' ? 'monthlyWorkingDays' : 'yearlyWorkingDays')}
+                width="100%"
+              />
+            </Box>
+          )}
+          <Box width={{ base: "100%", md: "50%" }} mb={4}>
+            <Text fontSize={"1rem"} fontWeight={"semibold"} mb={'0.55rem'}>
+              Upload Holiday List
+            </Text>
+            <CustomFileInput
+              onChange={handleFileChange}
+              placeholder="Upload Holiday List"
+              width="100%"
+            />
+          </Box>
+          <Box width="100%">
+            <Button
+              onClick={handleSubmit}
+              size="lg"
+              fontSize="18px"
+              colorScheme="brand"
+              fontWeight="normal"
+            >
+              Update
+            </Button>
+          </Box>
+        </Stack>
+      </Card>
+    </MyContainer>
+    // <Box>
+    //   <BackButton title={"General Changes"} />
+
+    //   <Card p={"2rem"} mt={6}>
+    //     <Stack spacing={4}>
+    //       <Box width={{ base: "100%", md: "50%" }} mb={4}>
+    //         <CustomSelect
+    //           label={"Select Type"}
+    //           id="type"
+    //           placeholder="Select Type"
+    //           options={[
+    //             { value: 'month', label: 'Month' },
+    //             { value: 'year', label: 'Year' },
+    //           ]}
+    //           value={values.type}
+    //           onChange={(e) => setFieldValue('type', e.target.value)}
+    //           width="100%"
+    //         />
+    //       </Box>
+    //       {values.type && (
+    //         <Box width={{ base: "100%", md: "50%" }} mb={4}>
+    //           <CustomSelect
+    //             label={values.type === 'month' ? "Select Month" : "Select Year"}
+    //             id={values.type === 'month' ? 'month' : 'year'}
+    //             placeholder={`Select ${values.type === 'month' ? 'Month' : 'Year'}`}
+    //             options={monthYearOptions}
+    //             value={values.type === 'month' ? values.month : values.year}
+    //             onChange={(e) => setFieldValue(values.type === 'month' ? 'month' : 'year', e.target.value)}
+    //             width="100%"
+    //           />
+    //         </Box>
+    //       )}
+    //       {values.type && (
+    //         <Box width={{ base: "100%", md: "50%" }} mb={4}>
+    //           <Text fontSize={"1rem"} fontWeight={"semibold"} mb={'0.55rem'}>
+    //             {values.type === 'month' ? "Working Days in Month" : "Working Days in Year"}
+    //           </Text>
+    //           <Input
+    //             id={values.type === 'month' ? 'monthlyWorkingDays' : 'yearlyWorkingDays'}
+    //             placeholder={`Enter Working Days in ${values.type === 'month' ? 'Month' : 'Year'}`}
+    //             {...getFieldProps(values.type === 'month' ? 'monthlyWorkingDays' : 'yearlyWorkingDays')}
+    //             width="100%"
+    //           />
+    //         </Box>
+    //       )}
+    //       <Box width={{ base: "100%", md: "50%" }} mb={4}>
+    //         <Text fontSize={"1rem"} fontWeight={"semibold"} mb={'0.55rem'}>
+    //           Upload Holiday List
+    //         </Text>
+    //         <CustomFileInput
+    //           onChange={handleFileChange}
+    //           placeholder="Upload Holiday List"
+    //           width="100%"
+    //         />
+    //       </Box>
+    //       <Box width="100%">
+    //         <Button
+    //           onClick={handleSubmit}
+    //           size="lg"
+    //           fontSize="18px"
+    //           colorScheme="brand"
+    //           fontWeight="normal"
+    //         >
+    //           Update
+    //         </Button>
+    //       </Box>
+    //     </Stack>
+    //   </Card>
+    // </Box>
+  );
+};
+
+export default GeneralChanges;

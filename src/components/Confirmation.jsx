@@ -15,6 +15,7 @@ export default function Confirmation({
   line2 = "",
   actionLable = "Yes",
   isOpen = false,
+  children,
   //   onOpen,
   onClose,
   onSubmit,
@@ -39,6 +40,11 @@ export default function Confirmation({
             <Text textAlign={"center"} fontWeight={500}>
               {line2}
             </Text>
+            {children && (
+              <div style={{ textAlign: "center", marginTop: "1rem" }}>
+                {children}
+              </div>
+            )}
           </ModalBody>
 
           <ModalFooter alignItems={"center"} justifyContent={"center"} gap={4}>
