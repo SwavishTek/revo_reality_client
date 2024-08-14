@@ -36,7 +36,7 @@ const InfiniteScrollList = ({
 
     if (isLoading) {
         return (
-            <VStack spacing={4} align="center">
+            <VStack spacing={4} align="center" height={'50vh'} justifyContent={'center'}>
                 <Spinner />
                 <Text>{loadingMessage}</Text>
             </VStack>
@@ -44,14 +44,14 @@ const InfiniteScrollList = ({
     }
 
     return (
-        <VStack spacing={4} align="stretch" width="100%" marginBottom={4} style={{...containerStyle}}>
+        <VStack spacing={4} align="stretch" width="100%" marginBottom={4} style={{ ...containerStyle }}>
             {listData?.length > 0 ? (
                 renderItems
             ) : (
                 <Text>{noDataMessage}</Text>
             )}
             {isFetching && !isFetchingNextPage && (
-                <VStack spacing={4} align="center">
+                <VStack spacing={4} align="center" height={'50vh'} justifyContent={'center'}>
                     <Spinner />
                     <Text>{loadingMessage}</Text>
                 </VStack>
