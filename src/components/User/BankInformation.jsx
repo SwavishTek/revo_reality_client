@@ -19,6 +19,8 @@ import InputField from "../InputField";
 import { addUser } from "../../useFunctions/user/userFunctions";
 import UploadInput from "../UploadInput";
 import LoadButton from "../LoadButton";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
 
 const BankInformation = ({ setCurrentStep }) => {
   const toast = useToast();
@@ -138,27 +140,27 @@ const BankInformation = ({ setCurrentStep }) => {
           </GridItem>
         </Grid>
 
-        <Stack spacing={6} direction="row" align="center" marginTop={"1.5rem"}>
-          <LoadButton
-            onClick={handleSubmit}
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
-            isLoading={isSubmitting}
-          >
-            Save & Next
-          </LoadButton>
-          <Button
-            onClick={() => {
+        <Box 
+        marginTop={'2rem'}>
+        <CustomBtn 
+          title={'Save & Next'}
+          isLoading={isSubmitting}
+          onClick={handleSubmit}
+          bgColor={color.secondaryBtn}
+          containerStyle={{
+            marginRight:'1.5rem'
+          }}
+        />
+        <CustomBtn 
+          title={'Next'}
+          onClick={() => {
               if (setCurrentStep) setCurrentStep((step) => step + 1);
             }}
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
-          >
-            Next
-          </Button>
-        </Stack>
+          bgColor={color.secondaryBtn}
+        />
+        </Box>
+
+       
       </Box>
     </>
   );

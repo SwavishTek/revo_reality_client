@@ -1,142 +1,122 @@
-import React from "react";
-import CustomGridItem from "../../components/CustomGridItem";
-import { Box, Button, Card, Grid, GridItem } from "@chakra-ui/react";
-import Title from "../../components/Title";
-import BackButton from "../../components/BackButton";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
+import MyContainer from "../../myComponent/MyContainer";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { ShadowBox } from "../../myComponent/ShadowBox";
+import RowItem from "../../myComponent/RowItem";
+import { svg } from "../../assets/svg.js";
 import { MainTitle } from "../../myComponent/MainTitle";
-import { svg } from "../../assets/svg.js"
-import MyContainer from "../../myComponent/MyContainer.jsx";
-import { CustomBtn } from "../../myComponent/CustomBtn.jsx";
-import { color } from "../../consts/color.js";
-import { ShadowBox } from "../../myComponent/ShadowBox.jsx";
-import RowItem from "../../myComponent/RowItem.jsx";
+import { useGetTeamById } from "./useQuery/useQuery.jsx";
+
+
+const formatDate = (date) => {
+  if (!date) return 'N/A';
+  return new Date(date).toLocaleDateString();
+};
+
+const arrData = (arr, key = 'name') => {
+  if (!arr || arr.length === 0) return 'N/A';
+  return arr.map(item => item[key] || item).join(', ');
+};
 
 const TeamDetails = () => {
   const { id } = useParams();
-  console.log('id', id);
+  const navigate = useNavigate();
+  const [team, setTeam] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { data, isLoading } = useGetTeamById(id);
+
+  useEffect(() => {
+    if (data) {
+      setTeam(data);
+      setLoading(false);
+    }
+  }, [data]);
+
+  const handleUpdateButtonClick = () => {
+    if (id && team) {
+      navigate('/teams/add_team', { state: { _id: id, ...team.team } });
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
-   <MyContainer
-   isBack
-   header={'Team Detail'}
-   btnComponent={
-    <>
-      <CustomBtn
-      title={<><img src={svg.TeamUpdateIcons} alt="Copy" style={{paddingRight:'5px'}}/> Update Team</>}
-      bgColor='transparent'
-      textColor="#898989"
-      containerStyle={{
-       border:'2px solid #898989'
-      }}
-       />
-    </>
-   }>
-   <ShadowBox
+    <MyContainer
+      isBack
+      header={'Team Detail'}
+      btnComponent={
+        <>
+          <CustomBtn
+            title={<><img src={svg.TeamUpdateIcons} alt="Update" style={{ paddingRight: '5px' }} /> Update Team</>}
+            bgColor='transparent'
+            textColor="#898989"
+            containerStyle={{
+              border: '2px solid #898989'
+            }}
+            onClick={handleUpdateButtonClick}
+          />
+        </>
+      }
+    >
+      <ShadowBox
         containerStyle={{ width: '96%', padding: '50px 50px', marginBottom: '50px' }}
       >
         <MainTitle title={'TEAM DETAILS'} />
         <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Team Name"}
-          value={'Alpha_01'}
+          value={data?.team?.teamName || 'N/A'}
         />
         <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Creation Date"}
-          value={'15/5/2024'}
-        />
-        <RowItem
-          containerStyle={{ alignItems: 'flex-start' }}
-          title={"Total Members"}
-          value={'23'}
+          value={formatDate(data?.team?.createdAt)}
         />
         <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Last Updated"}
-          value={'26/12/2023'} mb={10}
+          value={formatDate(data?.team?.updatedAt)}
+        />
+        <RowItem
+          containerStyle={{ alignItems: 'flex-start' }}
+          title={"Total Members"}
+          value={(data?.team?.teamMembers?.length || 0) }
         />
 
-      <MainTitle title={'MANAGER & TEAM LEADS LIST'} />
-      <RowItem
+        <MainTitle title={'MANAGER & TEAM LEADS LIST'} />
+        <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Managers"}
-          value={'Manager01 & Manager02'}
+          value={arrData(data?.managers || [])}
         />
-         <RowItem
+        <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Team Leads"}
-          value={'TeamLead_01'} mb={10}
+          value={arrData(data?.teamLeads || [])}
         />
 
-         <MainTitle title={'AGENTS LIST'} />
-         <RowItem
+        <MainTitle title={'AGENTS LIST'} />
+        <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Agents"}
-          value={'agent_01, agent02'} mb={10}
+          value={arrData(data?.agents || [], 'name')}
         />
 
-       <MainTitle title={'UPDATE DETAILS'} />
-       <RowItem
+        <MainTitle title={'UPDATE DETAILS'} />
+        <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"New Added Members"}
-          value={'agent_01, agent02'}
+          value={arrData(data?.team?.newAddMembers || [])}
         />
-         <RowItem
+        <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Removed Members"}
-          value={'agent_01, agent02'}
+          value={arrData(data?.team?.removeMembers || [])}
         />
       </ShadowBox>
-    
-   </MyContainer>
-
-  /*  <Box>
-      <BackButton title={"Team Detail"}>
-        <Button leftIcon={<><img src={svg.TeamUpdateIcons} /></>} variant="solid" bg={"#fff"} color={"#898989"} _hover={"#898989"}>
-          Update Team
-        </Button>
-      </BackButton>
-      
-      
-      <Card p={"2rem"} mt={6} overflowY={"auto"}>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
-          <GridItem colSpan={5} my={4}>
-            <Title title="TEAM DETAILS" />
-          </GridItem>
-          <CustomGridItem title={"Team Name"} value={"Alpha_01"} />
-          <CustomGridItem title={"Creation Date"} value={"15/5/2024"} />
-          <CustomGridItem title={"Total Members"} value={"23"} />
-          <CustomGridItem title={"Last Updated"} value={"26/12/2023"} />
-        </Grid>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
-          <GridItem colSpan={5} my={4}>
-            <Title title="MANAGER & TEAM LEADS LIST" />
-          </GridItem>
-          <CustomGridItem title={"Managers"} value={"Manager01 & Manager02"} />
-          <CustomGridItem title={"Team Leads"} value={"TeamLead_01"} />
-        </Grid>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
-          <GridItem colSpan={5} my={4}>
-            <Title title="AGENTS LIST" />
-          </GridItem>
-          <CustomGridItem title={"agents"} value={"agent_01, agent02"} />
-        </Grid>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
-          <GridItem colSpan={5} my={4}>
-            <Title title="UPDATE DETAILS" />
-          </GridItem>
-          <CustomGridItem
-            title={"New Added Members"}
-            value={"agent_01, agent02"}
-          />
-          <CustomGridItem
-            title={"Removed Members"}
-            value={"agent_01, agent02"}
-          />
-        </Grid>
-      </Card>
-    </Box>*/
+    </MyContainer>
   );
 };
 

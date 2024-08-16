@@ -44,4 +44,12 @@ export const updateTeam = async ({ data, id }) => {
     console.log('AddTeam Error', error);
   }
 }
-
+export const getTeamDetailsById = async (id) => {
+  try {
+    const res = await API_AXIOS.get(`team/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error('Team Details Error:', error);
+    throw error;
+  }
+};

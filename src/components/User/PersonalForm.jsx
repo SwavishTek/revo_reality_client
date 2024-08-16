@@ -14,6 +14,8 @@ import CustomSelect from "../BasicSelect";
 import { userRoles } from "../../utils/menuItems";
 import LoadButton from "../LoadButton";
 import useCustomToast from "../../hooks/useCustomToast";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
 
 const PersonalForm = ({ setCurrentStep }) => {
   const { showError, showSuccess } = useCustomToast();
@@ -292,28 +294,25 @@ const PersonalForm = ({ setCurrentStep }) => {
             />
           </GridItem>
         </Grid>
-
-        <Stack mt={5} spacing={6} direction="row" align="center">
-          <LoadButton
-            onClick={handleSubmit}
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
-            isLoading={isSubmitting}
-          >
-            Save & Next
-          </LoadButton>
-          <Button
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
-            onClick={() => {
+        <Box 
+        marginTop={'2rem'}>
+        <CustomBtn 
+          title={'Save & Next'}
+          isLoading={isSubmitting}
+          onClick={handleSubmit}
+          bgColor={color.secondaryBtn}
+          containerStyle={{
+            marginRight:'1.5rem'
+          }}
+        />
+        <CustomBtn 
+          title={'Next'}
+          onClick={() => {
               if (setCurrentStep) setCurrentStep((step) => step + 1);
             }}
-          >
-            Next
-          </Button>
-        </Stack>
+          bgColor={color.secondaryBtn}
+        />
+        </Box>
       </Box>
     </>
   );

@@ -15,6 +15,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUserDetailsQuery } from "../../Queries/user/userUserQuery";
 import { addUser } from "../../useFunctions/user/userFunctions";
 import LoadButton from "../LoadButton";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
 
 const UploadOfferLetter = ({ setCurrentStep }) => {
   const navigate = useNavigate();
@@ -85,20 +87,21 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
           }}
         />
 
-        <Stack spacing={6} direction="row" align="center" marginTop={"1.5rem"}>
-          {/* <Button size="md" fontSize="18px" colorScheme="brand">
-            Save
-          </Button> */}
-          <LoadButton
-            onClick={handleSubmit}
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
-            isLoading={loading}
-          >
-            Submit
-          </LoadButton>
-        </Stack>
+<Box 
+        marginTop={'2rem'}>
+        <CustomBtn 
+          title={'Submit'}
+          isLoading={loading}
+          onClick={handleSubmit}
+          bgColor={color.secondaryBtn}
+          containerStyle={{
+            marginRight:'1.5rem'
+          }}
+        />
+        </Box>
+
+
+        
       </Box>
     </>
   );
