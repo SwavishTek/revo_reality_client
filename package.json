@@ -35,7 +35,8 @@
     "react-window": "^1.8.10",
     "reactstrap": "^9.2.2",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "yup": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

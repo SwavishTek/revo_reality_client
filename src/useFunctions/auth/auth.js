@@ -1,6 +1,7 @@
 import axios from "axios";
 import Apis from "../../utils/apis";
 import { API_AXIOS } from "../../http/interceptor";
+import { showError, showSuccess } from "../../utils/toastHelpers";
 
 export const verifyOtp = async ({ email, otp }) => {
   try {
@@ -10,6 +11,7 @@ export const verifyOtp = async ({ email, otp }) => {
     return data;
   } catch (error) {
     console.log(error);
+    showError(error?.response?.data?.message);
     throw new Error(error);
   }
 };
@@ -27,6 +29,32 @@ export const getProfile = async () => {
     return data?.data?.user || {};
   } catch (error) {
     // throw new Error(error.response.data.error);
+    showError(error?.response?.data?.message);
     console.log(error);
   }
 };
+
+// auth/forgotPassword
+export const forgotPassword = async ({ email }) => {
+  try {
+    const { data } = await API_AXIOS.post(`auth/forgotPassword`, { email });
+    console.log('resForgetPawword', data)
+    showSuccess(data?.message);
+    return data;
+  } catch (error) {
+    showError(error?.response?.data?.message);
+    throw new Error(error);
+  }
+}
+
+//resetPassword
+export const resetPassword = async ({ id, password }) => {
+  try {
+    const { data } = await API_AXIOS.post(`auth/resetPassword/${id}`, { id, password });
+    showSuccess(data?.message);
+    return data;
+  } catch (error) {
+    showError(error?.response?.data?.message);
+    throw new Error(error);
+  }
+}
