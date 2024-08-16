@@ -11,8 +11,8 @@ import { CustomInput } from "../../myComponent/CustomInput";
 import DropDown from "../../components/DropDown/DropDown";
 import LoadButton from "../../components/LoadButton";
 import Title from "../../components/Title";
-import { addTeam, updateTeam, getTeamDetailsById } from "../../useFunctions/team/teamFunction";
-import { showSuccess } from "../../utils/toastHelpers";
+import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
+import { showSuccess, showError } from "../../utils/toastHelpers"; // Import the showError function
 import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
 
 const TeamForm = () => {
@@ -102,6 +102,7 @@ const TeamForm = () => {
         }
       } catch (err) {
         console.error('Error submitting form:', err);
+        showError('Failed to save team');
       } finally {
         setIsLoadingBtn(false);
       }
