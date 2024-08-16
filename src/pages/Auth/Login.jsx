@@ -93,6 +93,8 @@ const Login = () => {
             fontWeight={"bold"}
             fontSize={"0.8rem"}
             mt={2}
+            onClick={() => navigate(`/auth/forgetpassword`)}
+            cursor={'pointer'}
           >
             Forgot Password ?
           </Text>
