@@ -9,7 +9,7 @@ import { useFormik } from 'formik';
 import MyContainer from '../../myComponent/MyContainer';
 import { color } from '../../consts/color';
 import { CustomBtn } from '../../myComponent/CustomBtn';
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const OfferLetter = () => {
   const navigate = useNavigate();
@@ -28,28 +28,28 @@ const OfferLetter = () => {
       console.log('Form data', values);
     }
   });
-
+  // console.log('first')
   return (
     <MyContainer
-    header={'Offer Letter'}
-    btnComponent={<>
-      <CustomBtn title={'Employees'}
-      bgColor={color.primaryBtn} 
-      onClick={() => navigate('/users/offerletterlist')} />
-      <CustomBtn title={'Create Offer Letter'}
-      bgColor={color.secondaryBtn}  
-      onClick={() => navigate('/users/offerletterlist')}
-      />
-    </>}
+      header={'Offer Letter'}
+      btnComponent={<>
+        <CustomBtn title={'Employees'}
+          bgColor={color.primaryBtn}
+          onClick={() => navigate('/users/offerletterlist')} />
+        <CustomBtn title={'Create Offer Letter'}
+          bgColor={color.secondaryBtn}
+          onClick={() => navigate('/users/offerletterlist')}
+        />
+      </>}
     >
-    <Box 
-     bg={"white"}
+      <Box
+        bg={"white"}
         m={"2rem 5rem"}
         p={"2.5rem"}
         border={"1px solid #DCDCDC"}
         borderRadius={"6px"}>
-      
-        <Text textAlign={'center'} fontWeight={'bold'} fontSize={'1.7rem'} marginBottom={'1rem'}>Offer Letter</Text>     
+
+        <Text textAlign={'center'} fontWeight={'bold'} fontSize={'1.7rem'} marginBottom={'1rem'}>Offer Letter</Text>
         <form onSubmit={formik.handleSubmit}>
           <Grid templateColumns="repeat(2, 1fr)" gap={6}>
             <GridItem>
@@ -128,7 +128,7 @@ const OfferLetter = () => {
           </Stack>
         </form>
       </Box>
-    
+
     </MyContainer>
   );
 };
