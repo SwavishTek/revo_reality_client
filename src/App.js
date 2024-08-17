@@ -2,6 +2,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loadable from "./components/Loadable";
 import { lazy } from "react";
+import { ForgetPassword } from "./pages/Auth/ForgetPassword.jsx";
 
 
 const Login = Loadable(lazy(() => import("./pages/Auth/Login")));
@@ -76,6 +77,10 @@ function App() {
     {
       path: "/auth/resetpassword",
       element: <ResetPassword />,
+    },
+    {
+      path: "/auth/forgetpassword",
+      element: <ForgetPassword />,
     },
     // {
     //   path: "/dashboard",

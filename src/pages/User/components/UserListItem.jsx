@@ -7,10 +7,12 @@ import { formatDate } from "../../../useFunctions/commonFunctions.js";
 const UserListItem = ({
     item,
     onClickCheckbox,
-    onClickBox
+    onClickBox,
+    onClickBtn
 }) => {
     return (
         <BoarderBox
+            onClickBtn={onClickBtn}
             onClickCheckbox={onClickCheckbox}
             onClickBox={onClickBox}
             containerStyle={{

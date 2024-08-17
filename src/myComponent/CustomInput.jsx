@@ -16,10 +16,15 @@ export const CustomInput = ({
     containerStyle,
     touched,
     errors,
+    onBlur,
+    onKeyDown,
+    labelStyle,
+    mb
 }) => {
     return (
         <Box
             width={width}
+            mb={mb}
             style={{ ...containerStyle }}
         >
             {label &&
@@ -27,6 +32,7 @@ export const CustomInput = ({
                     marginBottom={2}
                     fontWeight="500"
                     fontSize={16}
+                    style={{ ...labelStyle }}
                 >{label}</Text>
             }
             <Input
@@ -35,7 +41,9 @@ export const CustomInput = ({
                 type={type}
                 value={value}
                 onChange={onChange}
+                onBlur={onBlur}
                 disabled={disabled}
+                onKeyDown={onKeyDown}
                 bgColor={'rgba(249, 249, 249, 1)'}
                 borderWidth={1}
                 borderColor={'#CCCCCC'}

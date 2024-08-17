@@ -27,9 +27,16 @@ const Login = () => {
       console.log('values', values);
       try {
         const { data } = await API_AXIOS.post(`auth/login`, values);
-        navigate({
-          pathname: "/auth/verifyOTP",
-          search: `email=${values.email}&pass=${values.password}`,
+        // navigate({
+        //   pathname: "/auth/verifyOTP",
+        //   search: `email=${values.email}&pass=${values.password}`,
+
+        // });
+        navigate("/auth/verifyOTP", {
+          state: {
+            email: values.email,
+            password: values.password,
+          },
         });
         showSuccess({ message: data.message });
       } catch (err) {
@@ -86,6 +93,8 @@ const Login = () => {
             fontWeight={"bold"}
             fontSize={"0.8rem"}
             mt={2}
+            onClick={() => navigate(`/auth/forgetpassword`)}
+            cursor={'pointer'}
           >
             Forgot Password ?
           </Text>
