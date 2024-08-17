@@ -17,6 +17,11 @@ import DeleteUsersIcon from ".././assets/deleteIcon.svg";
 import checkIcon from '../assets/checkIcon.svg';
 import TeamUpdateIcons from '../assets/teamUpdateIcons.svg';
 import DeleteIcons from "../assets/deleteIcons.svg";
+import Activate from "../assets/activate.svg";
+import Pending from "../assets/pending.svg";
+import Deactivate from "../assets/deactivate.svg"
+import Approve from "../assets/approve.svg";
+
 
 export const svg = {
     noImg: noImg,
@@ -37,7 +42,9 @@ export const svg = {
     DeleteUsersIcon: DeleteUsersIcon,
     checkIcon: checkIcon,
     TeamUpdateIcons: TeamUpdateIcons,
-    DeleteIcons: DeleteIcons
-
-
+    DeleteIcons: DeleteIcons,
+    Activate : Activate ,
+    Pending : Pending,
+    Deactivate : Deactivate,
+    Approve : Approve,
 }
