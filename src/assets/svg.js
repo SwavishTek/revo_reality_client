@@ -21,11 +21,13 @@ import Activate from "../assets/activate.svg";
 import Pending from "../assets/pending.svg";
 import Deactivate from "../assets/deactivate.svg"
 import Approve from "../assets/approve.svg";
+import noUser from "../assets/NoUser.svg";
 
 
 export const svg = {
     noImg: noImg,
     cursor: cursor,
+    noUser: noUser,
     CopyedUserIcon: CopyedUserIcon,
     EditUserIcon: EditUserIcon,
     BlockUserIcon: BlockUserIcon,

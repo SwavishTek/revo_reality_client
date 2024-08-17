@@ -11,6 +11,11 @@ const UserListItem = ({
     onClickBtn,
     onClickEdit,
     onClickDelete,
+    onClickActivate,
+    onClickApprove,
+    onClickDeactivate,
+    onClickReject,
+    onClickPending
 }) => {
     return (
         <BoarderBox
@@ -21,7 +26,16 @@ const UserListItem = ({
             onClickDelete={onClickDelete}
             showEdit={true} // Show the Edit button
             showDelete={true} 
-           
+            onClickActivate={onClickActivate}
+            showActivate={true}
+            onClickApprove={onClickApprove}
+            showApprove={true}
+            onClickDeactivate={onClickDeactivate}
+            showDeactivate={true}
+            onClickReject={onClickReject}
+            showReject={true}
+            onClickPending={onClickPending}
+           showPending={true}
         >
             <HStack
                 width={'100%'}
