@@ -10,15 +10,17 @@ import {
   Text,
 } from "@chakra-ui/react";
 import OTPInput from "../../components/OTPInput";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { verifyOtp } from "../../useFunctions/auth/auth";
 import useCustomToast from "../../hooks/useCustomToast";
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
-  const [searchParams] = useSearchParams();
-  const email = searchParams.get("email");
-  const password = searchParams.get("pass");
+  // const [searchParams] = useSearchParams();
+  // const email = searchParams.get("email");
+  // const password = searchParams.get("pass");
+  const location = useLocation();
+  const { email, password } = location.state || {};
   const { showError, showSuccess } = useCustomToast();
   const navigate = useNavigate();
 

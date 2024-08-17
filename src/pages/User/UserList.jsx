@@ -15,6 +15,7 @@ import { CustomBtn } from "../../myComponent/CustomBtn";
 import { color } from "../../consts/color";
 import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
 import UserListItem from "./components/UserListItem";
+import { changeUserStatus, userPermanantDelete } from "../../useFunctions/user/userFunctions";
 
 const UserList = () => {
   const [userStatus, setUserStatus] = useState("new");
@@ -48,6 +49,30 @@ const UserList = () => {
 
   const allUsers = data?.pages?.flatMap((page) => page?.data || []) || [];
 
+  const handleStatusChange = async ({ userId, newStatus }) => {
+    try {
+      const { data } = await changeUserStatus({ userId, status: newStatus });
+      console.log(data);
+      if (refetch) refetch();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteUser = async (userId) => {
+    try {
+      const { data } = await userPermanantDelete({ userId });
+      console.log(data);
+      if (refetch) refetch();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const navigateEdit = ({ userId }) => {
+    navigate(`/users/addEmployee?id=${userId}`);
+  };
+
   return (
 
     <MyContainer
@@ -72,7 +97,7 @@ const UserList = () => {
       <InfiniteScrollList
         containerStyle={{
           marginTop: '10px',
-          paddingTop:'15px'
+          paddingTop: '15px'
         }}
         data={allUsers || []}
         fetchNextPage={fetchNextPage}
@@ -85,6 +110,10 @@ const UserList = () => {
             item={item}
             onClickBox={() => navigate(`/users/${item?._id}`, { state: item })}
             onClickCheckbox={(v) => console.log('firscheckBox', v)}
+            onClickBtn={() => handleStatusChange({
+              newStatus: 'approved',
+              userId: item?._id
+            })}
           />
         )}
         loadingMessage="Loading users..."
