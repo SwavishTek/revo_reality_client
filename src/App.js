@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loadable from "./components/Loadable";
 import { lazy } from "react";
 import { ForgetPassword } from "./pages/Auth/ForgetPassword.jsx";
+import AppointmentLetter from "./pages/AppointmentLetter/AppointmentLetter.jsx";
 
 
 const Login = Loadable(lazy(() => import("./pages/Auth/Login")));
@@ -82,10 +83,10 @@ function App() {
       path: "/auth/forgetpassword",
       element: <ForgetPassword />,
     },
-    // {
-    //   path: "/dashboard",
-    //   element: <Dashboard />,
-    // },
+    {
+      path: "/appointmentLetter",
+      element: <AppointmentLetter />,
+    },
     {
       path: "/",
       element: <MainLayout />,

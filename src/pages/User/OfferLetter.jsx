@@ -1,4 +1,4 @@
-import { Box, Button, Grid, GridItem, Input, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, Input, Modal, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
@@ -10,6 +10,7 @@ import MyContainer from '../../myComponent/MyContainer';
 import { color } from '../../consts/color';
 import { CustomBtn } from '../../myComponent/CustomBtn';
 import { useNavigate } from "react-router-dom";
+
 
 const OfferLetter = () => {
   const navigate = useNavigate();

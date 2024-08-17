@@ -17,6 +17,7 @@ import DeleteUsersIcon from ".././assets/deleteIcon.svg";
 import checkIcon from '../assets/checkIcon.svg';
 import TeamUpdateIcons from '../assets/teamUpdateIcons.svg';
 import DeleteIcons from "../assets/deleteIcons.svg";
+import RevoIconOfferLetter from '../assets/RevoIconOfferLetter.svg'
 
 export const svg = {
     noImg: noImg,
@@ -37,7 +38,7 @@ export const svg = {
     DeleteUsersIcon: DeleteUsersIcon,
     checkIcon: checkIcon,
     TeamUpdateIcons: TeamUpdateIcons,
-    DeleteIcons: DeleteIcons
-
+    DeleteIcons: DeleteIcons,
+    RevoIconOfferLetter: RevoIconOfferLetter
 
 }
