@@ -15,6 +15,7 @@ import { userRoles } from "../../utils/menuItems";
 import { color } from "../../consts/color";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import DropDown from "../../components/DropDown/DropDown";
+import PhoneInputField from "../../components/PhoneInputField";
 
 const LeaveForm = () => {
   const { data: auth } = useProfileQuery();
@@ -132,15 +133,16 @@ const LeaveForm = () => {
             value={values.role}
             disabled={disabled} // Make this dropdown disabled based on state
           />
-          <CustomInput
-            name="mobile" // Ensure name is used here
-            label={'Phone Number'}
-            placeholder={'Enter your number'}
-            containerStyle={{ width: '49%' }}
-            value={values.mobile}
-            onChange={handleChange}
-            disabled={disabled} // Make this input field disabled based on state
-          />
+           <PhoneInputField
+              width="49%"
+              backgroundColor="rgba(249, 249, 249, 1)"
+               id="mobile"
+               label="Phone Number"
+               value={values.mobile}
+               onChange={(v) => setFieldValue("mobile", v)}
+               disabled={disabled} 
+             />
+          
         </HStack>
 
         <MainTitle title={'LEAVE INFORMATION'} />

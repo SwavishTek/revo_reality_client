@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getTeams } from "../../../useFunctions/team/teamFunction";
+import { getTeamDetailsById, getTeams } from "../../../useFunctions/team/teamFunction";
 import { getUsers } from "../../../useFunctions/user/userFunctions";
 
 export const useTeamQuery = ({ search }) => {
@@ -84,6 +84,17 @@ export const useGetManager = ({ search }) => {
   }
   return { ...res, data }
 
+}
+
+
+export const useGetTeamById=(id)=>{
+  let res = useQuery({
+    queryKey:["team", id],
+    queryFn:()=>getTeamDetailsById(id),
+    staleTime: 1000 * 60 * 10,
+    enabled:!!id
+  })
+  return res
 }
 
 

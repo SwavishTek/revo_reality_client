@@ -28,7 +28,7 @@ const TeamCard = ({ item, onClickCheckbox,
 
   // Handle navigation
   const handleNavigation = () => {
-    navigate(`/teams/${item._id}`);
+    navigate(`/team/${item._id}`);
   };
 
   return (
