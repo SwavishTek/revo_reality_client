@@ -8,11 +8,15 @@ import html2canvas from 'html2canvas';
 import { CustomBtn } from '../../myComponent/CustomBtn';
 import CustomSignature from '../../myComponent/CustomSignature';
 import { LetterContent } from './Component/LetterContent';
+import axios from 'axios';
+import { API_AXIOS } from '../../http/interceptor';
+import { showError } from '../../utils/toastHelpers';
 
 export default function AppointmentLetter() {
 
     const pdfRef = useRef();
     const [signature, setSignature] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     // const generatePDF = () => {
     //     html2canvas(pdfRef.current).then((canvas) => {
@@ -39,9 +43,115 @@ export default function AppointmentLetter() {
     //         pdf.save("document.pdf");
     //     });
     // };
+    // const generatePDF = () => {
+    //     setIsLoading(true);
+    //     html2canvas(pdfRef.current).then(async (canvas) => {
+    //         const imgData = canvas.toDataURL("image/png");
+
+    //         // Set the desired PDF width in pixels (800px)
+    //         const pdfWidthPx = 800;
+    //         const pdfWidthPt = (pdfWidthPx * 72) / 96; // Convert pixels to points (assuming 96dpi)
+
+    //         // Calculate the height in points, maintaining the aspect ratio
+    //         const aspectRatio = canvas.height / canvas.width;
+    //         const pdfHeightPt = pdfWidthPt * aspectRatio;
+
+    //         // Initialize jsPDF with the specified width and calculated height
+    //         const pdf = new jsPDF({
+    //             orientation: 'portrait',
+    //             unit: 'pt', // Points
+    //             format: [pdfWidthPt, pdfHeightPt],
+    //         });
+
+    //         // Scale the canvas to fit within the specified PDF dimensions
+    //         const scaleFactor = pdfWidthPt / canvas.width;
+    //         const scaledWidth = canvas.width * scaleFactor;
+    //         const scaledHeight = canvas.height * scaleFactor;
+
+    //         // Add the scaled image to the PDF
+    //         pdf.addImage(imgData, 'PNG', 0, 0, scaledWidth, scaledHeight);
+    //         pdf.save("document.pdf");
+    //         console.log('pdf', pdf)
+    //         // API_AXIOS.post
+    //         try {
+    //             const formData = new FormData();
+    //             formData.append("files", pdf)
+
+    //             const { data } = await API_AXIOS.post('upload', formData, {
+    //                 headers: {
+    //                     "Content-Type": "multipart/form-data",
+    //                 },
+    //             });
+    //             console.log('data', data)
+    //             return data;
+    //         } catch (error) {
+    //             showError(error?.response?.data?.message);
+    //             console.log('first error', error)
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     });
+    // };
+    // const generatePDF = () => {
+    //     setIsLoading(true);
+    //     html2canvas(pdfRef.current).then(async (canvas) => {
+    //         const imgData = canvas.toDataURL("image/png");
+
+    //         // Set the desired PDF width in pixels (800px)
+    //         const pdfWidthPx = 800;
+    //         const pdfWidthPt = (pdfWidthPx * 72) / 96; // Convert pixels to points (assuming 96dpi)
+
+    //         // Calculate the height in points, maintaining the aspect ratio
+    //         const aspectRatio = canvas.height / canvas.width;
+    //         const pdfHeightPt = pdfWidthPt * aspectRatio;
+
+    //         // Initialize jsPDF with the specified width and calculated height
+    //         const pdf = new jsPDF({
+    //             orientation: 'portrait',
+    //             unit: 'pt', // Points
+    //             format: [pdfWidthPt, pdfHeightPt],
+    //         });
+
+    //         // Scale the canvas to fit within the specified PDF dimensions
+    //         const scaleFactor = pdfWidthPt / canvas.width;
+    //         const scaledWidth = canvas.width * scaleFactor;
+    //         const scaledHeight = canvas.height * scaleFactor;
+
+    //         // Add the scaled image to the PDF
+    //         pdf.addImage(imgData, 'PNG', 0, 0, scaledWidth, scaledHeight);
+
+    //         // Save the PDF as a Blob object
+    //         const pdfBlob = pdf.output('blob'); // Get the PDF as a Blob
+
+    //         try {
+    //             // Prepare FormData with the Blob
+    //             const formData = new FormData();
+    //             formData.append("file", pdfBlob, "document.pdf"); // Append the PDF Blob to FormData
+
+    //             const { data } = await API_AXIOS.post('upload', formData, {
+    //                 headers: {
+    //                     "Content-Type": "multipart/form-data",
+    //                 },
+    //             });
+
+    //             if (data && data.length > 0) {
+    //                 console.log('Upload successful', data);
+    //             } else {
+    //                 console.log('Upload returned an empty response');
+    //             }
+    //         } catch (error) {
+    //             showError(error?.response?.data?.message || 'Upload failed');
+    //             console.error('Upload error', error);
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     });
+    // };
     const generatePDF = () => {
-        html2canvas(pdfRef.current).then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
+        setIsLoading(true);
+        html2canvas(pdfRef.current, { scale: 2 }).then(async (canvas) => {
+            // Convert canvas to a JPEG image with reduced quality
+            const imgData = canvas.toDataURL("image/jpeg", 0.7); // 0.7 reduces quality to 70%
 
             // Set the desired PDF width in pixels (800px)
             const pdfWidthPx = 800;
@@ -64,8 +174,33 @@ export default function AppointmentLetter() {
             const scaledHeight = canvas.height * scaleFactor;
 
             // Add the scaled image to the PDF
-            pdf.addImage(imgData, 'PNG', 0, 0, scaledWidth, scaledHeight);
+            pdf.addImage(imgData, 'JPEG', 0, 0, scaledWidth, scaledHeight);
             pdf.save("document.pdf");
+            // Save the PDF as a Blob object
+            const pdfBlob = pdf.output('blob'); // Get the PDF as a Blob
+
+            try {
+                // Prepare FormData with the Blob
+                const formData = new FormData();
+                formData.append("files", pdfBlob, "document.pdf"); // Append the PDF Blob to FormData
+
+                const { data } = await API_AXIOS.post('upload', formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                if (data && data.length > 0) {
+                    console.log('Upload successful', data);
+                } else {
+                    console.log('Upload returned an empty response');
+                }
+            } catch (error) {
+                showError(error?.response?.data?.message || 'Upload failed');
+                console.error('Upload error', error);
+            } finally {
+                setIsLoading(false);
+            }
         });
     };
 
@@ -99,6 +234,7 @@ export default function AppointmentLetter() {
                 onClick={generatePDF}
                 mt={'20px'}
                 colorScheme="blue"
+                isLoading={isLoading}
             >
                 Generate PDF
             </Button>
