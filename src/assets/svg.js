@@ -23,6 +23,7 @@ import Deactivate from "../assets/deactivate.svg"
 import Approve from "../assets/approve.svg";
 import noUser from "../assets/NoUser.svg";
 
+import RevoIconOfferLetter from '../assets/RevoIconOfferLetter.svg'
 
 export const svg = {
     noImg: noImg,

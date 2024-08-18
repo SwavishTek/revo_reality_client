@@ -1,0 +1,14 @@
+.text {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.boldText {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.lightBoldText {
+    font-weight: 600;
+    font-size: 16px;
+}
