@@ -86,39 +86,42 @@ const OfferLetterList = () => {
 
         <Text fontWeight={'bold'} fontSize={'1.7rem'} marginBottom={'1rem'}>OFFER LETTERS</Text>
         <Divider w={'20%'} borderColor={'#9A4D49'} borderWidth={'1px'} />
-        <TableContainer mt={'2rem'}>
+        {/* <TableContainer mt={'2rem'}>
           <Table variant='striped' color={'#000'} colorScheme='gray'>
             <LetterHeader columns={columns} />
             <Tbody>
-              {/* {offerLetters?.map(item => (
+              {offerLetters?.map(item => (
                 <LetterRow key={item.id} item={item} onClickDownload={() => console.log(item?.employeeName)} onClickView={() => console.log(item?.employeeName)} />
-              ))} */}
-              <InfiniteScrollList
-                data={data || []}
-                fetchNextPage={fetchNextPage}
-                hasNextPage={hasNextPage}
-                isFetchingNextPage={isFetchingNextPage}
-                isLoading={isLoading}
-                isFetching={isFetching}
-                renderItem={(item) => (
-                  // <TeamCard
-                  //   item={item}
-                  //   onClickBox={() => navigate(`/teams/${item?._id}`, { state: item })}
-                  //   onClickCheckbox={(v) => console.log('firscheckBox', v)}
-                  // />
-                  <LetterRow key={item._id} item={item} onClickDownload={() => console.log(item?.employeeName)} onClickView={() => console.log(item?.employeeName)} />
-                )}
-                loadingMessage="Loading teams..."
-                errorMessage="Error fetching teams"
-                noDataMessage="No Teams In The System"
-              />
+              ))}
+              
             </Tbody>
           </Table>
-        </TableContainer>
+        </TableContainer> */}
+        <InfiniteScrollList
+          data={data || []}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          renderItem={(item) => (
+            // <TeamCard
+            //   item={item}
+            //   onClickBox={() => navigate(`/teams/${item?._id}`, { state: item })}
+            //   onClickCheckbox={(v) => console.log('firscheckBox', v)}
+            // />
+            <LetterRow key={item._id} item={item}
+              onClickDownload={() => console.log(item?.employeeName)}
+              onClickView={() => console.log(item?.employeeName)} />
+          )}
+          loadingMessage="Loading teams..."
+          errorMessage="Error fetching teams"
+          noDataMessage="No Teams In The System"
+        />
       </ShadowBox>
 
     </MyContainer>
   )
 }
 
-export default OfferLetterList
+export default React.memo(OfferLetterList)

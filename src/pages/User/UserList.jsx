@@ -79,6 +79,10 @@ const UserList = () => {
       header={'All Employees'}
       btnComponent={<>
         <CustomBtn
+          bgColor={color.secondaryBtn}
+          title={'Offer Letter List'}
+          onClick={() => navigate('/users/offerletterlist')} />
+        <CustomBtn
           title={'Offer Letters'}
           onClick={() => navigate('/users/offerletter')}
 
@@ -87,7 +91,9 @@ const UserList = () => {
           bgColor={color.secondaryBtn}
           title={'Add Employee'}
           onClick={() => navigate('/users/addEmployee')} />
-      </>}>
+      </>
+      }
+    >
       <Filters onSearchChange={setSearch} />
       <CardHeader
         value={userStatus}
