@@ -25,7 +25,7 @@ const MyContainer = ({
             paddingStart={'8px'}
             // paddingEnd={'16px'}
             bgColor={'#F9F9F9'}
-            minWidth={'1000px'}
+            minWidth={'900px'}
         >
             <Box
                 width="100%"

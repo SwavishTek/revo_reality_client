@@ -1,8 +1,10 @@
 import React from 'react';
 import { Tr, Td, Button, Flex, HStack, Box } from '@chakra-ui/react';
 import { CustomText } from '../../../myComponent/CustomText';
+import { color } from '../../../consts/color';
+import { dateFormate } from '../../../utils/common';
 
-const LetterRow = ({ item, onClickDownload, onClickView }) => {
+const LetterRow = ({ item, onClickDownload, onClickView, bgC }) => {
   return (
     // <Tr key={item?._id}>
     //   <Td>{item?.name}</Td>
@@ -27,33 +29,52 @@ const LetterRow = ({ item, onClickDownload, onClickView }) => {
     // </Tr>
     <HStack
       width={'100%'}
-      bg={'red'}
+      bg={bgC ? color.lightPink : 'white'}
+      padding={'10px 0px'}
+      borderBottom={`1px solid ${color.borderGray}`}
     >
+      <Box
+        width={'30%'}
+      >
+        <CustomText>{item?.name || 'N/A'}</CustomText>
+      </Box>
+      <Box
+        width={'20%'}
+      >
+        <CustomText>
+          {dateFormate(item?.createdAt)}
+        </CustomText>
+      </Box>
       <Box
         width={'25%'}
       >
-        <CustomText>Md Javed ali khan</CustomText>
-      </Box>
-      <Box
-        width={'20%'}
-      >
         <CustomText>
-          {'08/07/2024, 10:00AM'}
+          {item?.createdBy || 'N/A'}
         </CustomText>
       </Box>
       <Box
-        width={'20%'}
+        width={'10%'}
       >
-        <CustomText>
-          Kashif kahna butto
-        </CustomText>
+        <CustomText>{item?.status || 'N/A'}</CustomText>
       </Box>
       <Box
         width={'15%'}
-      ></Box>
-      <Box
-        width={'20%'}
-      ></Box>
+      >
+        <HStack>
+          <CustomText
+            color={color.secondaryBtn}
+            fontWeight='500'
+            cursor={'pointer'}
+            onClick={onClickView}
+          >View</CustomText>
+          <CustomText
+            color={color.secondaryBtn}
+            fontWeight='500'
+            cursor={'pointer'}
+            onClick={onClickDownload}
+          >Download</CustomText>
+        </HStack>
+      </Box>
     </HStack>
   );
 };
