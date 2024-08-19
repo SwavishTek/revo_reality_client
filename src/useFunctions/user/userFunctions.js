@@ -62,15 +62,13 @@ export const getUserDetailsById = async (id) => {
 
 export const userPermanantDelete = async ({ userId = "" }) => {
   try {
-    const { data } = await API_AXIOS.post(`${Apis.userPermanentDelete}`, {
-      userId,
-    });
+    const response = await API_AXIOS.post(`${Apis.userPermanentDelete}`, { userId });
+    const data = response.data;
     showSuccess(data?.message);
     return data || {};
   } catch (error) {
-    showError(error?.response?.data?.message);
+    showError(error?.response?.data?.message || "Something went wrong");
     throw new Error(error.response.data.error || "Something went wrong");
-    // console.log(error);
   }
 };
 
