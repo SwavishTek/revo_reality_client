@@ -55,6 +55,7 @@ const OfferLetter = () => {
           sendData,
         });
         // Redirect or show a success message
+
         navigate("/users/offerletterlist");
       } catch (error) {
         console.error("Error submitting form:", error);

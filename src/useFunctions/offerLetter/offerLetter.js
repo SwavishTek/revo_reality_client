@@ -25,7 +25,7 @@ export const getOfferLetterList = async ({
                 search
             }
         })
-        showSuccess(data?.message)
+        // showSuccess(data?.message)
         return data;
     }
     catch (error) {
@@ -44,7 +44,7 @@ export const getOfferLetterDetailPublic = async ({
             orgId,
             letterId
         })
-        showSuccess(data?.message)
+        // showSuccess(data?.message)
         return data?.data;
     }
     catch (error) {
@@ -56,7 +56,7 @@ export const getOfferLetterDetailPublic = async ({
 export const getOfferLetterDetailAuth = async (id) => {
     try {
         const { data } = await API_AXIOS.get(`getDetailsById/${id}`)
-        showSuccess(data?.message)
+        // showSuccess(data?.message)
         return data;
     }
     catch (error) {

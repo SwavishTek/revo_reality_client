@@ -37,12 +37,12 @@ const OfferLetterList = () => {
     <MyContainer
       header={'Offer Letters'}
       btnComponent={<>
-        <CustomBtn title={'Employees'}
+        {/* <CustomBtn title={'Employees'}
           bgColor={color.primaryBtn}
-          onClick={() => navigate('/users/offerletterlist')} />
-        <CustomBtn title={'Create Offer Letter'}
-          bgColor={color.secondaryBtn}
-          onClick={() => navigate('/users/offerletterlist')}
+          onClick={() => navigate('/users/offerletterlist')} /> */}
+        <CustomBtn
+          title={'Create Offer Letters'}
+          onClick={() => navigate('/users/offerletter')}
         />
       </>}
     >
