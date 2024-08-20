@@ -28,11 +28,6 @@ const Login = () => {
       console.log('values', values);
       try {
         const { data } = await API_AXIOS.post(`auth/login`, values);
-        // navigate({
-        //   pathname: "/auth/verifyOTP",
-        //   search: `email=${values.email}&pass=${values.password}`,
-
-        // });
         navigate("/auth/verifyOTP", {
           state: {
             email: values.email,
