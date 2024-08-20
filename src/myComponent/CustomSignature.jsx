@@ -42,7 +42,7 @@ import SignatureCanvas from 'react-signature-canvas';
 import { CustomBtn } from './CustomBtn';
 import { color } from '../consts/color';
 
-const CustomSignature = ({ onSave }) => {
+const CustomSignature = ({ onSave, btnTitle }) => {
     const { isOpen, onOpen, onClose } = useDisclosure(); // Modal control
     const sigCanvas = useRef(null);
     const [isEmpty, setIsEmpty] = useState(true);
@@ -78,7 +78,7 @@ const CustomSignature = ({ onSave }) => {
                 Add Signature
             </Button> */}
             <CustomBtn
-                title={'Add Signature'}
+                title={btnTitle || 'Add Signature'}
                 bgColor={color.primaryBtn}
                 onClick={handleOpen}
             />
@@ -98,7 +98,7 @@ const CustomSignature = ({ onSave }) => {
                     <ModalBody>
                         <SignatureCanvas
                             ref={sigCanvas}
-                            canvasProps={{ width: 400, height: 200, className: 'sigCanvas' }}
+                            canvasProps={{ width: 490, height: 200, className: 'sigCanvas' }}
                             backgroundColor="#f5f5f5"
                             penColor="black"
                             onEnd={handleEnd}
