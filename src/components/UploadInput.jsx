@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { Box, Text, Spinner, Input, InputGroup, InputRightElement, Icon } from "@chakra-ui/react";
+import { DownloadIcon } from "@chakra-ui/icons";
 import { uploadImg } from "../useFunctions/commonFunctions";
-import { Box, Spinner, Text } from "@chakra-ui/react";
 
 const UploadInput = ({ onChange, label }) => {
   const [loading, setLoading] = useState(false);
+  const [fileName, setFileName] = useState('Upload Proof');
+
   const handleUpload = async (e) => {
     setLoading(true);
     const files = e.target.files;
@@ -11,36 +14,51 @@ const UploadInput = ({ onChange, label }) => {
     try {
       const result = await uploadImg(filesArr);
       console.log(result);
-
       if (onChange) onChange(result.data);
+      setFileName(filesArr.map(file => file.name).join(', ')); // Show selected file names
     } catch (err) {
       console.log(err);
     }
     setLoading(false);
   };
+
   return (
-    <div style={{ position: "relative" }}>
-      <Text mb={2} fontWeight={"semibold"}>
+    <Box position="relative">
+      <Text mb={2} fontWeight="semibold">
         {label}
       </Text>
-      <input
+      <Input
+        type="file"
+        display="none"
         onChange={handleUpload}
         multiple
         accept="image/png, image/gif, image/jpeg"
-        type="file"
-        style={{
-          width: "100%",
-          padding: "6px",
-          borderRadius: "6px",
-          border: "1px solid lightgray",
-        }}
       />
+      <InputGroup>
+        <Input
+          placeholder={fileName}
+          textAlign="left"
+          cursor="pointer"
+          borderRadius="md"
+          _placeholder={{ color: 'gray.500' }}
+          onClick={() => document.querySelector('input[type="file"]').click()}
+          readOnly
+        />
+        <InputRightElement
+          pointerEvents="none"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Icon as={DownloadIcon} color="gray.500" />
+        </InputRightElement>
+      </InputGroup>
       {loading && (
-        <Box my={4} textAlign={"center"}>
+        <Box my={4} textAlign="center">
           <Spinner />
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 

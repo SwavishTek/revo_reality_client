@@ -80,7 +80,7 @@ export const userNotificationItems = [
     value: "read",
     color: "#FF8A00",
   },
-  
+
 ];
 
 export const leaveHeaderItems = [

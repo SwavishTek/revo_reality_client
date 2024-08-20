@@ -8,6 +8,7 @@ import { useTeamQuery } from "./useQuery/useQuery";
 import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
 import MyContainer from "../../myComponent/MyContainer";
 import { CustomBtn } from "../../myComponent/CustomBtn";
+import NoDataFound from "../User/components/NoDataFound";
 
 
 const TeamList = () => {
@@ -43,11 +44,22 @@ const TeamList = () => {
             item={item}
             onClickBox={() => navigate(`/teams/${item?._id}`, { state: item })}
             onClickCheckbox={(v) => console.log('firscheckBox', v)}
+            onClickUpdate={(e) => {
+             console.log('successd')
+            }}
+            onClickDelete={(e) => {
+             console.log('success')
+            }}
           />
         )}
         loadingMessage="Loading teams..."
         errorMessage="Error fetching teams"
-        noDataMessage="No Teams In The System"
+        noDataMessage={
+          <>
+            <NoDataFound message={'No Teams In The System'} name="NoTeamImage" />
+          </>
+        }
+        gap={2}
       />
     </MyContainer>
     // <VStack spacing={4} align="stretch" height="100%" width={"100%"} p={4}>

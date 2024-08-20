@@ -11,6 +11,7 @@ export const CustomText = ({
     noOfLines,
     style,
     fontFamily,
+    className,
     ...props
 }) => {
     return (
@@ -23,6 +24,7 @@ export const CustomText = ({
             marginBottom={marginBottom}
             style={style}
             {...props}
+            className={className}
         >
             {children}
         </Text>

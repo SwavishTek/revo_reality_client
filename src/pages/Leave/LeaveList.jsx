@@ -10,6 +10,7 @@ import MyContainer from "../../myComponent/MyContainer";
 import LeaveListItem from "./component/LeaveListItem";
 import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
 import { useNavigate } from "react-router-dom";
+import NoDataFound from "../User/components/NoDataFound";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
@@ -51,7 +52,12 @@ const LeaveList = () => {
         )}
         loadingMessage="Loading Leave List..."
         errorMessage="Error fetching teams"
-        noDataMessage="No Teams In The System"
+        noDataMessage={
+          <>
+            <NoDataFound message={'No Data Found'} name="NoLeave" />
+          </>
+        }
+        gap={2}
       />
       {/* {[...new Array(20)].map((el) => {
         return <LeaveListItem />

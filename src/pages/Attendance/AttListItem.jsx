@@ -9,14 +9,13 @@ const AttListItem = ({ item, onClickCheckbox, onClickBox }) => {
         <BoarderBox
             onClickCheckbox={onClickCheckbox}
             onClickBox={onClickBox}
-            containerStyle={{
-                padding: "20px"
-            }}
+          
         >
             <HStack
                 width={'100%'}
                 alignItems={'flex-start'}
                 marginLeft={5}
+                padding={'15px 0px'}
             >
                 <Avatar
                     size='sm'
