@@ -15,17 +15,12 @@ const LeaveListItem = ({
         <BoarderBox
             onClickCheckbox={onClickCheckbox}
             onClickBox={onClickBox}
-            containerStyle={{
-                padding: '15px',
-                // marginBottom: '20px',
-                // display: 'flex',
-                // flexDirection: 'row',
-            }}
         >
             <HStack
                 width={'100%'}
                 alignItems={'flex-start'}
                 marginStart={'15px'}
+                padding={'15px 0px'}
             >
                 <Avatar
                     size='sm'

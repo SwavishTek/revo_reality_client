@@ -21,7 +21,7 @@ const arrData = (arr, key = 'name') => {
   return arr.map(item => item[key] || item).join(', ');
 };
 
-// name fetch in array
+
 const getNamesFromIds = (ids, details) => {
   if (!ids || !details) return 'N/A';
   const idToNameMap = details.reduce((map, item) => {

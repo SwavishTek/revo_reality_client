@@ -8,14 +8,17 @@ import { BoarderBox } from "../../myComponent/BoarderBox.jsx";
 import ColumnItem from "../../myComponent/ColumnItem.jsx";
 
 const TeamCard = ({ item, onClickCheckbox,
-  onClickBox }) => {
+  onClickBox, onClickDelete, onClickUpdate }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const arrData = (arr) => {
     return arr.length > 0 ? arr.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>;
   };
 
-
+ /* const handleButtonClick = (event, action, ...params) => {
+    event.stopPropagation();  
+    action(...params);
+  };*/
 
   const cardItems = [
     { title: "Creation Date:", value: formatDate(item?.createdAt) },
@@ -36,11 +39,17 @@ const TeamCard = ({ item, onClickCheckbox,
     <BoarderBox
      onClickCheckbox={onClickCheckbox}
      onClickBox={onClickBox}
-     containerStyle={{ padding: '15px'}}>
+     onClickUpdate={onClickUpdate}
+     showUpdate={true}
+     onClickDelete={onClickDelete}
+     showDelete={true}
+    
+    >
       <HStack
       width={'100%'}
                 alignItems={'flex-start'}
-                marginStart={'15px'}>
+                marginStart={'15px'}
+                padding={'15px 0px'}>
                 <Avatar
                 size='sm'
                     name={item?.teamName || null}

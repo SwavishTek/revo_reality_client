@@ -40,13 +40,15 @@ export const BoarderBox = ({
     onClickDelete,
     onClickDeactivate,
     onClickActivate,
+    onClickUpdate,
     showPending,
     showApprove,
     showReject,
     showEdit,
     showDelete,
     showDeactivate,
-    showActivate
+    showActivate,
+    showUpdate,
 }) => {
     const handleClickBox = () => {
         onClickBox && onClickBox();
@@ -96,6 +98,13 @@ export const BoarderBox = ({
                                 icon={svg.Pending}
                                 label="Pending"
                                 onClick={onClickPending}
+                            />
+                        )}
+                        {showUpdate && (
+                            <StyledButton
+                                icon={svg.TeamUpdateIcons}
+                                label="Update"
+                                onClick={onClickUpdate}
                             />
                         )}
                         {showApprove && (

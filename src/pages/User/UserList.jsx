@@ -14,8 +14,9 @@ import InfiniteScrollList from '../../myComponent/InfiniteScrollList';
 import UserListItem from './components/UserListItem';
 import { changeUserStatus, userPermanantDelete } from '../../useFunctions/user/userFunctions';
 import Confirmation from '../../components/Confirmation';
-import { userStatusObj } from '../../utils/menuItems'; // Import the status object
-import { useDisclosure } from '@chakra-ui/react'; // Ensure this is imported
+import { userStatusObj } from '../../utils/menuItems'; 
+import { useDisclosure } from '@chakra-ui/react'; 
+import NoDataFound from './components/NoDataFound';
 
 const UserList = () => {
   const [userStatus, setUserStatus] = useState('new');
@@ -137,7 +138,12 @@ const UserList = () => {
         )}
         loadingMessage="Loading users..."
         errorMessage="Error fetching users"
-        noDataMessage="No Users In The System"
+        noDataMessage={
+          <>
+            <NoDataFound message={'No User In The System'} name="NoUser" />
+          </>
+        }
+        gap={2}
       />
       <Confirmation
         line1="Are you sure you want to delete"

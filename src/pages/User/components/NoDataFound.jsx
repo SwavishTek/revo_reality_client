@@ -18,6 +18,7 @@ const NoDataFound = ({  message,name }) => (
   <VStack spacing={4} align="center" justify="center" height="100%" textAlign="center">
     <Box>
       <Image
+        marginTop={'4rem'}
         src={images?.[name]||NoTeamImage}
         alt="No Data"      
         objectFit="contain"
