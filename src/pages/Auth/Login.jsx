@@ -69,18 +69,6 @@ const Login = () => {
           <Input value={values.email} name="email" onChange={handleChange} />
         </div>
         <div>
-          {/* <InputGroup size="md">
-            <Input
-              pr="4.5rem"
-              type={show ? "text" : "password"}
-              placeholder="Enter password"
-            />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleClick}>
-                {show ? "Hide" : "Show"}
-              </Button>
-            </InputRightElement>
-          </InputGroup> */}
           <Text fontSize={"1.2rem"} fontWeight={"semibold"}>
             Password
           </Text>

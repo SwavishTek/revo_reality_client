@@ -22,6 +22,9 @@ import Pending from "../assets/pending.svg";
 import Deactivate from "../assets/deactivate.svg"
 import Approve from "../assets/approve.svg";
 import noUser from "../assets/NoUser.svg";
+import call from "../assets/call.svg";
+import email from "../assets/email.svg";
+import web from "../assets/web.svg";
 
 import RevoIconOfferLetter from '../assets/RevoIconOfferLetter.svg'
 
@@ -50,4 +53,7 @@ export const svg = {
     Pending : Pending,
     Deactivate : Deactivate,
     Approve : Approve,
+    Call : call,
+    Email: email,
+    Web: web,
 }
