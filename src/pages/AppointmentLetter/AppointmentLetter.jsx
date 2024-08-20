@@ -114,7 +114,7 @@ export default function AppointmentLetter() {
 
     return (
         <Box padding={'20px'} bg={'#F9F9F9'} >
-            <HStack mb={'20px'}
+            {!orgId && <HStack mb={'20px'}
                 width={'fit-content'}
                 onClick={() => navigate(-1)}
                 cursor={'pointer'}
@@ -132,7 +132,7 @@ export default function AppointmentLetter() {
                 >
                     Back
                 </CustomText>
-            </HStack>
+            </HStack>}
             <VStack
                 width={'100%'}
             >

@@ -27,6 +27,7 @@ const LeaveDetails = () => {
   const { data: auth } = useProfileQuery();
   const [rejectLoad, setRejectLoad] = useState(false);
   const [approveLoad, setApproveLoad] = useState(false);
+  const [reviseLoad, setReviseLoad] = useState(false)
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [holdLoad, setHoldLoad] = useState(false);
@@ -70,7 +71,7 @@ const LeaveDetails = () => {
           />
           <CustomBtn
             title={'Revise'}
-            isLoading={approveLoad}
+            isLoading={reviseLoad}
             bgColor={color.warning}
             onClick={onOpen}
           />
@@ -93,7 +94,7 @@ const LeaveDetails = () => {
         <RowItem
           containerStyle={{ alignItems: 'flex-start' }}
           title={"Employee Name"}
-          value={`${data.name || ""} ${data.lastName || ""} sf sdfdfsdfds s fsdf  sdfsdfsdfdsf  s fsdfsdfsdfdsfdsf s f sdfsf sdfs sd fsdfsdfs sdfd sfsd sd fsdfsdfsdf sd fsdfdsf sd fsdfsdfsdf sdfdsfsdfds sdfdsfsdf`}
+          value={`${data.name || ""} ${data.lastName || ""}`}
         />
         <RowItem
           title={"Role"}
@@ -101,9 +102,12 @@ const LeaveDetails = () => {
         />
         <RowItem
           title={"Mobile Number"}
-          value={data?.mobile} mb={10}
+          value={data?.mobile} 
         />
-
+        <RowItem
+          title={"Status"}
+          value={data?.status} mb={10}
+        />
         <MainTitle
           title={'LEAVE INFORMAION'}
         />
