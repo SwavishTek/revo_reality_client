@@ -10,6 +10,7 @@ export const createOfferLetter = async ({ sendData }) => {
     catch (error) {
         console.log('error', error)
         showError(error?.response?.data?.message);
+        throw new Error(error);
     }
 }
 
