@@ -10,6 +10,7 @@ export const createOfferLetter = async ({ sendData }) => {
     catch (error) {
         console.log('error', error)
         showError(error?.response?.data?.message);
+        throw new Error(error);
     }
 }
 
@@ -44,7 +45,7 @@ export const getOfferLetterDetailPublic = async ({
             letterId
         })
         showSuccess(data?.message)
-        return data;
+        return data?.data;
     }
     catch (error) {
         console.log('error', error)

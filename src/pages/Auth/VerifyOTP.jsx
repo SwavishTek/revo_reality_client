@@ -27,7 +27,7 @@ const VerifyOTP = () => {
   const handleSubmit = async () => {
     try {
       const { data } = await verifyOtp({ email, otp });
-      navigate("/dashboard");
+      navigate("/");
       showSuccess({ message: data?.message });
     } catch (err) {
       console.error(err);

@@ -3,13 +3,21 @@ import { Tr, Td, Button, Flex, HStack, Box } from '@chakra-ui/react';
 import { CustomText } from '../../../myComponent/CustomText';
 import { color } from '../../../consts/color';
 import { dateFormate } from '../../../utils/common';
+import { useNavigate } from 'react-router-dom';
 
-const LetterRow = ({ item, onClickDownload, onClickView, bgC }) => {
+const LetterRow = ({ item, bgC }) => {
+  const navigate = useNavigate();
+
+  const isSigned = item?.status === "signed"
+
   const handleDownload = () => {
-    // Navigate to the PDF link
-    // window.location.href = "https://res.cloudinary.com/dgolbfbpq/image/upload/v1723995912/upload/is8wj8erhzcawkqrjmsa.pdf";
     window.open(item?.url);
   };
+
+  const handleView = () => {
+    navigate('/appointmentLetter', { state: item })
+  }
+
   return (
     // <Tr key={item?._id}>
     //   <Td>{item?.name}</Td>
@@ -39,7 +47,7 @@ const LetterRow = ({ item, onClickDownload, onClickView, bgC }) => {
       borderBottom={`1px solid ${color.borderGray}`}
     >
       <Box
-        width={'30%'}
+        width={'35%'}
       >
         <CustomText>{item?.name || 'N/A'}</CustomText>
       </Box>
@@ -63,21 +71,21 @@ const LetterRow = ({ item, onClickDownload, onClickView, bgC }) => {
         <CustomText>{item?.status || 'N/A'}</CustomText>
       </Box>
       <Box
-        width={'15%'}
+        width={'10%'}
       >
         <HStack>
           <CustomText
             color={color.secondaryBtn}
             fontWeight='500'
             cursor={'pointer'}
-            onClick={onClickView}
+            onClick={isSigned ? handleDownload : handleView}
           >View</CustomText>
-          <CustomText
+          {/* <CustomText
             color={color.secondaryBtn}
             fontWeight='500'
             cursor={'pointer'}
             onClick={handleDownload}
-          >Download</CustomText>
+          >Download</CustomText> */}
         </HStack>
       </Box>
     </HStack>

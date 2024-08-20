@@ -16,6 +16,7 @@ import useCustomToast from "../../hooks/useCustomToast";
 import LoadButton from "../../components/LoadButton";
 import { API_AXIOS } from "../../http/interceptor";
 
+// dhananjay kumar
 const Login = () => {
   //   const [show, setShow] = React.useState(false);
   //   const handleClick = () => setShow(!show);
@@ -27,11 +28,6 @@ const Login = () => {
       console.log('values', values);
       try {
         const { data } = await API_AXIOS.post(`auth/login`, values);
-        // navigate({
-        //   pathname: "/auth/verifyOTP",
-        //   search: `email=${values.email}&pass=${values.password}`,
-
-        // });
         navigate("/auth/verifyOTP", {
           state: {
             email: values.email,
@@ -68,18 +64,6 @@ const Login = () => {
           <Input value={values.email} name="email" onChange={handleChange} />
         </div>
         <div>
-          {/* <InputGroup size="md">
-            <Input
-              pr="4.5rem"
-              type={show ? "text" : "password"}
-              placeholder="Enter password"
-            />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleClick}>
-                {show ? "Hide" : "Show"}
-              </Button>
-            </InputRightElement>
-          </InputGroup> */}
           <Text fontSize={"1.2rem"} fontWeight={"semibold"}>
             Password
           </Text>

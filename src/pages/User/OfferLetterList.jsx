@@ -80,8 +80,9 @@ const OfferLetterList = () => {
             <LetterRow
               bgC={index % 2 === 0}
               item={item}
-              onClickView={() => navigate('/appointmentLetter', { state: item })}
-              onClickDownload={() => console.log('view', item?.employeeName)} />
+            // onClickView={() => navigate('/appointmentLetter', { state: item })}
+            // onClickDownload={() => console.log('view', item?.employeeName)}
+            />
           )}
           loadingMessage="Loading teams..."
           errorMessage="Error fetching teams"

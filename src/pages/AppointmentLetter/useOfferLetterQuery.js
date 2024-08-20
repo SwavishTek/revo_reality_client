@@ -22,7 +22,6 @@ export const useGetOfferLetterDetailPublic = ({
   letterId = null,
   orgId = null
 }) => {
-  console.log('firstLetterDetailORNot')
   let res = useQuery({
     queryKey: ["getOfferLetterDetailPublic", letterId, orgId],
     queryFn: () => getOfferLetterDetailPublic({
