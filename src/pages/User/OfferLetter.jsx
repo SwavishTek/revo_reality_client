@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import DropDown from "../../components/DropDown/DropDown";
 import { CustomInput } from "../../myComponent/CustomInput";
 import { createOfferLetter } from "../../useFunctions/offerLetter/offerLetter";
+import * as Yup from 'yup';
 
 const OfferLetter = () => {
   const navigate = useNavigate();
@@ -30,11 +31,12 @@ const OfferLetter = () => {
   // Initialize Formik
   const {
     values,
-    handleChange,
-    handleBlur,
-    handleSubmit,
     errors,
     touched,
+    isValid,
+    handleChange,
+    handleBlur,
+    handleSubmit,    
     setFieldValue,
   } = useFormik({
     initialValues: {
@@ -45,11 +47,10 @@ const OfferLetter = () => {
       department: "",
       offerPackage: "",
     },
+    validationSchema,
     onSubmit: async (value) => {
       setIsLoadingBtn(true);
-      // Handle form submission
       let sendData = { ...value, role: value?.role?.value };
-
       try {
         await createOfferLetter({
           sendData,
@@ -145,6 +146,10 @@ const OfferLetter = () => {
             ]}
             name={"role"}
             value={values.role}
+            // onChange={handleChange}
+            onBlur={handleBlur}
+            errors={errors}
+            touched={touched}
             onChange={(v) => setFieldValue("role", v)}
             width={"45%"}
           />
@@ -182,3 +187,25 @@ const OfferLetter = () => {
 };
 
 export default OfferLetter;
+
+const validationSchema = Yup.object({
+  email: Yup.string()
+      .email('Invalid email address')
+      .required('Email is required'),
+
+  name: Yup.string()
+      .required('Name is required'),
+  
+  dateOfJoining: Yup.string()
+      .required('Choose date of joining'),
+
+  role: Yup.string()
+      .required('Role is required'),
+
+  department: Yup.string()
+      .required('Department is required'),
+
+  offerPackage: Yup.string()
+      .required('Offer package is rrequired')
+
+});

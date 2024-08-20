@@ -7,7 +7,7 @@ import { TiDocumentText } from "react-icons/ti";
 export const menuItems = [
   {
     label: "Dashboard",
-    href: "/",
+    href: "/dashboard",
     icon: <TbTargetArrow size={"1.4rem"} />,
   },
   {
