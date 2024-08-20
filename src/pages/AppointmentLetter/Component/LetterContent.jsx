@@ -15,7 +15,8 @@ import footer from "../svg/footer.png";
 import header from "../svg/header.png";
 import { svg } from "../../../assets/svg";
 
-export const LetterContent = ({ pdfRef, signature }) => {
+export const LetterContent = ({ pdfRef, signature, userInfo }) => {
+  console.log('useInfoLetterContent', userInfo)
   return (
     <Box maxWidth={"800px"} minWidth={"600px"} bg={"white"}>
       <Box ref={pdfRef}>

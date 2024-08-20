@@ -28,13 +28,17 @@ export default function AppointmentLetter() {
     const [isLoading2, setIsLoading2] = useState(false);
     const [pdfUrl, setPdfUrl] = useState(null);
     const [enableFinalBtn, setEnableFinalBtn] = useState(false);
-    const { state: useInfo } = useLocation();
+    const { state: userInfo } = useLocation();
 
-    const { data } = useGetOfferLetterDetailPublic({
+    const { data, isLoading: isDataLoading } = useGetOfferLetterDetailPublic({
         letterId: letterId,
         orgId: orgId
     })
-    console.log('dataApointment Letter', data)
+
+    if (isDataLoading || !data) {
+        return <Box>Loading...</Box>;
+    }
+
     const uploadPdf = () => {
         setIsLoading(true);
         html2canvas(pdfRef.current, { scale: 2 }).then(async (canvas) => {
@@ -135,7 +139,7 @@ export default function AppointmentLetter() {
                 <LetterContent
                     pdfRef={pdfRef}
                     signature={signature}
-                    userInfo={useInfo}
+                    userInfo={data || {}}
                 />
 
             </VStack>
