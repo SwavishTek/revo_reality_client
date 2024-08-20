@@ -44,7 +44,7 @@ export const getOfferLetterDetailPublic = async ({
             letterId
         })
         showSuccess(data?.message)
-        return data;
+        return data?.data;
     }
     catch (error) {
         console.log('error', error)

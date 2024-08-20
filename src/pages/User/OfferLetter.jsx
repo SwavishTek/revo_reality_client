@@ -26,9 +26,10 @@ const OfferLetter = () => {
       department: '',
       offerPackage: ''
     },
-    onSubmit: (values) => {
+    onSubmit: (value) => {
       // Handle form submission
-      console.log('Form data', values);
+      let sendData = { ...value, role: value?.role?.value }
+      console.log('sendData', sendData)
     }
   });
   // console.log('first')
