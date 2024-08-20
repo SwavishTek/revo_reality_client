@@ -35,9 +35,9 @@ export default function AppointmentLetter() {
         orgId: orgId
     })
 
-    if (isDataLoading || !data) {
-        return <Box>Loading...</Box>;
-    }
+    // if (orgId && isDataLoading || !data) {
+    //     return <Box>Loading...</Box>;
+    // }
 
     const uploadPdf = () => {
         setIsLoading(true);
@@ -139,11 +139,11 @@ export default function AppointmentLetter() {
                 <LetterContent
                     pdfRef={pdfRef}
                     signature={signature}
-                    userInfo={data || {}}
+                    userInfo={!orgId ? userInfo : data ?? {}}
                 />
 
             </VStack>
-            <HStack
+            {orgId && <HStack
                 alignItems={'center'}
                 justifyContent={'flex-start'}
                 margin={10}
@@ -170,7 +170,7 @@ export default function AppointmentLetter() {
                     isDisabled={!enableFinalBtn}
                     onClick={finalSubmit}
                 />
-            </HStack>
+            </HStack>}
         </Box>
     )
 }

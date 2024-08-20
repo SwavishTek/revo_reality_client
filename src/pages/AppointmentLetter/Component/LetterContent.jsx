@@ -14,6 +14,7 @@ import "./letterContent.css";
 import footer from "../svg/footer.png";
 import header from "../svg/header.png";
 import { svg } from "../../../assets/svg";
+import { dateFormate } from "../../../utils/common";
 
 export const LetterContent = ({ pdfRef, signature, userInfo }) => {
   console.log('useInfoLetterContent', userInfo)
@@ -56,11 +57,13 @@ export const LetterContent = ({ pdfRef, signature, userInfo }) => {
               </Text>
             </HStack>
             <Text className="text" mb={"10px"}>
-              ______________________________@gmail.com
+              {/* ______________________________@gmail.com */}
+              {userInfo?.email || 'N/A'}
             </Text>
             <HStack mb={"20px"}>
               <Text className="text" mb={"10px"}>
-                Dear ____________________,
+                {/* Dear ____________________, */}
+                Dear  {userInfo?.name || 'N/A'}
               </Text>
             </HStack>
             <Text className="boldText" mb={"20px"}>
@@ -109,8 +112,8 @@ export const LetterContent = ({ pdfRef, signature, userInfo }) => {
               pr="40px"
             >
               <Text className="boldText">Total (in Words)</Text>
-              <Text className="text">
-                AED Only Three Thousand Emirati Dirham
+              <Text className="boldText">
+                {userInfo?.offerPackage} AED
               </Text>
             </HStack>
             {/* Company Benefits section */}
@@ -143,8 +146,8 @@ export const LetterContent = ({ pdfRef, signature, userInfo }) => {
                 <Text as="span" className="boldText">
                   Date of Joining:
                 </Text>{" "}
-                Your date of joining will be __________; we expect you to be on
-                board and commence your services on the same date.
+                {` Your date of joining will be ${dateFormate(userInfo?.dateOfJoining) || 'N/A'} , we expect you to be on
+                board and commence your services on the same date.`}
               </Text>
             </HStack>
             <HStack className="text">
