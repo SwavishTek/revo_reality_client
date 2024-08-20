@@ -11,6 +11,9 @@ import LeaveListItem from "./component/LeaveListItem";
 import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
 import { useNavigate } from "react-router-dom";
 import NoDataFound from "../User/components/NoDataFound";
+import Filters from "../../components/Filters";
+import CardHeader from "../../components/CardHeader";
+import { leaveHeaderItems } from "../../utils/menuItems";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
@@ -36,6 +39,12 @@ const LeaveList = () => {
         />
       </>}
     >
+    <Filters onSearchChange={setSearch} />
+    <CardHeader
+        value={leaveStatus}
+        items={leaveHeaderItems}
+        onChange={setLeaveStatus}
+      />
       <InfiniteScrollList
         data={allLeaves || []}
         fetchNextPage={fetchNextPage}
@@ -58,6 +67,9 @@ const LeaveList = () => {
           </>
         }
         gap={2}
+        containerStyle={{
+          marginTop:'1rem'
+        }}
       />
       {/* {[...new Array(20)].map((el) => {
         return <LeaveListItem />

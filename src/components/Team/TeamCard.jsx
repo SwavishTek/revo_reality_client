@@ -14,20 +14,7 @@ const TeamCard = ({ item, onClickCheckbox,
   const arrData = (arr) => {
     return arr.length > 0 ? arr.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>;
   };
-
- /* const handleButtonClick = (event, action, ...params) => {
-    event.stopPropagation();  
-    action(...params);
-  };*/
-
-  const cardItems = [
-    { title: "Creation Date:", value: formatDate(item?.createdAt) },
-    { title: "Last Update:", value: formatDate(item?.updatedAt) },
-    { title: "Manager Name:", component: arrData(item?.manager) },
-    { title: "Team Lead Name:", component: arrData(item?.teamLead) },
-    { title: "Team Members:", component: arrData(item?.agent) },
-    { title: "Total Members:", value: item?.teamMembers?.length || 0 }
-  ];
+ 
 
   // Handle navigation
   const handleNavigation = () => {

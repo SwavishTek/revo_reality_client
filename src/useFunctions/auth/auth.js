@@ -40,7 +40,7 @@ export const forgotPassword = async ({ email }) => {
     const { data } = await API_AXIOS.post(`auth/forgotPassword`, { email });
     console.log('resForgetPawword', data)
     showSuccess(data?.message);
-    return data;
+    return data;   
   } catch (error) {
     showError(error?.response?.data?.message);
     throw new Error(error);
