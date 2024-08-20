@@ -14,13 +14,13 @@ export const createOfferLetter = async ({ sendData }) => {
 }
 
 export const getOfferLetterList = async ({
-    pagePrams = 1,
+    pageParam = 1,
     search = ''
 }) => {
     try {
         const { data } = await API_AXIOS.get('offerLetter', {
             params: {
-                page: pagePrams,
+                page: pageParam,
                 search
             }
         })
@@ -39,11 +39,9 @@ export const getOfferLetterDetailPublic = async ({
     letterId = null
 }) => {
     try {
-        const { data } = await API_AXIOS.get('getOfferLetterDetails', {
-            params: {
-                orgId,
-                letterId
-            }
+        const { data } = await API_AXIOS.post('offerLetter/getOfferDetails', {
+            orgId,
+            letterId
         })
         showSuccess(data?.message)
         return data;
@@ -59,6 +57,26 @@ export const getOfferLetterDetailAuth = async (id) => {
         const { data } = await API_AXIOS.get(`getDetailsById/${id}`)
         showSuccess(data?.message)
         return data;
+    }
+    catch (error) {
+        console.log('error', error)
+        showError(error?.response?.data?.message);
+    }
+}
+
+export const submitOfferLetterWithSign = async ({
+    orgId,
+    letterId,
+    pdfUrl
+}) => {
+    try {
+        const { data } = await API_AXIOS.post('offerLetter/signOffer', {
+            orgId,
+            letterId,
+            url: pdfUrl
+        });
+        showSuccess(data?.message)
+        return data
     }
     catch (error) {
         console.log('error', error)

@@ -47,9 +47,11 @@ const OfferLetterList = () => {
       </>}
     >
       <Filters onSearchChange={setSearch} />
-      <ShadowBox>
-
-
+      <ShadowBox
+        containerStyle={{
+          marginBottom: `20px`
+        }}
+      >
         <Text fontWeight={'bold'} fontSize={'1.7rem'} marginBottom={'1rem'}>OFFER LETTERS</Text>
         {/* <TableContainer mt={'2rem'}>
           <Table variant='striped' color={'#000'} colorScheme='gray'>

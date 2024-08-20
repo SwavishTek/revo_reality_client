@@ -18,11 +18,19 @@ export const useGetOfferLetterList = ({ search = '' }) => {
   return { ...res, data }
 }
 
-export const useGetOfferLetterDetailPublic = () => {
+export const useGetOfferLetterDetailPublic = ({
+  letterId = null,
+  orgId = null
+}) => {
+  console.log('firstLetterDetailORNot')
   let res = useQuery({
-    queryKey: ["getOfferLetterDetailPublic"],
-    queryFn: () => getOfferLetterDetailPublic(),
+    queryKey: ["getOfferLetterDetailPublic", letterId, orgId],
+    queryFn: () => getOfferLetterDetailPublic({
+      letterId,
+      orgId
+    }),
     staleTime: 1000 * 60 * 10,
+    enabled: !!letterId && !!orgId,
   })
   return res
 }

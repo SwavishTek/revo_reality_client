@@ -5,6 +5,11 @@ import { color } from '../../../consts/color';
 import { dateFormate } from '../../../utils/common';
 
 const LetterRow = ({ item, onClickDownload, onClickView, bgC }) => {
+  const handleDownload = () => {
+    // Navigate to the PDF link
+    // window.location.href = "https://res.cloudinary.com/dgolbfbpq/image/upload/v1723995912/upload/is8wj8erhzcawkqrjmsa.pdf";
+    window.open(item?.url);
+  };
   return (
     // <Tr key={item?._id}>
     //   <Td>{item?.name}</Td>
@@ -49,7 +54,7 @@ const LetterRow = ({ item, onClickDownload, onClickView, bgC }) => {
         width={'25%'}
       >
         <CustomText>
-          {item?.createdBy || 'N/A'}
+          {item?.role || 'N/A'}
         </CustomText>
       </Box>
       <Box
@@ -71,7 +76,7 @@ const LetterRow = ({ item, onClickDownload, onClickView, bgC }) => {
             color={color.secondaryBtn}
             fontWeight='500'
             cursor={'pointer'}
-            onClick={onClickDownload}
+            onClick={handleDownload}
           >Download</CustomText>
         </HStack>
       </Box>
