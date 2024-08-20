@@ -46,8 +46,9 @@ export const svg = {
     checkIcon: checkIcon,
     TeamUpdateIcons: TeamUpdateIcons,
     DeleteIcons: DeleteIcons,
-    Activate : Activate ,
-    Pending : Pending,
-    Deactivate : Deactivate,
-    Approve : Approve,
+    Activate: Activate,
+    Pending: Pending,
+    Deactivate: Deactivate,
+    Approve: Approve,
+    RevoIconOfferLetter: RevoIconOfferLetter
 }

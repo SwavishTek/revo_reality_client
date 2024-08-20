@@ -7,11 +7,14 @@ import text1 from '../svg/text1.svg'
 import text2 from '../svg/text2.svg'
 import text3 from '../svg/text3.svg'
 import text4 from '../svg/text4.svg'
+import { dateFormate } from '../../../utils/common';
 
 export const LetterContent = ({
     pdfRef,
-    signature
+    signature,
+    userInfo
 }) => {
+    console.log('item', userInfo)
     return (
         <Box
             maxWidth={'800px'}
@@ -54,14 +57,15 @@ export const LetterContent = ({
 
                 <HStack>
                     <Text className='boldText' mb={'10px'}>Date of Issue:</Text>
-                    <Text className='text' mb={'10px'}>10-12-1996</Text>
+                    <Text className='text' mb={'10px'}>{dateFormate(userInfo?.createdAt
+                    )}</Text>
                 </HStack>
-                <Text className='boldText' mb={'10px'}>soudChuttu@gmail.com</Text>
+                <Text className='boldText' mb={'10px'}>{userInfo?.email || 'N/A'}</Text>
                 <HStack
-                    mb={'20px'}
+                    mb={'5px'}
                 >
                     <Text className='text' mb={'10px'}>Dear</Text>
-                    <Text className='boldText' mb={'10px'}>Soud Chutiye</Text>
+                    <Text className='boldText' mb={'10px'}>{userInfo?.name || 'N/A'}</Text>
                 </HStack>
 
                 <Text className='boldText' mb={'20px'}>
@@ -85,6 +89,15 @@ export const LetterContent = ({
                         width={'100%'}
                         mb={'20px'}
                     />
+                    <HStack
+                        mb={'10px'}
+                        flexWrap={'wrap'}
+                    >
+                        <Text
+                            className='boldText'
+                        >Date of Joining: {dateFormate(userInfo?.dateOfJoining)}</Text>
+
+                    </HStack>
                     <Image
                         src={text3}
                         width={'100%'}
@@ -99,25 +112,58 @@ export const LetterContent = ({
                     <CustomText
                         fontSize='16px'
                         fontWeight='800'
+                        marginBottom={'15px'}
                     >
                         I confirm having understood all terms & conditions.
                     </CustomText>
                     <HStack
-                        height={'70px'}
+                        // height={'70px'}
+                        width={'100%'}
+                        justifyContent={'space-between'}
+                        alignItems={'center'}
                     >
-                        {signature && (
-                            <Image
-                                width={'200px'}
-                                height={'50px'}
-                                objectFit="fill"
-                                alt="No Sign upload"
-                                src={signature}
-                                mt={'20px'}
-                            />
-                        )}
+                        <Box
+                            width={'100px'}
+                        >
+                            {signature && (
+                                <Image
+                                    // width={'200px'}
+                                    // height={'50px'}
+                                    objectFit="fill"
+                                    alt="No Sign upload"
+                                    src={signature}
+                                    mt={'20px'}
+                                />
+                            )}
+                        </Box>
+                        <Box>
+                            <Text
+                                className='text'
+                            >Managing Partner</Text>
+                            <Text
+                                className='boldText'
+                            >
+                                Mr. Farhan Safi
+                            </Text>
+                        </Box>
                     </HStack>
-                    <Text>
+                    <Text
+                        className='boldText'
+                        mb={'20px'}
+                    >
                         Candidate’s Signature
+                    </Text>
+                    <Text
+                        className='boldText'
+                        mb={0}
+                    >
+                        REVO REALITY REAL ESTATE BROKERS LLS
+                    </Text>
+                    <Text
+                        className='text'
+                        mt={-2}
+                    >
+                        Address: 123, Main Street, New York, NY, 10001
                     </Text>
                 </VStack>
 
