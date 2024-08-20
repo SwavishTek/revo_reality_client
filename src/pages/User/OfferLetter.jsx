@@ -50,7 +50,7 @@ const OfferLetter = () => {
     onSubmit: async (value) => {
       setIsLoadingBtn(true);
       // Handle form submission
-      let sendData = { ...value, role: value?.role?.value };
+      let sendData = { ...value };
 
       try {
         let res = await createOfferLetter({
@@ -143,7 +143,7 @@ const OfferLetter = () => {
             width={"45%"}
           />
 
-          <DropDown
+          {/* <DropDown
             label={"Role"}
             options={[
               { label: "Manager", value: "manager" },
@@ -155,8 +155,18 @@ const OfferLetter = () => {
             value={values.role}
             onChange={(v) => setFieldValue("role", v)}
             width={"45%"}
-          />
+          /> */}
 
+          <CustomInput
+            label={"Role"}
+            name={"role"}
+            value={values.role}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            errors={errors}
+            touched={touched}
+            width={"45%"}
+          />
           <CustomInput
             label={"Department"}
             name={"department"}
