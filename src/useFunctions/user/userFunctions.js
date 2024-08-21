@@ -55,8 +55,7 @@ export const getUserDetailsById = async (id) => {
     });
     return data.data || {};
   } catch (error) {
-    showError(error?.response?.data?.message);
-    console.log("user details", error);
+    showError(error?.response?.data?.message );
   }
 };
 

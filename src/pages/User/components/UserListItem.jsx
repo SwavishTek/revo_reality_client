@@ -15,8 +15,16 @@ const UserListItem = ({
     onClickApprove,
     onClickDeactivate,
     onClickReject,
-    onClickPending
+    onClickPending,
 }) => {
+    const userStatus = item?.status || '';  
+    const showPending = userStatus === 'new';
+    const showApprove = userStatus === 'new' || userStatus === 'pending';
+    const showReject = userStatus === 'new' || userStatus === 'pending';
+    const showEdit = userStatus === 'draft'|| userStatus === 'approved';
+    const showDelete = userStatus === 'draft' || userStatus === 'approved' || userStatus ==='deactive' || userStatus === 'rejected';
+    const showDeactivate = userStatus === 'approved' || userStatus === 'active';
+    const showActivate = userStatus === 'deactivate' || userStatus ==='deactive';
     return (
         <BoarderBox
             onClickBtn={onClickBtn}
@@ -24,18 +32,18 @@ const UserListItem = ({
             onClickBox={onClickBox}
             onClickEdit={onClickEdit}
             onClickDelete={onClickDelete}
-            showEdit={true} // Show the Edit button
-            showDelete={true} 
+            showEdit={showEdit} 
+            showDelete={showDelete}
             onClickActivate={onClickActivate}
-            showActivate={true}
+            showActivate={showActivate}
+            showApprove={showApprove} 
             onClickApprove={onClickApprove}
-            showApprove={true}
+            showDeactivate={showDeactivate} 
             onClickDeactivate={onClickDeactivate}
-            showDeactivate={true}
+            showReject={showReject} 
             onClickReject={onClickReject}
-            showReject={true}
+            showPending={showPending} 
             onClickPending={onClickPending}
-           showPending={true}
         >
             <HStack
                 width={'100%'}
