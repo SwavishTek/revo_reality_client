@@ -14,8 +14,8 @@ import InfiniteScrollList from '../../myComponent/InfiniteScrollList';
 import UserListItem from './components/UserListItem';
 import { changeUserStatus, userPermanantDelete } from '../../useFunctions/user/userFunctions';
 import Confirmation from '../../components/Confirmation';
-import { userStatusObj } from '../../utils/menuItems'; 
-import { useDisclosure } from '@chakra-ui/react'; 
+import { userStatusObj } from '../../utils/menuItems';
+import { useDisclosure } from '@chakra-ui/react';
 import NoDataFound from './components/NoDataFound';
 
 const UserList = () => {
@@ -27,7 +27,7 @@ const UserList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure(); // Destructure useDisclosure
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, isLoading, isFetching, refetch } = useUserQuery({ status: userStatus, search });
   const { ref, inView } = useInView();
-// sd
+  // sd
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -64,11 +64,11 @@ const UserList = () => {
       if (selectedUserId) {
         await userPermanantDelete({ userId: selectedUserId });
         setUsers(prevUsers => prevUsers.filter(user => user._id !== selectedUserId));
-        onClose();  
+        onClose();
       }
     } catch (err) {
       console.log(err);
-      
+
     }
   };
 
@@ -77,7 +77,7 @@ const UserList = () => {
   };
 
   const handleButtonClick = (event, action, ...params) => {
-    event.stopPropagation();  
+    event.stopPropagation();
     action(...params);
   };
 
@@ -90,7 +90,7 @@ const UserList = () => {
           title={'Offer Letter List'}
           onClick={() => navigate('/users/offerletterlist')} />
         <CustomBtn
-          title={'Offer Letters'}
+          title={'Create Offer Letter'}
           onClick={() => navigate('/users/offerletter')}
         />
         <CustomBtn
@@ -111,7 +111,7 @@ const UserList = () => {
           marginTop: '10px',
           paddingTop: '15px'
         }}
-        data={users} 
+        data={users}
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
@@ -125,8 +125,8 @@ const UserList = () => {
             onClickEdit={(e) => handleButtonClick(e, () => navigateEdit(item?._id))}
             onClickDelete={(e) => {
               handleButtonClick(e, () => {
-                setSelectedUserId(item?._id);  
-                onOpen(); 
+                setSelectedUserId(item?._id);
+                onOpen();
               });
             }}
             onClickActivate={(e) => handleButtonClick(e, () => handleStatusChange({ newStatus: 'approved', userId: item?._id }))}
