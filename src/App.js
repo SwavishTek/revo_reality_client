@@ -92,7 +92,7 @@ function App() {
       element: <MainLayout />,
       children: [
         {
-          path: "/",
+          path: "/dashboard",
           element: <Dashboard />,
         },
         {
