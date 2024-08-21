@@ -23,9 +23,11 @@ import { useNavigate } from "react-router-dom";
 import DropDown from "../../components/DropDown/DropDown";
 import { CustomInput } from "../../myComponent/CustomInput";
 import { createOfferLetter } from "../../useFunctions/offerLetter/offerLetter";
+import { useQueryClient } from "@tanstack/react-query";
 
 const OfferLetter = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [isLoadingBtn, setIsLoadingBtn] = useState(false);
   // Initialize Formik
   const {
@@ -48,14 +50,19 @@ const OfferLetter = () => {
     onSubmit: async (value) => {
       setIsLoadingBtn(true);
       // Handle form submission
-      let sendData = { ...value, role: value?.role?.value };
+      let sendData = { ...value };
 
       try {
-        await createOfferLetter({
+        let res = await createOfferLetter({
           sendData,
         });
-        // Redirect or show a success message
-
+        queryClient.invalidateQueries({
+          queryKey: ["getOfferLetterList"],
+        })
+        // queryClient.setQueryData(['getOfferLetterList'], (oldData) => {
+        //   console.log('oldData', oldData)
+        //   // return [{ ...res.data }, ...oldData];
+        // });
         navigate("/users/offerletterlist");
       } catch (error) {
         console.error("Error submitting form:", error);
@@ -70,16 +77,16 @@ const OfferLetter = () => {
       header={"Offer Letter"}
       btnComponent={
         <>
-          <CustomBtn
+          {/* <CustomBtn
             title={"Employees"}
             bgColor={color.primaryBtn}
             onClick={() => navigate("/users/offerletterlist")}
-          />
-          <CustomBtn
+          /> */}
+          {/* <CustomBtn
             title={"Create Offer Letter"}
             bgColor={color.secondaryBtn}
             onClick={() => navigate("/users/offerletterlist")}
-          />
+          /> */}
         </>
       }
     >
@@ -136,7 +143,7 @@ const OfferLetter = () => {
             width={"45%"}
           />
 
-          <DropDown
+          {/* <DropDown
             label={"Role"}
             options={[
               { label: "Manager", value: "manager" },
@@ -148,8 +155,18 @@ const OfferLetter = () => {
             value={values.role}
             onChange={(v) => setFieldValue("role", v)}
             width={"45%"}
-          />
+          /> */}
 
+          <CustomInput
+            label={"Role"}
+            name={"role"}
+            value={values.role}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            errors={errors}
+            touched={touched}
+            width={"45%"}
+          />
           <CustomInput
             label={"Department"}
             name={"department"}

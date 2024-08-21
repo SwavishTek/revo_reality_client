@@ -7,7 +7,7 @@ import { TiDocumentText } from "react-icons/ti";
 export const menuItems = [
   {
     label: "Dashboard",
-    href: "/",
+    href: "/dashboard",
     icon: <TbTargetArrow size={"1.4rem"} />,
   },
   {
@@ -80,7 +80,7 @@ export const userNotificationItems = [
     value: "read",
     color: "#FF8A00",
   },
-  
+
 ];
 
 export const leaveHeaderItems = [
