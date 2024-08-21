@@ -2,15 +2,20 @@ import React, { useEffect } from "react";
 import Sidebar from "../Sidebar";
 import { menuItems } from "../../utils/menuItems";
 import { Box, Text } from "@chakra-ui/react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/auth/login");
+    } else {
+      if (pathname === "/") {
+        navigate("/dashboard");
+      }
     }
-  }, [navigate]);
+  }, [navigate, pathname]);
 
   return (
     <Box display="flex">
