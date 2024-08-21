@@ -9,19 +9,15 @@ import { showError, showSuccess } from "../../utils/toastHelpers";
 export const applyLeave = async (values) => {
   try {
     
-    const payload = {
-      _id: "", 
-      startDate: values.start ? values.start.toISOString() : "",
-      endDate: values.end ? values.end.toISOString() : "",
-      type: values.payType || "",
-      days: calculateDays(values.start, values.end),
-      organizationId: "", 
-      user: "", 
-      name: `${values.name} ${values.lastName}`,
-      message: values.reason || "",
-    };
+    // const payload = {
+    //   start: values.start ? values.start.toISOString() : "",
+    //   end: values.end ? values.end.toISOString() : "",
+    //   type: values.type || "", 
+    //   reason: values.reason || "",
+    //   payType:values.payType || "",
+    // };
 
-    const { data } = await API_AXIOS.post(`${Apis.leave}`, payload);
+    const { data } = await API_AXIOS.post(`${Apis.leave}`, values);
     return data || {};
   } catch (error) {
     const errorMessage = error.response?.data?.error || "Something went wrong";
@@ -30,16 +26,6 @@ export const applyLeave = async (values) => {
   }
 };
 
-// Function to calculate days between two dates
-const calculateDays = (startDate, endDate) => {
-  if (!startDate || !endDate) return 0;
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const diffTime = Math.abs(end - start);
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-};
-
-// Function to get leaves with pagination and filtering options
 export const getLeaves = async ({
   pageParam = 1,
   limit = 10,

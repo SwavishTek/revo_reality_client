@@ -11,19 +11,27 @@ import MyContainer from "../../myComponent/MyContainer";
 import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import { useQueryClient } from "@tanstack/react-query";
 import { applyLeave } from "../../useFunctions/leave/leaveFunctions";
-import { userRoles } from "../../utils/menuItems";
+import { userRoles, userRolesObj } from "../../utils/menuItems";
 import { color } from "../../consts/color";
 import { useNavigate } from "react-router-dom";
 import DropDown from "../../components/DropDown/DropDown";
 import PhoneInputField from "../../components/PhoneInputField";
+
+const payTypeOptions = [
+  { label: 'Paid', value: 'paid' },
+  { label: 'Unpaid', value: 'unpaid' }
+];
+
+const leaveTypeOption = [
+  { label: 'Half Day', value: 'half' },
+  { label: 'Full Day', value: 'full' }
+];
 
 const LeaveForm = () => {
   const { data: auth } = useProfileQuery();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // Set state for disabling fields
-  const [disabled, setDisabled] = useState(true);
 
   const {
     values,
@@ -34,14 +42,11 @@ const LeaveForm = () => {
     isSubmitting,
   } = useFormik({
     initialValues: {
-      name: auth?.name || "",
-      lastName: auth?.lastName || "",
-      role: auth?.role || "",
-      mobile: auth?.mobile || "",
       reason: "",
       start: null,
       end: null,
       payType: "",
+      type: '',
       doc: [],
     },
     onSubmit: async (values) => {
@@ -52,6 +57,7 @@ const LeaveForm = () => {
           start: values.start,
           end: values.end,
           payType: values.payType,
+          type: values.type,
           reason: values.reason,
           doc: values.doc,
           name: values.name,
@@ -92,10 +98,6 @@ const LeaveForm = () => {
     setFieldValue(field, value);
   };
 
-  const payTypeOptions = [
-    { label: 'Paid', value: 'Paid' },
-    { label: 'Unpaid', value: 'Unpaid' }
-  ];
 
   return (
     <MyContainer isBack header={'Apply For Leave'}>
@@ -108,9 +110,9 @@ const LeaveForm = () => {
             placeholder={'Enter your first name'}
             type="text"
             containerStyle={{ width: '49%' }}
-            value={values.name}
-            onChange={handleChange}
-            disabled={disabled}
+            value={auth?.name || ""}
+            // onChange={handleChange}
+            disabled={true}
           />
           <CustomInput
             name="lastName"
@@ -118,13 +120,12 @@ const LeaveForm = () => {
             placeholder={'Enter your last name'}
             type="text"
             containerStyle={{ width: '49%' }}
-            value={values.lastName}
-            onChange={handleChange}
-            disabled={disabled}
+            value={auth?.lastName || ""}
+            disabled={true}
           />
         </HStack>
         <HStack justifyContent={'space-between'} mb={'3rem'}>
-          <DropDown
+          {/* <DropDown
             name="role"
             label={'Role'}
             width={'49%'}
@@ -133,15 +134,21 @@ const LeaveForm = () => {
             onChange={(selectedValue) => handleDropDownChange(selectedValue, "role")}
             value={values.role}
             disabled={disabled}
+          /> */}
+          <CustomInput
+            value={userRolesObj[auth?.role] || ""}
+            label={'Role'}
+            width={'49%'}
+            disabled={true}
           />
           <PhoneInputField
             width="49%"
             backgroundColor="rgba(249, 249, 249, 1)"
             id="mobile"
             label="Phone Number"
-            value={values.mobile}
-            onChange={(v) => setFieldValue("mobile", v)}
-            disabled={disabled}
+            value={auth?.mobile || ""}
+            
+            disabled={true}
           />
         </HStack>
 
@@ -192,6 +199,17 @@ const LeaveForm = () => {
             options={payTypeOptions}
             onChange={(selectedOption) => handleDropDownChange(selectedOption, "payType")}
             value={payTypeOptions.find(option => option.value === values.payType)}
+            getOptionLabel={(option) => option.label}
+            getOptionValue={(option) => option.value}
+          />
+          <DropDown
+            name="type"
+            label={'Select Leave Type'}
+            width={'49%'}
+            placeholder={'Select Pay Type'}
+            options={leaveTypeOption}
+            onChange={(selectedOption) => handleDropDownChange(selectedOption, "type")}
+            value={leaveTypeOption.find(option => option.value === values.type)}
             getOptionLabel={(option) => option.label}
             getOptionValue={(option) => option.value}
           />
