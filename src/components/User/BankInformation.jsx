@@ -56,7 +56,7 @@ const BankInformation = ({ setCurrentStep }) => {
           console.log(err);
         }
       },
-      if (setCurrentStep) {
+      if(setCurrentStep) {
         setCurrentStep((step) => step + 1);
       }
     });
@@ -144,42 +144,42 @@ const BankInformation = ({ setCurrentStep }) => {
         </Grid>
 
         <Box marginTop={'2rem'}>
-          <CustomBtn 
-          title={"Previous"}
-          onClick={() => {
-            if (setCurrentStep) setCurrentStep((step) => step - 1);
-          }}
-          bgColor={color.secondaryBtn}
-          containerStyle={{
-            marginRight: "1.5rem",
-          }}
-        />
-          
-        <CustomBtn 
-          title={'Save & Next'}
-          isLoading={isSubmitting}
-          onClick={() => {
-            handleSubmit();
-          }}
-          bgColor={color.secondaryBtn}
-          containerStyle={{
-            marginRight:'1.5rem'
-          }}
-        />
-        <CustomBtn 
-          title={"Next"}
-          onClick={() => {
-            if (setCurrentStep) setCurrentStep((step) => step + 1);
-          }}
-          bgColor={color.secondaryBtn}
-          containerStyle={{
-            marginRight: "1.5rem",
-          }}
-        />a
-        
+          <CustomBtn
+            title={"Previous"}
+            onClick={() => {
+              if (setCurrentStep) setCurrentStep((step) => step - 1);
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          />
+
+          <CustomBtn
+            title={'Save & Next'}
+            isLoading={isSubmitting}
+            onClick={() => {
+              handleSubmit();
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: '1.5rem'
+            }}
+          />
+          <CustomBtn
+            title={"Next"}
+            onClick={() => {
+              if (setCurrentStep) setCurrentStep((step) => step + 1);
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          />
+
         </Box>
 
-       
+
       </Box>
     </>
   );
