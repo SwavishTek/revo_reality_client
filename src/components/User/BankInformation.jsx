@@ -56,6 +56,9 @@ const BankInformation = ({ setCurrentStep }) => {
           console.log(err);
         }
       },
+      if (setCurrentStep) {
+        setCurrentStep((step) => step + 1);
+      }
     });
 
   useEffect(() => {
@@ -140,24 +143,40 @@ const BankInformation = ({ setCurrentStep }) => {
           </GridItem>
         </Grid>
 
-        <Box 
-        marginTop={'2rem'}>
+        <Box marginTop={'2rem'}>
+          <CustomBtn 
+          title={"Previous"}
+          onClick={() => {
+            if (setCurrentStep) setCurrentStep((step) => step - 1);
+          }}
+          bgColor={color.secondaryBtn}
+          containerStyle={{
+            marginRight: "1.5rem",
+          }}
+        />
+          
         <CustomBtn 
           title={'Save & Next'}
           isLoading={isSubmitting}
-          onClick={handleSubmit}
+          onClick={() => {
+            handleSubmit();
+          }}
           bgColor={color.secondaryBtn}
           containerStyle={{
             marginRight:'1.5rem'
           }}
         />
         <CustomBtn 
-          title={'Next'}
+          title={"Next"}
           onClick={() => {
-              if (setCurrentStep) setCurrentStep((step) => step + 1);
-            }}
+            if (setCurrentStep) setCurrentStep((step) => step + 1);
+          }}
           bgColor={color.secondaryBtn}
-        />
+          containerStyle={{
+            marginRight: "1.5rem",
+          }}
+        />a
+        
         </Box>
 
        

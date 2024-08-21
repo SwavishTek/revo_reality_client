@@ -35,6 +35,7 @@ const PersonalForm = ({ setCurrentStep }) => {
     handleBlur,
     handleSubmit,
     setFieldValue,
+    isSubmitting, 
   } = useFormik({
     initialValues: {
       name: "",
@@ -74,6 +75,9 @@ const PersonalForm = ({ setCurrentStep }) => {
         showError({ message: err?.response?.data?.message });
       }
     },
+    if (setCurrentStep) {
+        setCurrentStep((step) => step + 1);
+      }
   });
 
   useEffect(() => {
@@ -116,6 +120,32 @@ const PersonalForm = ({ setCurrentStep }) => {
       );
     }
   }, [user, setFieldValue]);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     const fieldsToSet = {
+  //       name: user.name,
+  //       lastName: user.lastName,
+  //       role: user.role,
+  //       email: user.email,
+  //       mobile: user.mobile,
+  //       dateOfJoining: user.dateOfJoining ? new Date(user.dateOfJoining) : "",
+  //       department: user.department,
+  //       addressProof: user.addressProof,
+  //       "currentAddress.currentAdd": user.currentAddress?.currentAdd,
+  //       "currentAddress.currentAdd2": user.currentAddress?.currentAdd2,
+  //       "currentAddress.currentCity": user.currentAddress?.currentCity,
+  //       "currentAddress.currentState": user.currentAddress?.currentState,
+  //       "currentAddress.currentCountry": user.currentAddress?.currentCountry,
+  //       "currentAddress.currentPostCode": user.currentAddress?.currentPostCode,
+  //       package: user.package,
+  //     };
+  
+  //     Object.entries(fieldsToSet).forEach(([key, value]) => {
+  //       setFieldValue(key, value);
+  //     });
+  //   }
+  // }, [user, setFieldValue]);
 
   return (
     <>
@@ -332,8 +362,8 @@ const PersonalForm = ({ setCurrentStep }) => {
 
           <GridItem>
             <CustomInput
-              id="currentAddress.currentCity" 
-              name="currentAddress.currentCity" 
+              id="currentAddress.currentCity"
+              name="currentAddress.currentCity"
               label="City"
               placeholder="Enter your City"
               value={values.currentAddress?.currentCity}
@@ -419,13 +449,31 @@ const PersonalForm = ({ setCurrentStep }) => {
           </GridItem>
         </Grid>
         <Box marginTop={"2rem"}>
-          <CustomBtn
-            title={"Save & Next"}
-            // isLoading={isSubmitting}
-            onClick={handleSubmit}
+          {/* <CustomBtn
+            title={"Previous"}
+            onClick={() => {
+              if (setCurrentStep) setCurrentStep((step) => step + 1);
+            }}
             bgColor={color.secondaryBtn}
             containerStyle={{
               marginRight: "1.5rem",
+            }}
+          /> */}
+
+          <CustomBtn
+            title={"Save & Next"}
+            isLoading={isSubmitting}
+            onClick={() => {
+              handleSubmit();
+
+              // if (setCurrentStep) {
+              //   setCurrentStep((step) => step + 1);
+              // }
+              
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight:'1.5rem'
             }}
           />
           <CustomBtn
@@ -434,7 +482,11 @@ const PersonalForm = ({ setCurrentStep }) => {
               if (setCurrentStep) setCurrentStep((step) => step + 1);
             }}
             bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
           />
+          
         </Box>
       </Box>
     </>
@@ -449,7 +501,6 @@ const validationSchema = Yup.object({
     .required("Email is required"),
 
   name: Yup.string().required("Name is required"),
-
 
   dateOfJoining: Yup.date().nullable().required("Joining date is required"),
 
