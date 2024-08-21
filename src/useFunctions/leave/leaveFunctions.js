@@ -1,15 +1,28 @@
+// leaveFunctions.js
+
 import { useQueryClient } from "@tanstack/react-query";
 import { API_AXIOS } from "../../http/interceptor";
 import Apis from "../../utils/apis";
-import useCustomToast from "../../hooks/useCustomToast";
+import { showError, showSuccess } from "../../utils/toastHelpers";
+
 
 export const applyLeave = async (values) => {
   try {
+    
+    // const payload = {
+    //   start: values.start ? values.start.toISOString() : "",
+    //   end: values.end ? values.end.toISOString() : "",
+    //   type: values.type || "", 
+    //   reason: values.reason || "",
+    //   payType:values.payType || "",
+    // };
+
     const { data } = await API_AXIOS.post(`${Apis.leave}`, values);
     return data || {};
   } catch (error) {
-    throw new Error(error.response.data.error || "Something went wrong");
-    // console.log(error);
+    const errorMessage = error.response?.data?.error || "Something went wrong";
+    console.error("Error applying leave:", errorMessage);
+    throw new Error(errorMessage);
   }
 };
 
@@ -27,156 +40,99 @@ export const getLeaves = async ({
     });
     return data || {};
   } catch (error) {
-    // throw new Error(error.response.data.error);
-    console.log(error);
+    console.error("Error fetching leaves:", error);
+    throw new Error("Failed to fetch leaves");
   }
 };
 
+// Function to get leave details by ID
 export const getLeaveById = async (id) => {
   try {
     const { data } = await API_AXIOS.get(`${Apis.leaveDetailsById}/${id}`);
     return data.data || {};
-  } catch (err) {
-    console.log("leave details", err);
+  } catch (error) {
+    console.error("Error fetching leave details:", error);
+    throw new Error("Failed to fetch leave details");
   }
 };
 
-// export const useLeaveRejectById = async (id) => {
-//   try {
-//     const { data } = await API_AXIOS.post(`${Apis.leaveRejectById}/${id}`);
+// Approve leave by ID
+export const approveLeaveById = async (id) => {
+  try {
+    const { data } = await API_AXIOS.post(`leave/leaveApproveById/${id}`);
+    showSuccess(data?.data.message || "Leave approved successfully");
+    return data.data || {};
+  } catch (error) {
+    console.error("Error approving leave:", error);
+    showError(error.response?.data?.message || "Something went wrong");
+    throw new Error(error.response?.data?.error || "Something went wrong");
+  }
+};
 
-//     useRemoveLeaveData("pending");
+// Reject leave by ID
+export const rejectLeaveById = async (id) => {
+  try {
+    const { data } = await API_AXIOS.post(`leave/leaveRejectById/${id}`);
+    showSuccess(data?.message || "Leave successfully rejected");
+    return data.data || {};
+  } catch (error) {
+    console.error("Error rejecting leave:", error);
+    showError(error.response?.data?.message || "Something went wrong");
+    throw new Error(error.response?.data?.error || "Something went wrong");
+  }
+};
 
-//     // return data || {};
-//   } catch (error) {
-//     console.log("leave reject", error);
-//   }
-// };
 
-// const useRemoveLeaveData = (oldStatus) => {
-//   const queryClient = useQueryClient();
+// Put leave on hold by ID
+export const onHoldLeaveById = async (id) => {
+  try {
+    const { data } = await API_AXIOS.post(`leave/leaveOnHoldById/${id}`);
+    showSuccess(data?.message || "Leave successfully onHold");
+    return data.data || {};
+  } catch (error) {
+    console.error("Error OnHold leave:", error);
+    showError(error.response?.data?.message || "Something went wrong");
+    throw new Error(error.response?.data?.error || "Something went wrong");
+  }
+};
 
-//   // Update the old status cache
-//   queryClient.setQueryData(["leaves", oldStatus], (oldData) => {
-//     if (!oldData) return oldData;
-
-//     const newPages = oldData.pages.map((page) => ({
-//       ...page,
-//       leaves: page.leaves.filter((leave) => leave.id !== id),
-//     }));
-
-//     return { ...oldData, pages: newPages };
-//   });
-// };
-
-// const useUpdateLeaveData = (newStatus, data) => {
-//   const queryClient = useQueryClient();
-//   // Update the new status cache
-//   queryClient.setQueryData(["leaves", newStatus], (oldData) => {
-//     if (!oldData) return oldData;
-
-//     // Adding the new data on top of the list
-//     const firstPage = oldData.pages[0] || { leaves: [] };
-//     firstPage.leaves = [data, ...firstPage.leaves];
-
-//     return {
-//       ...oldData,
-//       pages: [firstPage, ...oldData.pages.slice(1)],
-//     };
-//   });
-// };
-
+// Use leave actions hook
 export const useLeaveActions = () => {
   const queryClient = useQueryClient();
-  // const {} =useCustomToast()
-
-  const rejectLeaveById = async (id) => {
-    try {
-      const { data } = await API_AXIOS.post(`${Apis.leaveRejectById}/${id}`);
-      //   removeLeaveData("new", id);
-      //   updateLeaveData("rejected", data.data);
-      queryClient.refetchQueries(["leaves"]);
-
-      //updating details api
-      queryClient.setQueriesData(["leave", id], (oldData) => {
-        return data.data;
-      });
-    } catch (error) {
-      console.log("leave reject", error);
-    }
-  };
 
   const approveLeaveById = async (id) => {
     try {
       const { data } = await API_AXIOS.post(`${Apis.leaveApproveById}/${id}`);
-      //   removeLeaveData("new", id);
-      //   updateLeaveData("rejected", data.data);
       queryClient.refetchQueries(["leaves"]);
-
-      //updating details api
-      queryClient.setQueriesData(["leave", id], (oldData) => {
-        return data.data;
-      });
+      queryClient.setQueriesData(["leave", id], () => data.data);
     } catch (error) {
-      console.log("leave reject", error);
+      console.error("Error approving leave:", error);
     }
   };
+
+  const rejectLeaveById = async (id) => {
+    try {
+      const { data } = await API_AXIOS.post(`${Apis.leaveRejectById}/${id}`);
+      queryClient.refetchQueries(["leaves"]);
+      queryClient.setQueriesData(["leave", id], () => data.data);
+    } catch (error) {
+      console.error("Error rejecting leave:", error);
+    }
+  };
+
   const onHoldLeaveById = async (id) => {
     try {
       const { data } = await API_AXIOS.post(`${Apis.leaveOnHoldById}/${id}`);
-      //   removeLeaveData("new", id);
-      //   updateLeaveData("rejected", data.data);
       queryClient.refetchQueries(["leaves"]);
-
-      //updating details api
-      queryClient.setQueriesData(["leave", id], (oldData) => {
-        return data.data;
-      });
+      queryClient.setQueriesData(["leave", id], () => data.data);
     } catch (error) {
-      console.log("leave reject", error);
+      console.error("Error putting leave on hold:", error);
     }
   };
 
-  const removeLeaveData = (oldStatus, id) => {
-    queryClient.setQueryData(["leaves", { status: oldStatus }], (oldData) => {
-      // Provide default structure if oldData is undefined or missing
-      const defaultData = { pages: [], pageParams: [] };
-      const data = oldData || defaultData;
-
-      // Log data for debugging
-      console.log("Old Data before removal:", data);
-
-      const newPages = data.pages.map((page) => ({
-        ...page,
-        data: page.data.filter((leave) => leave._id !== id),
-      }));
-
-      // Log updated data
-      const updatedData = { ...data, pages: newPages };
-      console.log("Updated Data after removal:", updatedData);
-
-      return updatedData;
-    });
-  };
-
-  const updateLeaveData = (newStatus, data) => {
-    queryClient.setQueryData(["leaves", { status: newStatus }], (oldData) => {
-      if (!oldData) return oldData;
-
-      // Adding the new data on top of the list
-      const firstPage = oldData.pages[0] || { data: [] };
-      firstPage.data = [data, ...firstPage.data];
-
-      return {
-        ...oldData,
-        pages: [firstPage, ...oldData.pages.slice(1)],
-      };
-    });
-  };
-
   return {
-    rejectLeaveById,
     approveLeaveById,
+    rejectLeaveById,
     onHoldLeaveById,
   };
 };

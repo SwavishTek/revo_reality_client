@@ -8,6 +8,8 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { CustomBtn } from "../myComponent/CustomBtn";
+import { color } from "../consts/color";
 
 export default function Confirmation({
   title = "Confirmation",
@@ -48,21 +50,20 @@ export default function Confirmation({
           </ModalBody>
 
           <ModalFooter alignItems={"center"} justifyContent={"center"} gap={4}>
-            <Button
+            <CustomBtn
               onClick={() => {
                 if (onClose) onClose();
               }}
-            >
-              Cancel
-            </Button>
-            <Button
+              title={'Cancel'}
+              bgColor={color.primaryBtn}
+            />
+            <CustomBtn
               colorScheme={"brand"}
               onClick={() => {
                 if (onSubmit) onSubmit();
               }}
-            >
-              {actionLable}
-            </Button>
+              title={actionLable}
+            />
           </ModalFooter>
         </ModalContent>
       </Modal>

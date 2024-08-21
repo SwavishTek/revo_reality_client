@@ -19,7 +19,8 @@ export const CustomInput = ({
     onBlur,
     onKeyDown,
     labelStyle,
-    mb
+    mb,
+    bgColor = 'rgba(249, 249, 249, 1)',
 }) => {
     return (
         <Box
@@ -44,7 +45,8 @@ export const CustomInput = ({
                 onBlur={onBlur}
                 disabled={disabled}
                 onKeyDown={onKeyDown}
-                bgColor={'rgba(249, 249, 249, 1)'}
+                isColorGray = {false}
+                bgColor={bgColor}
                 borderWidth={1}
                 borderColor={'#CCCCCC'}
                 _focus={{

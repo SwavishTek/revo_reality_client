@@ -15,7 +15,10 @@ import { userRoles } from "../../utils/menuItems";
 import LoadButton from "../LoadButton";
 import useCustomToast from "../../hooks/useCustomToast";
 import { CustomBtn } from "../../myComponent/CustomBtn";
+import { CustomInput } from "../../myComponent/CustomInput";
 import { color } from "../../consts/color";
+import * as Yup from "yup";
+// import { useFormik } from "formik";
 
 const PersonalForm = ({ setCurrentStep }) => {
   const { showError, showSuccess } = useCustomToast();
@@ -23,51 +26,59 @@ const PersonalForm = ({ setCurrentStep }) => {
   const id = searchParams.get("id");
   const { data: user, refetch } = useUserDetailsQuery(id);
   const toast = useToast();
-  const { values, handleChange, handleSubmit, setFieldValue, isSubmitting } =
-    useFormik({
-      initialValues: {
-        name: "",
-        lastName: "",
-        role: "",
-        email: "",
-        mobile: "",
-        dateOfJoining: "",
-        department: "",
-        addressProof: [],
-        package: "",
-        currentAddress: {
-          currentAdd: "",
-          currentAdd2: "",
-          currentCity: "",
-          currentState: "",
-          currentCountry: "",
-          currentPostCode: "",
-        },
+  const {
+    values,
+    errors,
+    touched,
+    isValid,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+    isSubmitting, 
+  } = useFormik({
+    initialValues: {
+      name: "",
+      lastName: "",
+      role: "",
+      email: "",
+      mobile: "",
+      // dateOfJoining: "",
+      department: "",
+      addressProof: [],
+      package: "",
+      dateOfJoining: null,
+      currentAddress: {
+        currentAdd: "",
+        currentAdd2: "",
+        currentCity: "",
+        currentState: "",
+        currentCountry: "",
+        currentPostCode: "",
       },
-      onSubmit: async (values) => {
-        console.log(values);
-        try {
-          const data = await addUser({
-            step: 1,
-            basicInfo: values,
-            ...(!!id && { userId: id }),
-          });
-          refetch();
-          setSearchParams({ id: data?.data?._id });
-          // toast({
-          //   title: data?.message,
-          //   status: "success",
-          //   isClosable: true,
-          //   duration: 1000,
-          // });
-          showSuccess({ message: data?.message });
-          setCurrentStep((step) => step + 1);
-        } catch (err) {
-          console.log(err);
-          showError({ message: err?.response?.data?.message });
-        }
-      },
-    });
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      console.log(values);
+      try {
+        const data = await addUser({
+          step: 1,
+          basicInfo: values,
+          ...(!!id && { userId: id }),
+        });
+        refetch();
+        setSearchParams({ id: data?.data?._id });
+        showSuccess({ message: data?.message });
+        setCurrentStep((step) => step + 1);
+      } catch (err) {
+        console.log(err);
+        showError({ message: err?.response?.data?.message });
+      }
+    },
+    if (setCurrentStep) {
+        setCurrentStep((step) => step + 1);
+      }
+  });
 
   useEffect(() => {
     if (user) {
@@ -110,11 +121,37 @@ const PersonalForm = ({ setCurrentStep }) => {
     }
   }, [user, setFieldValue]);
 
+  // useEffect(() => {
+  //   if (user) {
+  //     const fieldsToSet = {
+  //       name: user.name,
+  //       lastName: user.lastName,
+  //       role: user.role,
+  //       email: user.email,
+  //       mobile: user.mobile,
+  //       dateOfJoining: user.dateOfJoining ? new Date(user.dateOfJoining) : "",
+  //       department: user.department,
+  //       addressProof: user.addressProof,
+  //       "currentAddress.currentAdd": user.currentAddress?.currentAdd,
+  //       "currentAddress.currentAdd2": user.currentAddress?.currentAdd2,
+  //       "currentAddress.currentCity": user.currentAddress?.currentCity,
+  //       "currentAddress.currentState": user.currentAddress?.currentState,
+  //       "currentAddress.currentCountry": user.currentAddress?.currentCountry,
+  //       "currentAddress.currentPostCode": user.currentAddress?.currentPostCode,
+  //       package: user.package,
+  //     };
+  
+  //     Object.entries(fieldsToSet).forEach(([key, value]) => {
+  //       setFieldValue(key, value);
+  //     });
+  //   }
+  // }, [user, setFieldValue]);
+
   return (
     <>
       <Box
         bg={"white"}
-        marginBottom={'2rem'}
+        marginBottom={"2rem"}
         p={"2.5rem"}
         border={"1px solid #DCDCDC"}
         borderRadius={"6px"}
@@ -138,57 +175,98 @@ const PersonalForm = ({ setCurrentStep }) => {
         ></hr>
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           <GridItem>
-            <InputField
+            <CustomInput
               id="name"
               label="First Name"
               placeholder="First Name"
+              name={"name"}
               value={values.name}
               onChange={handleChange}
+              onBlur={handleBlur}
+              errors={errors}
+              touched={touched}
+              bgColor="white"
             />
           </GridItem>
           <GridItem>
-            <InputField
+            <CustomInput
               id="lastName"
               label="Last Name"
               placeholder="Enter your last name"
+              name={"lastName"}
               value={values.lastName}
               onChange={handleChange}
+              // onBlur={handleBlur}
+              bgColor="white"
             />
           </GridItem>
           <GridItem>
-            <InputField
+            <CustomInput
               id="email"
               label="Email"
-              placeholder="Enter your email"
+              placeholder="Enter Email"
+              name={"email"}
               value={values.email}
               onChange={handleChange}
+              onBlur={handleBlur}
+              errors={errors}
+              touched={touched}
+              bgColor="white"
             />
           </GridItem>
           <GridItem>
-            <PhoneInputField
+            {/* <PhoneInputField
               id="mobile"
               label="Phone Number"
               value={values.mobile}
               onChange={(v) => setFieldValue("mobile", v)}
+            /> */}
+            <CustomInput
+              id="mobile"
+              label="Phone Number"
+              placeholder="Enter your Phone Number"
+              name={"mobile"}
+              value={values.mobile}
+              // onChange={handleChange}
+              onBlur={handleBlur}
+              onChange={(v) => setFieldValue("mobile", v.target.value)}
+              // errors={errors}
+              // touched={touched}
+              bgColor="white"
             />
+            {errorText({
+              errors,
+              touched,
+              key: "mobile",
+            })}
           </GridItem>
           <GridItem>
-            <CustomSelect
-              label={"Role"}
-              id={"role"}
+            <CustomInput
+              id="role"
+              label="Role"
               placeholder="Select an option"
               options={userRoles}
-              onChange={handleChange}
+              name={"role"}
               value={values.role}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              errors={errors}
+              touched={touched}
+              bgColor="white"
             />
           </GridItem>
           <GridItem>
-            <InputField
+            <CustomInput
               id="department"
               label="Department"
               placeholder="Enter your department"
+              name={"department"}
               value={values.department}
               onChange={handleChange}
+              onBlur={handleBlur}
+              errors={errors}
+              touched={touched}
+              bgColor="white"
             />
           </GridItem>
           <GridItem>
@@ -198,19 +276,34 @@ const PersonalForm = ({ setCurrentStep }) => {
             <DatePicker
               name="dateOfJoining"
               selected={values.dateOfJoining}
-              onSelect={(date) => setFieldValue("dateOfJoining", date)}
+              onBlur={handleBlur}
               onChange={(date) => setFieldValue("dateOfJoining", date)}
               placeholderText="Select joining date"
               customInput={<Input />}
             />
+            {touched.dateOfJoining && errors.dateOfJoining ? (
+              <Text
+                color="red"
+                fontWeight={"300"}
+                fontSize={"12px"}
+                fontFamily="Inter"
+              >
+                {errors.dateOfJoining}
+              </Text>
+            ) : null}
           </GridItem>
           <GridItem>
-            <InputField
+            <CustomInput
               id="package"
               label="Package"
               placeholder="Enter your package"
+              name={"package"}
               value={values.package}
               onChange={handleChange}
+              onBlur={handleBlur}
+              errors={errors}
+              touched={touched}
+              bgColor="white"
             />
           </GridItem>
         </Grid>
@@ -232,59 +325,120 @@ const PersonalForm = ({ setCurrentStep }) => {
           style={{ marginTop: "1.5rem" }}
         >
           <Grid>
-            <InputField
-              id="currentAddress.currentAdd"
-              label="House.no/Flat.no/Building Name"
-              placeholder="Enter your house no."
-              value={values.currentAddress?.currentAdd}
-              onChange={handleChange}
-            />
+            <GridItem>
+              <CustomInput
+                id="currentAddress.currentAdd"
+                name="currentAddress.currentAdd"
+                label="House.no/Flat.no/Building Name"
+                placeholder="Enter your house no."
+                value={values.currentAddress?.currentAdd}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                // errors={errors}
+                // touched={touched}
+                bgColor="white"
+              />
+            </GridItem>
+            {errorText({
+              errors,
+              touched,
+              key: "currentAdd",
+            })}
           </Grid>
           <Grid>
-            <InputField
+            <CustomInput
               id="currentAddress.currentAdd2"
+              name="currentAddress.currentAdd2"
               label="Address Line 2"
               placeholder="Enter your address"
               value={values.currentAddress?.currentAdd2}
               onChange={handleChange}
+              onBlur={handleBlur}
+              // errors={errors}
+              // touched={touched}
+              bgColor="white"
             />
           </Grid>
 
           <GridItem>
-            <InputField
+            <CustomInput
               id="currentAddress.currentCity"
+              name="currentAddress.currentCity"
               label="City"
               placeholder="Enter your City"
               value={values.currentAddress?.currentCity}
               onChange={handleChange}
+              onBlur={handleBlur}
+              bgColor="white"
             />
+            {errorText({
+              errors,
+              touched,
+              key: "currentCity",
+            })}
           </GridItem>
+
           <GridItem>
-            <InputField
+            <CustomInput
               id="currentAddress.currentState"
+              name="currentAddress.currentState"
               label="State"
-              placeholder="Enter your state"
+              placeholder="Enter your State"
               value={values.currentAddress?.currentState}
               onChange={handleChange}
+              onBlur={handleBlur}
+              bgColor="white"
             />
+            {errorText({
+              errors,
+              touched,
+              key: "currentState",
+            })}
           </GridItem>
           <GridItem>
-            <InputField
+            <CustomInput
               id="currentAddress.currentCountry"
+              name="currentAddress.currentCountry"
               label="Country"
               placeholder="Enter your Country"
               value={values.currentAddress?.currentCountry}
               onChange={handleChange}
+              onBlur={handleBlur}
+              // errors={errors}
+              // touched={touched}
+              bgColor="white"
             />
+            {errorText({
+              errors,
+              touched,
+              key: "currentCountry",
+            })}
           </GridItem>
           <GridItem>
-            <InputField
+            {/* <InputField
               id="currentAddress.currentPostCode"
               label="Postal Code"
               placeholder="Enter your postal code"
               value={values.currentAddress?.currentPostCode}
               onChange={handleChange}
+            /> */}
+            <CustomInput
+              id="currentAddress.currentPostCode"
+              name="currentAddress.currentPostCode"
+              label="Postal Code"
+              placeholder="Enter your postal code"
+              value={values.currentAddress?.currentPostCode}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              // errors={errors}
+              // touched={touched}
+              bgColor="white"
             />
+            {errorText({
+              errors,
+              touched,
+              key: "currentPostCode",
+            })}
           </GridItem>
           <GridItem colSpan={2}>
             <UploadInput
@@ -294,24 +448,45 @@ const PersonalForm = ({ setCurrentStep }) => {
             />
           </GridItem>
         </Grid>
-        <Box 
-        marginTop={'2rem'}>
-        <CustomBtn 
-          title={'Save & Next'}
-          isLoading={isSubmitting}
-          onClick={handleSubmit}
-          bgColor={color.secondaryBtn}
-          containerStyle={{
-            marginRight:'1.5rem'
-          }}
-        />
-        <CustomBtn 
-          title={'Next'}
-          onClick={() => {
+        <Box marginTop={"2rem"}>
+          {/* <CustomBtn
+            title={"Previous"}
+            onClick={() => {
               if (setCurrentStep) setCurrentStep((step) => step + 1);
             }}
-          bgColor={color.secondaryBtn}
-        />
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          /> */}
+
+          <CustomBtn
+            title={"Save & Next"}
+            isLoading={isSubmitting}
+            onClick={() => {
+              handleSubmit();
+
+              // if (setCurrentStep) {
+              //   setCurrentStep((step) => step + 1);
+              // }
+              
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight:'1.5rem'
+            }}
+          />
+          <CustomBtn
+            title={"Next"}
+            onClick={() => {
+              if (setCurrentStep) setCurrentStep((step) => step + 1);
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          />
+          
         </Box>
       </Box>
     </>
@@ -319,3 +494,45 @@ const PersonalForm = ({ setCurrentStep }) => {
 };
 
 export default PersonalForm;
+
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+
+  name: Yup.string().required("Name is required"),
+
+  dateOfJoining: Yup.date().nullable().required("Joining date is required"),
+
+  role: Yup.string().required("Role is required"),
+
+  department: Yup.string().required("Department is required"),
+
+  package: Yup.string().required("Offer package is required"),
+
+  mobile: Yup.string()
+    .matches(/^[0-9]+$/, "Phone number must be digits only")
+    // .min(10, "Phone number must be at least 10 digits")
+    // .max(15, "Phone number must be no more than 15 digits")
+    .required("Phone number is required"),
+
+  currentAddress: Yup.object().shape({
+    currentCity: Yup.string().required("City is required"),
+    currentAdd: Yup.string().required("Address is required"),
+    currentState: Yup.string().required("Enter the state"),
+    currentCountry: Yup.string().required("Enter the Country"),
+    currentPostCode: Yup.string().required("Enter the postal code"),
+  }),
+});
+
+const errorText = ({ touched, errors, key }) => {
+  return (
+    <>
+      {touched.currentAddress?.[key] && errors.currentAddress?.[key] ? (
+        <Text color="red" fontFamily="Inter" fontWeight="300" fontSize="12px">
+          {errors?.currentAddress?.[key]}
+        </Text>
+      ) : null}
+    </>
+  );
+};

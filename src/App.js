@@ -96,6 +96,10 @@ function App() {
           element: <Dashboard />,
         },
         {
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
+        {
           path: "users",
           element: <UserList />,
         },

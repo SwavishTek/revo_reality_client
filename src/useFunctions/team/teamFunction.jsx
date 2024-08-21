@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_AXIOS } from "../../http/interceptor";
 import Apis from "../../utils/apis";
 import useCustomToast from "../../hooks/useCustomToast";
-import { showSuccess } from "../../utils/toastHelpers";
+import { showSuccess, showError } from "../../utils/toastHelpers";
 
 
 export const getTeams = async ({
@@ -51,5 +51,20 @@ export const getTeamDetailsById = async (id) => {
   } catch (error) {
     console.error('Team Details Error:', error);
     throw error;
+  }
+};
+
+export const teamDelete = async (data) => {
+  console.log('data',data);
+  try {
+    console.log('inn');
+    const {data: resData} = await API_AXIOS.post(`team/teamDelete`,{data});
+    
+    showSuccess(resData?.message);
+    return resData || {};
+  } catch (error) {
+    console.log(error);
+    showError(error?.response?.data?.message || "Something went wrong");
+    throw new Error(error.response.data.error || "Something went wrong");
   }
 };
