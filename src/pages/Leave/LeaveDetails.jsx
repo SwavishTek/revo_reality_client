@@ -14,8 +14,10 @@ import RowItem from "../../myComponent/RowItem";
 import { userRolesObj } from "../../utils/menuItems";
 import { dateFormate } from "../../utils/common";
 import ImagePreview from "../../components/ImagePreview";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LeaveDetails = () => {
+  const queryClient = useQueryClient();
   const { id } = useParams();
   const { data = {}, refetch } = useLeaveDetailsQuery(id);
   const { data: auth } = useProfileQuery();
@@ -31,6 +33,8 @@ const LeaveDetails = () => {
     setRejectLoad(true);
     try {
       await rejectLeaveById(id);
+      queryClient.refetchQueries(["leaves"]);
+      queryClient.setQueriesData(["leave", id], () => data.data);
       refetch(); // Refresh data
     } catch (error) {
       console.error("Error rejecting leave:", error.message);
@@ -116,7 +120,7 @@ const LeaveDetails = () => {
         />
         <RowItem
           title={"Mobile Number"}
-          value={data?.mobile} 
+          value={data?.mobile}
         />
         <RowItem
           title={"Status"}
