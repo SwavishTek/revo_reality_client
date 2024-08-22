@@ -5,69 +5,120 @@ import BackButton from "../../components/BackButton";
 import CustomSelect from "../../components/BasicSelect";
 import { monthOptions, generateYearOptions } from "../../utils/menuItems.js";
 import { uploadHoliday } from "../../useFunctions/user/holidayCount.js";
-import { excelToJson } from "../../useFunctions/commonFunctions.js";
+import { convertExcelToJSON, excelToJson } from "../../useFunctions/commonFunctions.js";
 import CustomFileInput from "./CustomFileInput.jsx";
 import MyContainer from "../../myComponent/MyContainer.jsx";
+import * as XLSX from 'xlsx';
+import dayjs from 'dayjs';
+import { CustomBtn } from "../../myComponent/CustomBtn.jsx";
+
+const calculateMonthlyWorkingDays = (date) => {
+  const targetMonth = dayjs(date).month(); // Get the month (0-11)
+  const year = dayjs(date).year(); // Get the year
+
+  let workingDays = 0;
+  const daysInMonth = dayjs(date).daysInMonth();
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const currentDay = dayjs(new Date(year, targetMonth, day));
+    const dayOfWeek = currentDay.day(); // 0 for Sunday, 6 for Saturday
+
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Skip weekends
+      workingDays++;
+    }
+  }
+
+  return workingDays;
+};
+
+const parseExcelFile = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
+
+        const result = jsonData.map((row) => {
+          // Correctly parse the date
+          const date = dayjs(row.Date).format("YYYY-MM-DD");
+
+          return {
+            name: row.Name,
+            date,
+            type: row.Type,
+            monthlyWorkingDays: calculateMonthlyWorkingDays(date),
+          };
+        });
+
+        resolve(result);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+};
 
 const GeneralChanges = () => {
   const [fileData, setFileData] = useState([]);
   const [monthYearOptions, setMonthYearOptions] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   // Initialize Formik directly with useFormik
-  const { 
+  const {
     values,
     errors,
     touched,
-    isValid,   
+    isValid,
     handleChange,
-    handleBlur,   
+    handleBlur,
     handleSubmit,
     setFieldValue,
     getFieldProps
-     } = useFormik({
+  } = useFormik({
     initialValues: {
       type: "year",
       month: "",
       year: "",
       monthlyWorkingDays: "",
       yearlyWorkingDays: "",
+      data: []
     },
-    onSubmit: async (values) => {
-      console.log("Form Data:", values);
-
-      // Construct data in the required format
-      const sendData = {
-        year: values.type === "year" ? values.year : "",
-        yearlyWorkingDays:
-          values.type === "year" ? values.yearlyWorkingDays : "",
-        month: values.type === "month" ? values.month : "",
-        monthlyWorkingDays:
-          values.type === "month" ? values.monthlyWorkingDays : "",
-        type: values.type,
-        data: fileData, // Ensure fileData is correctly formatted
-      };
-
+    onSubmit: async (value) => {
+      setIsLoading(true)
+      console.log("Form Data:", value);
       try {
-        const response = await uploadHoliday({ data: sendData });
-        console.log("HolidayData:", response);
+        await uploadHoliday({ data: value });
       } catch (error) {
         console.log("ErrorHoliday:", error);
+      } finally {
+        setIsLoading(false);
       }
     },
   });
 
   console.info(fileData);
   // Handle file change
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const data = excelToJson(e);
-      // Ensure the data extracted from the file matches the API format
-      setFileData(data);
-      // No need to set field value here since fileData is managed separately
+  const handleFileChange = async (file) => {
+    try {
+      const processedData = await parseExcelFile(file);
+      setFieldValue('data', processedData)
+    } catch (error) {
+      console.error('Error processing file:', error);
     }
   };
-
+  console.log('values', values);
   // Handle type change
   useEffect(() => {
     if (values.type === "month") {
@@ -102,9 +153,8 @@ const GeneralChanges = () => {
               <CustomSelect
                 label={values.type === "month" ? "Select Month" : "Select Year"}
                 id={values.type === "month" ? "month" : "year"}
-                placeholder={`Select ${
-                  values.type === "month" ? "Month" : "Year"
-                }`}
+                placeholder={`Select ${values.type === "month" ? "Month" : "Year"
+                  }`}
                 options={monthYearOptions}
                 value={values.type === "month" ? values.month : values.year}
                 onChange={(e) =>
@@ -130,9 +180,8 @@ const GeneralChanges = () => {
                     ? "monthlyWorkingDays"
                     : "yearlyWorkingDays"
                 }
-                placeholder={`Enter Working Days in ${
-                  values.type === "month" ? "Month" : "Year"
-                }`}
+                placeholder={`Enter Working Days in ${values.type === "month" ? "Month" : "Year"
+                  }`}
                 {...getFieldProps(
                   values.type === "month"
                     ? "monthlyWorkingDays"
@@ -147,13 +196,13 @@ const GeneralChanges = () => {
               Upload Holiday List
             </Text>
             <CustomFileInput
-              onChange={handleFileChange}
+              onChange={(e) => handleFileChange(e.target.files[0])}
               placeholder="Upload Holiday List"
               width="100%"
             />
           </Box>
           <Box width="100%">
-            <Button
+            {/* <Button
               onClick={handleSubmit}
               size="lg"
               fontSize="18px"
@@ -161,7 +210,12 @@ const GeneralChanges = () => {
               fontWeight="normal"
             >
               Update
-            </Button>
+            </Button> */}
+            <CustomBtn
+              title={'Update'}
+              onClick={handleSubmit}
+              isLoading={isLoading}
+            />
           </Box>
         </Stack>
       </Card>
