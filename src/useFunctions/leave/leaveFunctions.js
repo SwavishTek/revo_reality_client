@@ -8,7 +8,7 @@ import { showError, showSuccess } from "../../utils/toastHelpers";
 
 export const applyLeave = async (values) => {
   try {
-    
+
     // const payload = {
     //   start: values.start ? values.start.toISOString() : "",
     //   end: values.end ? values.end.toISOString() : "",
@@ -105,8 +105,10 @@ export const useLeaveActions = () => {
       const { data } = await API_AXIOS.post(`${Apis.leaveApproveById}/${id}`);
       queryClient.refetchQueries(["leaves"]);
       queryClient.setQueriesData(["leave", id], () => data.data);
+      showSuccess(data?.message || "Leave successfully onHold");
     } catch (error) {
-      console.error("Error approving leave:", error);
+      showError(error?.response?.data?.message);
+      throw new Error(error);
     }
   };
 
@@ -115,8 +117,11 @@ export const useLeaveActions = () => {
       const { data } = await API_AXIOS.post(`${Apis.leaveRejectById}/${id}`);
       queryClient.refetchQueries(["leaves"]);
       queryClient.setQueriesData(["leave", id], () => data.data);
+      showSuccess(data?.message || "Leave successfully onHold");
     } catch (error) {
-      console.error("Error rejecting leave:", error);
+      console.log('error', error)
+      showError(error?.response?.data?.message);
+      throw new Error(error);
     }
   };
 
@@ -125,8 +130,21 @@ export const useLeaveActions = () => {
       const { data } = await API_AXIOS.post(`${Apis.leaveOnHoldById}/${id}`);
       queryClient.refetchQueries(["leaves"]);
       queryClient.setQueriesData(["leave", id], () => data.data);
+      showSuccess(data?.message || "Leave successfully onHold");
     } catch (error) {
-      console.error("Error putting leave on hold:", error);
+      showError(error?.response?.data?.message);
+      throw new Error(error);
+    }
+  };
+
+  const reviseLeaveById = async ({ id, sendData }) => {
+    try {
+      const { data } = await API_AXIOS.post(`leave/reviseLeavesById/${id}`, sendData);
+      showSuccess(data?.message || "Leave successfully onHold");
+      return data.data || {};
+    } catch (error) {
+      showError(error?.response?.data?.message);
+      throw new Error(error);
     }
   };
 
@@ -134,5 +152,6 @@ export const useLeaveActions = () => {
     approveLeaveById,
     rejectLeaveById,
     onHoldLeaveById,
+    reviseLeaveById
   };
 };
