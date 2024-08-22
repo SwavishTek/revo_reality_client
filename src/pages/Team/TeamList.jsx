@@ -10,14 +10,14 @@ import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
 import MyContainer from "../../myComponent/MyContainer";
 import { CustomBtn } from "../../myComponent/CustomBtn";
 import NoDataFound from "../User/components/NoDataFound";
-import Confirmation from '../../components/Confirmation';  // Ensure you have this component
+import Confirmation from '../../components/Confirmation';  
 import { teamDelete } from "../../useFunctions/team/teamFunction";
 
 const TeamList = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [selectedTeamId, setSelectedTeamId] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure(); // Disclosure hook for confirmation dialog
+  const { isOpen, onOpen, onClose } = useDisclosure(); 
 
   const {
     data: allTeams,

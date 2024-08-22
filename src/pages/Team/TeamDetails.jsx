@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 import MyContainer from "../../myComponent/MyContainer";
 import { CustomBtn } from "../../myComponent/CustomBtn";
@@ -33,6 +33,7 @@ const getNamesFromIds = (ids, details) => {
 
 const TeamDetails = () => {
   const { id } = useParams();
+  // const { state}=useLocation()
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { data, isLoading } = useGetTeamById(id);

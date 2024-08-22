@@ -25,7 +25,7 @@ const PersonalForm = ({ setCurrentStep }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get("id");
   const { data: user, refetch } = useUserDetailsQuery(id);
-  const toast = useToast();
+  //const toast = useToast();
   const {
     values,
     errors,
@@ -72,7 +72,7 @@ const PersonalForm = ({ setCurrentStep }) => {
         setCurrentStep((step) => step + 1);
       } catch (err) {
         console.log(err);
-        showError({ message: err?.response?.data?.message });
+       showError({ message: err?.response?.data?.message });
       }
     },
     if (setCurrentStep) {
@@ -121,6 +121,7 @@ const PersonalForm = ({ setCurrentStep }) => {
     }
   }, [user, setFieldValue]);
 
+  
   // useEffect(() => {
   //   if (user) {
   //     const fieldsToSet = {
@@ -215,13 +216,14 @@ const PersonalForm = ({ setCurrentStep }) => {
             />
           </GridItem>
           <GridItem>
-            {/* <PhoneInputField
+            <PhoneInputField
               id="mobile"
               label="Phone Number"
               value={values.mobile}
               onChange={(v) => setFieldValue("mobile", v)}
-            /> */}
-            <CustomInput
+              onBlur={handleBlur}
+            />
+            {/*<CustomInput
               id="mobile"
               label="Phone Number"
               placeholder="Enter your Phone Number"
@@ -233,7 +235,7 @@ const PersonalForm = ({ setCurrentStep }) => {
               // errors={errors}
               // touched={touched}
               bgColor="white"
-            />
+            />*/}
             {errorText({
               errors,
               touched,
@@ -241,11 +243,11 @@ const PersonalForm = ({ setCurrentStep }) => {
             })}
           </GridItem>
           <GridItem>
-            <CustomInput
-              id="role"
+          <CustomSelect
+            options={userRoles}
+            id="role"
               label="Role"
               placeholder="Select an option"
-              options={userRoles}
               name={"role"}
               value={values.role}
               onChange={handleChange}
@@ -253,7 +255,7 @@ const PersonalForm = ({ setCurrentStep }) => {
               errors={errors}
               touched={touched}
               bgColor="white"
-            />
+          />
           </GridItem>
           <GridItem>
             <CustomInput

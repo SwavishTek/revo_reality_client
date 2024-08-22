@@ -72,12 +72,12 @@ export const userHeaderItems = [
 export const userNotificationItems = [
   {
     label: "New",
-    value: "new",
+    value: "unseen",
     color: "#E9A80A",
   },
   {
     label: "Read",
-    value: "read",
+    value: "seen",
     color: "#FF8A00",
   },
 
