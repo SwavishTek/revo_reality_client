@@ -57,7 +57,7 @@ export const excelToJson = (e) => {
     };
 
     // Process the parsed data
-    jsonData = parsedData.map(row => 
+    jsonData = parsedData.map(row =>
       row.map(cell => formatDate(excelDateToJSDate(cell)))
     );
 
@@ -66,3 +66,30 @@ export const excelToJson = (e) => {
 
   return jsonData;
 };
+
+export const convertExcelToJSON = (file) => {
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: 'array' });
+
+    // Assuming the first sheet is the one you want
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+
+    // Convert the sheet to JSON format
+    const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+    // Process the data
+    jsonData.forEach(row => {
+      const name = row['Name'];
+      const date = row['Date'];
+      const type = row['Type'];
+
+      console.log(`Name: ${name}, Date: ${date}, Type: ${type}`);
+    });
+  };
+
+  reader.readAsArrayBuffer(file);
+}

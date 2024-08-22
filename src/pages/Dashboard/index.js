@@ -41,13 +41,13 @@ const Dashboard = () => {
           </GridItem>
           <GridItem>
             <PieChartComponent
-              title={"Working Days This Year"}
+              title={"Working Days (Year)"}
               data={yearlyData || []} // Display yearly data
             />
           </GridItem>
           <GridItem>
             <PieChartComponent
-              title={"Working Days This Month"}
+              title={"Working Days (Month)"}
               data={monthlyData || []} // Display monthly data
             />
           </GridItem>

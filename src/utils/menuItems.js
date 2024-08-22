@@ -109,6 +109,11 @@ export const leaveHeaderItems = [
     value: "rejected",
     color: "#FF0000",
   },
+  {
+    label: "Cancelled",
+    value: "cancelled",
+    color: "#FF0000",
+  },
 ];
 
 export const attendanceHeaderItems = [
@@ -145,6 +150,7 @@ export const userStatusObj = {
   deactive: "deactive",
   active: "active",
   pending: "pending",
+  cancelled: 'cancelled'
 };
 
 export const leaveTypes = [

@@ -35,12 +35,13 @@ const LeaveList = () => {
       header={'All Leaves'}
       btnComponent={<>
         <CustomBtn
-          title={'My Leaves'}
+          title={'Apply For Leave'}
+          onClick={() => navigate('/leaves/apply_leave')}
         />
       </>}
     >
-    <Filters onSearchChange={setSearch} />
-    <CardHeader
+      <Filters onSearchChange={setSearch} />
+      <CardHeader
         value={leaveStatus}
         items={leaveHeaderItems}
         onChange={setLeaveStatus}
@@ -68,7 +69,7 @@ const LeaveList = () => {
         }
         gap={2}
         containerStyle={{
-          marginTop:'1rem'
+          marginTop: '1rem'
         }}
       />
       {/* {[...new Array(20)].map((el) => {
