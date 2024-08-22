@@ -120,7 +120,7 @@ export const useLeaveActions = () => {
       showSuccess(data?.message || "Leave successfully onHold");
     } catch (error) {
       console.log('error', error)
-      showError(error?.response?.data?.message);
+      showError(error?.response?.data);
       throw new Error(error);
     }
   };
@@ -169,7 +169,7 @@ export const useLeaveActions = () => {
       throw new Error(error);
     }
   };
-  
+
 
   return {
     approveLeaveById,

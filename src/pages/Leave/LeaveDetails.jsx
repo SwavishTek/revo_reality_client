@@ -18,13 +18,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useUserDetailsQuery } from "../../Queries/user/userUserQuery";
 import dayjs from "dayjs";
 
-const LeaveDetails = () => {
-  const isDateBeforeToday = (date) => {
-    const today = dayjs().startOf("day");
-    const givenDate = dayjs(date).startOf("day");
-    return givenDate.isBefore(today);
-  };
+const isDateTodayOrAfter = (date) => {
+  const givenDate = dayjs(date);
+  const today = dayjs();
 
+  return givenDate.isSame(today, 'day') || givenDate.isAfter(today, 'day');
+};
+
+const LeaveDetails = () => {
   const queryClient = useQueryClient();
   const { id } = useParams();
   const { data = {}, refetch } = useLeaveDetailsQuery(id);
@@ -34,10 +35,10 @@ const LeaveDetails = () => {
   const [approveLoad, setApproveLoad] = useState(false);
   const [reviseLoad, setReviseLoad] = useState(false);
   const [holdLoad, setHoldLoad] = useState(false);
-  const [cancel, setCancel] = useState(false);
+  const [cancelLoad, setCancelLoad] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const isSupSubAdmin = adminArr.includes(auth?.role);
+  const isSupSubAdmin = adminArr.includes(auth?.role) && data?.status !== userStatusObj.cancelled;
 
   const {
     rejectLeaveById,
@@ -85,16 +86,16 @@ const LeaveDetails = () => {
   };
 
   const handleCancel = async () => {
-    setCancel(true);
+    setCancelLoad(true);
     try {
-      await cancelLeaveById(id);
+      await cancelLeaveById({ id });
       queryClient.refetchQueries(["leaves"]);
       queryClient.setQueriesData(["leave", id], () => data.data);
       // refetch(); // Refresh data
     } catch (error) {
       console.error("Error canceling leave:", error.message);
     } finally {
-      setCancel(false);
+      setCancelLoad(false);
     }
   };
 
@@ -102,7 +103,7 @@ const LeaveDetails = () => {
     event.stopPropagation();
     callback();
   };
-  console.log("data", data);
+
   return (
     <MyContainer
       header={"Leave Detail"}
@@ -113,40 +114,40 @@ const LeaveDetails = () => {
             {![userStatusObj.approve, userStatusObj.cancel].includes(
               data?.status
             ) && (
-              <>
-                <CustomBtn
-                  title={"Approve"}
-                  isLoading={approveLoad}
-                  bgColor={color.success}
-                  onClick={handleButtonClick(handleApprove)}
-                />
-                <CustomBtn
-                  title={"On Hold"}
-                  isLoading={holdLoad}
-                  bgColor={color.info}
-                  onClick={handleButtonClick(handleOnHold)}
-                />
-                <CustomBtn
-                  title={"Revise"}
-                  isLoading={reviseLoad}
-                  bgColor={color.warning}
-                  onClick={handleButtonClick(onOpen)}
-                />
-                <CustomBtn
-                  title={"Reject"}
-                  isLoading={rejectLoad}
-                  bgColor={color.danger}
-                  onClick={handleButtonClick(handleReject)}
-                />
-              </>
-            )}
+                <>
+                  <CustomBtn
+                    title={"Approve"}
+                    isLoading={approveLoad}
+                    bgColor={color.success}
+                    onClick={handleButtonClick(handleApprove)}
+                  />
+                  <CustomBtn
+                    title={"On Hold"}
+                    isLoading={holdLoad}
+                    bgColor={color.info}
+                    onClick={handleButtonClick(handleOnHold)}
+                  />
+                  <CustomBtn
+                    title={"Revise"}
+                    isLoading={reviseLoad}
+                    bgColor={color.warning}
+                    onClick={handleButtonClick(onOpen)}
+                  />
+                  <CustomBtn
+                    title={"Reject"}
+                    isLoading={rejectLoad}
+                    bgColor={color.danger}
+                    onClick={handleButtonClick(handleReject)}
+                  />
+                </>
+              )}
             {/* {console.log('startData',data?.startDate)} */}
 
             {data?.status === userStatusObj.approve &&
-              isDateBeforeToday(data?.startDate) && (
+              isDateTodayOrAfter(data?.startDate) && (
                 <CustomBtn
                   title={"Cancel"}
-                  isLoading={cancel}
+                  isLoading={cancelLoad}
                   // bgColor={color.danger}
                   onClick={handleCancel}
                 />
