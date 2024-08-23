@@ -147,7 +147,7 @@ const LeaveForm = () => {
             id="mobile"
             label="Phone Number"
             value={auth?.mobile || ""}
-            
+
             disabled={true}
           />
         </HStack>
@@ -214,7 +214,7 @@ const LeaveForm = () => {
             getOptionValue={(option) => option.value}
           />
         </HStack>
-        <Box width="100%" mb={'2rem'}>
+        {/* <Box width="100%" mb={'2rem'}>
           <Text fontSize={"1rem"} fontWeight={"semibold"} mb={'0.55rem'}>
             Supported Document
           </Text>
@@ -226,15 +226,15 @@ const LeaveForm = () => {
             containerStyle={{ background: 'rgba(249, 249, 249, 1)' }}
             onChange={(files) => setFieldValue("doc", files)}
           />
-        </Box>
-        <Box width="100%" mb={'2rem'}>
+        </Box> */}
+        <HStack width="100%" alignItems={'center'} justifyContent={'center'} mt={3}>
           <CustomBtn
             title={'Apply'}
             bgColor={color.secondaryBtn}
             onClick={handleSubmit}
             isLoading={isSubmitting}
           />
-        </Box>
+        </HStack>
       </ShadowBox>
     </MyContainer>
   );
