@@ -14,7 +14,6 @@ import Title from "../../components/Title";
 import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
 import { showSuccess, showError } from "../../utils/toastHelpers"; // Import the showError function
 import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
-import { CustomBtn } from "../../myComponent/CustomBtn";
 
 const TeamForm = () => {
   const { state: prams } = useLocation();
@@ -213,6 +212,9 @@ const TeamForm = () => {
           width={"fit-content"}
           alignSelf={'center'}
           isLoading={isLoadingBtn}
+          _hover={{ bg: "brand" }}
+          _active={{ bg: "brand" }}
+          _focus={{ bg: "brand"}}
         >
           {isUpdate ? 'Update Team' : 'Create Team'}
         </LoadButton>
