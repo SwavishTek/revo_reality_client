@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 import MyContainer from "../../myComponent/MyContainer";
 import { CustomBtn } from "../../myComponent/CustomBtn";
@@ -9,18 +9,15 @@ import { svg } from "../../assets/svg.js";
 import { MainTitle } from "../../myComponent/MainTitle";
 import { useGetTeamById } from "./useQuery/useQuery.jsx";
 
-
 const formatDate = (date) => {
   if (!date) return 'N/A';
   return new Date(date).toLocaleDateString();
 };
 
-
 const arrData = (arr, key = 'name') => {
   if (!arr || arr.length === 0) return 'N/A';
   return arr.map(item => item[key] || item).join(', ');
 };
-
 
 const getNamesFromIds = (ids, details) => {
   if (!ids || !details) return 'N/A';
@@ -33,10 +30,9 @@ const getNamesFromIds = (ids, details) => {
 
 const TeamDetails = () => {
   const { id } = useParams();
-  // const { state}=useLocation()
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const { data, isLoading } = useGetTeamById(id);
+  const { data, isLoading, refetch } = useGetTeamById(id);
 
   useEffect(() => {
     if (data && data.data) {
@@ -49,6 +45,11 @@ const TeamDetails = () => {
       navigate('/teams/add_team', { state: { _id: id, ...data.data } });
     }
   };
+
+  useEffect(() => {
+    // Whenever the route changes or component mounts, refetch the data.
+    refetch();
+  }, [id, refetch]);
 
   if (loading || isLoading) return <div>Loading...</div>;
 

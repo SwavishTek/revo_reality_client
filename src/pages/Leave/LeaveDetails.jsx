@@ -228,12 +228,36 @@ const LeaveDetails = () => {
           marginBottom: "50px",
         }}
       >
+      {data?.status===userStatusObj.revise&& <>
+      <MainTitle title={"Revised Dates"} />
+     
+      <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Revised Start Dates"}
+          value={dateFormate(data?.reviseStartDate)}
+        />
+        <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Revised End Dates"}
+          value={dateFormate(data?.reviseEndDate)}
+        />
+        <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Remarks"}
+          value={data?.reviseRemarks}
+          />
+          <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Revised Status"}
+          value={data?.reviseStatus}
+          mb={10} />
+      </>}
         <MainTitle title={"EMPLOYEE INFORMATION"} />
         <RowItem
           containerStyle={{ alignItems: "flex-start" }}
           title={"Employee Name"}
           value={`${data.name || ""} ${data.lastName || ""}`}
-        />
+          />
         <RowItem title={"Role"} value={userRolesObj[data?.role]} />
         <RowItem title={"Mobile Number"} value={data?.mobile} />
         <RowItem title={"Status"} value={data?.status} mb={10} />

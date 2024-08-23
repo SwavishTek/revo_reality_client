@@ -30,7 +30,7 @@ const OfferLetterList = () => {
     isLoading,
     isFetching
   } = useGetOfferLetterList({
-    search: ''
+    search
   })
   console.log('data', data)
   return (

@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getOfferLetterDetailPublic, getOfferLetterList } from "../../useFunctions/offerLetter/offerLetter";
 
-export const useGetOfferLetterList = ({ search = '' }) => {
+export const useGetOfferLetterList = ({ search }) => {
 
   let res = useInfiniteQuery({
     queryKey: ["getOfferLetterList", search],

@@ -1,5 +1,6 @@
 // let baseUrl = "http://localhost:5000/api/";
-let baseUrl = process.env.REACT_APP_API_URL;
+// let baseUrl = process.env.REACT_APP_API_URL;
+let baseUrl = `https://revo-reality-api.onrender.com/api/`
 
 const Apis = {
   baseUrl,
