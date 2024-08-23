@@ -36,6 +36,7 @@ const OfferLetterList = () => {
   return (
     <MyContainer
       header={'Offer Letters'}
+      isBack
       btnComponent={<>
         {/* <CustomBtn title={'Employees'}
           bgColor={color.primaryBtn}
