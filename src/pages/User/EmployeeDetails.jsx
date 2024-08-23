@@ -72,7 +72,7 @@ const EmployeeDetails = () => {
         <>
          {adminArr.includes(auth?.role) && user?._id !== auth?._id && (
           <>
-          <CustomBtn
+         {/* <CustomBtn
             title={<><img src={svg.CopyedUserIcon} alt="Copy" /></>}
             borderRadius={'50%'}
             padding={'10px'}
@@ -99,7 +99,7 @@ const EmployeeDetails = () => {
             padding={'10px'}
             bgColor={color.deletebtn}
             onClick={onOpen}
-          />
+          />*/}
           </>
            )}
         </>
