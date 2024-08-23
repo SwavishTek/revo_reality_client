@@ -36,12 +36,12 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
         ...(!!id && { userId: id }),
       });
       refetch();
-      toast({
-        title: data?.message,
-        status: "success",
-        isClosable: true,
-        duration: 1000,
-      });
+      // toast({
+      //   title: data?.message,
+      //   status: "success",
+      //   isClosable: true,
+      //   duration: 1000,
+      // });
       navigate("/users");
       //   setCurrentStep((step) => step + 1);
     } catch (err) {
@@ -87,28 +87,28 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
           }}
         />
 
-      <Box marginTop={'2rem'}>
-      <CustomBtn 
-          title={"Previous"}
-          onClick={() => {
-            if (setCurrentStep) setCurrentStep((step) => step - 1);
-          }}
-          bgColor={color.secondaryBtn}
-          containerStyle={{
-            marginRight: "1.5rem",
-          }}
-        />
-        <CustomBtn 
-          title={'Submit'}
-          isLoading={loading}
-          onClick={handleSubmit}
-          bgColor={color.secondaryBtn}
-          containerStyle={{
-            marginRight:'1.5rem'
-          }}
-        />
-        
-        </Box>        
+        <Box marginTop={'2rem'}>
+          <CustomBtn
+            title={"Previous"}
+            onClick={() => {
+              if (setCurrentStep) setCurrentStep((step) => step - 1);
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          />
+          <CustomBtn
+            title={'Submit'}
+            isLoading={loading}
+            onClick={handleSubmit}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: '1.5rem'
+            }}
+          />
+
+        </Box>
       </Box>
     </>
   );

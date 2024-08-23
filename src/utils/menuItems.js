@@ -14,10 +14,29 @@ export const menuItems = [
     label: "Users",
     href: "/users",
     icon: <FaUser size={"1.4rem"} />,
-    // children: [
-    //   { label: "Active Users", href: "/users/active" },
-    //   { label: "Inactive Users", href: "/users/inactive" },
-    // ],,
+  },
+  {
+    label: "Teams",
+    href: "/teams",
+    icon: <MdHub size={"1.4rem"} />,
+  },
+  {
+    label: "Leaves",
+    href: "/leaves",
+    icon: <FaCalendarCheck size={"1.4rem"} />,
+  },
+  {
+    label: "Attendance",
+    href: "/attendance",
+    icon: <TiDocumentText size={"1.4rem"} />,
+  },
+];
+
+export const menuItemsAgent = [
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: <TbTargetArrow size={"1.4rem"} />,
   },
   {
     label: "Teams",
