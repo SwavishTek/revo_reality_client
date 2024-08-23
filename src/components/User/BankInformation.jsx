@@ -45,12 +45,12 @@ const BankInformation = ({ setCurrentStep }) => {
             ...(!!id && { userId: id }),
           });
           refetch();
-          toast({
-            title: data?.message,
-            status: "success",
-            isClosable: true,
-            duration: 1000,
-          });
+          // toast({
+          //   title: data?.message,
+          //   status: "success",
+          //   isClosable: true,
+          //   duration: 1000,
+          // });
           setCurrentStep((step) => step + 1);
         } catch (err) {
           console.log(err);

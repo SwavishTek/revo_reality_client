@@ -25,9 +25,10 @@ export const getUsers = async ({
 export const addUser = async (values) => {
   try {
     const { data } = await API_AXIOS.post(`${Apis.user}`, values);
+    showSuccess(data?.message);
     return data || {};
   } catch (error) {
-    console.log(error);
+    console.log('addUser', error);
     showError(error?.response?.data?.message);
     throw new Error(error.response.data.message || "Something went wrong");
   }

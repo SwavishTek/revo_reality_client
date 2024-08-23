@@ -35,7 +35,7 @@ const PersonalForm = ({ setCurrentStep }) => {
     handleBlur,
     handleSubmit,
     setFieldValue,
-    isSubmitting, 
+    isSubmitting,
   } = useFormik({
     initialValues: {
       name: "",
@@ -68,16 +68,16 @@ const PersonalForm = ({ setCurrentStep }) => {
         });
         refetch();
         setSearchParams({ id: data?.data?._id });
-        showSuccess({ message: data?.message });
+        // showSuccess({ message: data?.message });
         setCurrentStep((step) => step + 1);
       } catch (err) {
         console.log(err);
-       showError({ message: err?.response?.data?.message });
+        //  showError({ message: err?.response?.data?.message });
       }
     },
-    if (setCurrentStep) {
-        setCurrentStep((step) => step + 1);
-      }
+    if(setCurrentStep) {
+      setCurrentStep((step) => step + 1);
+    }
   });
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const PersonalForm = ({ setCurrentStep }) => {
     }
   }, [user, setFieldValue]);
 
-  
+
   // useEffect(() => {
   //   if (user) {
   //     const fieldsToSet = {
@@ -141,7 +141,7 @@ const PersonalForm = ({ setCurrentStep }) => {
   //       "currentAddress.currentPostCode": user.currentAddress?.currentPostCode,
   //       package: user.package,
   //     };
-  
+
   //     Object.entries(fieldsToSet).forEach(([key, value]) => {
   //       setFieldValue(key, value);
   //     });
@@ -243,9 +243,9 @@ const PersonalForm = ({ setCurrentStep }) => {
             })}
           </GridItem>
           <GridItem>
-          <CustomSelect
-            options={userRoles}
-            id="role"
+            <CustomSelect
+              options={userRoles}
+              id="role"
               label="Role"
               placeholder="Select an option"
               name={"role"}
@@ -255,7 +255,7 @@ const PersonalForm = ({ setCurrentStep }) => {
               errors={errors}
               touched={touched}
               bgColor="white"
-          />
+            />
           </GridItem>
           <GridItem>
             <CustomInput
@@ -471,11 +471,11 @@ const PersonalForm = ({ setCurrentStep }) => {
               // if (setCurrentStep) {
               //   setCurrentStep((step) => step + 1);
               // }
-              
+
             }}
             bgColor={color.secondaryBtn}
             containerStyle={{
-              marginRight:'1.5rem'
+              marginRight: '1.5rem'
             }}
           />
           <CustomBtn
@@ -488,7 +488,7 @@ const PersonalForm = ({ setCurrentStep }) => {
               marginRight: "1.5rem",
             }}
           />
-          
+
         </Box>
       </Box>
     </>
