@@ -5,7 +5,7 @@ import {
 import { useFormik } from "formik";
 import { debounce } from "lodash";
 import React, { useMemo, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../../components/BackButton";
 import { CustomInput } from "../../myComponent/CustomInput";
 import DropDown from "../../components/DropDown/DropDown";
@@ -14,12 +14,15 @@ import Title from "../../components/Title";
 import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
 import { showSuccess, showError } from "../../utils/toastHelpers"; // Import the showError function
 import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 const TeamForm = () => {
+  const queryClient = useQueryClient();
   const { state: prams } = useLocation();
   const isUpdate = !!prams?._id;
   const [inputValue, setInputValue] = useState('');
   const [isLoadingBtn, setIsLoadingBtn] = useState(false);
+  const navigate = useNavigate();
   const [initialValues, setInitialValues] = useState({
     name: '',
     managerIds: [],
@@ -75,7 +78,7 @@ const TeamForm = () => {
     handleChange,
     handleBlur,
     setFieldValue,
-    handleSubmit
+    handleSubmit,
   } = useFormik({
     initialValues,
     enableReinitialize: true,
@@ -94,11 +97,15 @@ const TeamForm = () => {
             id: prams._id
           });
           showSuccess('Team updated successfully');
+          queryClient.invalidateQueries({ queryKey: ['teams'] });
+          navigate("/teams");
         } else {
           await addTeam({
             data: sendData
           });
           showSuccess('Team created successfully');
+          queryClient.invalidateQueries({ queryKey: ['teams'] });
+          navigate("/teams");
         }
       } catch (err) {
         console.error('Error submitting form:', err);

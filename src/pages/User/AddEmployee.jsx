@@ -23,24 +23,24 @@ const AddEmployee = () => {
   console.log(activeStep);
   return (
     <div>
-     
-     <MyContainer
-     isBack
-     header={'Add Employees'}
-     btnComponent={<>
-      <CustomBtn title={'Create Offer'}
-      bgColor={color.secondaryBtn}  />
-     </>} >
 
-      {/* <MyStepper currentStep={activeStep} setCurrentStep={setActiveStep} /> */}
-      <NewStepper activeStep={activeStep} />
-      {activeStep === 0 ? (
-        <PersonalForm setCurrentStep={setActiveStep} />
-      ) : activeStep === 1 ? (
-        <BankInformation setCurrentStep={setActiveStep} />
-      ) : activeStep === 2 ? (
-        <UploadOfferLetter setCurrentStep={setActiveStep} />
-      ) : null}
+      <MyContainer
+        isBack
+        header={'Add Employees'}
+        btnComponent={<>
+          <CustomBtn title={'Create Offer'}
+            bgColor={color.secondaryBtn} />
+        </>} >
+
+        {/* <MyStepper currentStep={activeStep} setCurrentStep={setActiveStep} /> */}
+        <NewStepper activeStep={activeStep} />
+        {activeStep === 0 ? (
+          <PersonalForm setCurrentStep={setActiveStep} />
+        ) : activeStep === 1 ? (
+          <BankInformation setCurrentStep={setActiveStep} />
+        ) : activeStep === 2 ? (
+          <UploadOfferLetter setCurrentStep={setActiveStep} />
+        ) : null}
       </MyContainer>
     </div>
   );

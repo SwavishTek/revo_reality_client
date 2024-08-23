@@ -18,10 +18,12 @@ export const applyLeave = async (values) => {
     // };
 
     const { data } = await API_AXIOS.post(`${Apis.leave}`, values);
+    showSuccess(data?.message);
     return data || {};
   } catch (error) {
-    const errorMessage = error.response?.data?.error || "Something went wrong";
-    console.error("Error applying leave:", errorMessage);
+    console.log('$$', error);
+    const errorMessage = error.response?.data?.message || "Something went wrong";
+    showError(errorMessage || "Something went wrong");
     throw new Error(errorMessage);
   }
 };

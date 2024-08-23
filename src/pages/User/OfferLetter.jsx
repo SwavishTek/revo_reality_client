@@ -38,7 +38,7 @@ const OfferLetter = () => {
     isValid,
     handleChange,
     handleBlur,
-    handleSubmit,    
+    handleSubmit,
     setFieldValue,
   } = useFormik({
     initialValues: {
@@ -78,6 +78,7 @@ const OfferLetter = () => {
   return (
     <MyContainer
       header={"Offer Letter"}
+      isBack
       btnComponent={
         <>
           {/* <CustomBtn
@@ -210,22 +211,22 @@ export default OfferLetter;
 
 const validationSchema = Yup.object({
   email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
+    .email('Invalid email address')
+    .required('Email is required'),
 
   name: Yup.string()
-      .required('Name is required'),
-  
+    .required('Name is required'),
+
   dateOfJoining: Yup.string()
-      .required('Choose date of joining'),
+    .required('Choose date of joining'),
 
   role: Yup.string()
-      .required('Role is required'),
+    .required('Role is required'),
 
   department: Yup.string()
-      .required('Department is required'),
+    .required('Department is required'),
 
   offerPackage: Yup.string()
-      .required('Offer package is rrequired')
+    .required('Offer package is rrequired')
 
 });
