@@ -120,7 +120,7 @@ export const useLeaveActions = () => {
       showSuccess(data?.message || "Leave successfully onHold");
     } catch (error) {
       console.log('error', error)
-      showError(error?.response?.data?.message);
+      showError(error?.response?.data);
       throw new Error(error);
     }
   };
@@ -148,10 +148,35 @@ export const useLeaveActions = () => {
     }
   };
 
+  const reviseAcceptRejById = async ({ id, status }) => {
+    try {
+      const { data } = await API_AXIOS.post(`leave/reviseAcceptRejById/${id}`, status);
+      showSuccess(data?.message || "Leave Dates approved successfully");
+      return data.data || {};
+    } catch (error) {
+      showError(error?.response?.data?.message);
+      throw new Error(error);
+    }
+  };
+
+  const cancelLeaveById = async ({ id }) => {
+    try {
+      const { data } = await API_AXIOS.post(`leave/cancelLeaveById/${id}`);
+      showSuccess(data?.message || "Leave Cancelled successfully");
+      return data.data || {};
+    } catch (error) {
+      showError(error?.response?.data?.message);
+      throw new Error(error);
+    }
+  };
+
+
   return {
     approveLeaveById,
     rejectLeaveById,
     onHoldLeaveById,
-    reviseLeaveById
+    reviseLeaveById,
+    reviseAcceptRejById,
+    cancelLeaveById
   };
 };

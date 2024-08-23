@@ -17,6 +17,7 @@ import ModalBlur from './ModalBlur'; // Import the new ModalBlur component
 import { useLeaveActions } from '../../useFunctions/leave/leaveFunctions';
 
 const ReviseLeave = ({ isOpen, onClose, id, refetch }) => {
+  // const { data: user, refetch } = useUserDetailsQuery(id);
   const queryClient = useQueryClient();
   const { reviseLeaveById } = useLeaveActions();
   const [isLoading, setIsLoading] = useState()
@@ -59,6 +60,7 @@ const ReviseLeave = ({ isOpen, onClose, id, refetch }) => {
             colorScheme="brand"
             onClick={handleSubmit}
             mb="1rem"
+           
           >
             Submit
           </LoadButton>
@@ -105,7 +107,7 @@ const ReviseLeave = ({ isOpen, onClose, id, refetch }) => {
             name="reviseRemarks"
             value={values.reviseRemarks}
             onChange={handleChange}
-            placeholder="Enter Offer Package"
+            placeholder="Enter Remarks..."
           />
         </GridItem>
       </Grid>

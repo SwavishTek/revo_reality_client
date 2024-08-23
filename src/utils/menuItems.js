@@ -72,12 +72,12 @@ export const userHeaderItems = [
 export const userNotificationItems = [
   {
     label: "New",
-    value: "new",
+    value: "unseen",
     color: "#E9A80A",
   },
   {
     label: "Read",
-    value: "read",
+    value: "seen",
     color: "#FF8A00",
   },
 
@@ -107,6 +107,11 @@ export const leaveHeaderItems = [
   {
     label: "Rejected",
     value: "rejected",
+    color: "#FF0000",
+  },
+  {
+    label: "Cancelled",
+    value: "cancelled",
     color: "#FF0000",
   },
 ];
@@ -145,6 +150,7 @@ export const userStatusObj = {
   deactive: "deactive",
   active: "active",
   pending: "pending",
+  cancelled: 'cancelled'
 };
 
 export const leaveTypes = [

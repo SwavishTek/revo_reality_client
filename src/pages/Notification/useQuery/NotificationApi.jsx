@@ -1,11 +1,10 @@
 import { API_AXIOS } from '../../../http/interceptor';
 
-
 export const getNotification = async ({ status, pageParam = 1 }) => {
     try {
         const { data } = await API_AXIOS.get('notification', {
             params: {
-                status,
+                status, // seen, unseen
                 page: pageParam,
                 limit: 10
             }
@@ -19,11 +18,12 @@ export const getNotification = async ({ status, pageParam = 1 }) => {
 
 export const markNotificationsAsSeen = async (id) => {
     try {
-      const { data } = await API_AXIOS.post(`notification/seen`, {
-        id: id,
-      });
-      return data.data || {};
+        const { data } = await API_AXIOS.post(`notification/seen`, {
+            id: id,
+        });
+        return data.data || {};
     } catch (err) {
-      console.log("An unexpected error occurred", err);
+        console.log("An unexpected error occurred", err);
+        throw err;
     }
-  };
+};
