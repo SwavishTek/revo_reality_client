@@ -29,7 +29,7 @@ export const getProfile = async () => {
     return data?.data?.user || {};
   } catch (error) {
     // throw new Error(error.response.data.error);
-    showError(error?.response?.data?.message);
+    // showError(error?.response?.data?.message);
     console.log(error);
   }
 };
@@ -40,7 +40,7 @@ export const forgotPassword = async ({ email }) => {
     const { data } = await API_AXIOS.post(`auth/forgotPassword`, { email });
     console.log('resForgetPawword', data)
     showSuccess(data?.message);
-    return data;   
+    return data;
   } catch (error) {
     showError(error?.response?.data?.message);
     throw new Error(error);
