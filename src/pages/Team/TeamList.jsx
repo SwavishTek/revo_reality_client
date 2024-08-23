@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/react";
-
-import Header from "../../components/Header";
 import Filters from "../../components/Filters";
 import TeamCard from "../../components/Team/TeamCard";
 import { useTeamQuery } from "./useQuery/useQuery";
@@ -26,6 +24,7 @@ const TeamList = () => {
     isFetchingNextPage,
     isLoading,
     isFetching,
+    refetch,  
   } = useTeamQuery({ search });
 
   const handleUpdateButtonClick = (id, data, e) => {
@@ -46,9 +45,10 @@ const TeamList = () => {
   const deleteTeam = async () => {
     try {
       if (selectedTeamId) {
-        const sendData = [selectedTeamId]
-        const res = await teamDelete(sendData)
+        const sendData = [selectedTeamId];
+        const res = await teamDelete(sendData);
         console.log('resDeleteTeam', res);
+        refetch();
         onClose();
       }
     } catch (err) {
