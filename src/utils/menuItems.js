@@ -169,7 +169,8 @@ export const userStatusObj = {
   deactive: "deactive",
   active: "active",
   pending: "pending",
-  cancelled: 'cancelled'
+  cancelled: 'cancelled',
+  revise:'revise'
 };
 
 export const leaveTypes = [

@@ -152,7 +152,7 @@ export const useLeaveActions = () => {
 
   const reviseAcceptRejById = async ({ id, status }) => {
     try {
-      const { data } = await API_AXIOS.post(`leave/reviseAcceptRejById/${id}`, status);
+      const { data } = await API_AXIOS.post(`leave/reviseAcceptRejById/${id}`, {status});
       showSuccess(data?.message || "Leave Dates approved successfully");
       return data.data || {};
     } catch (error) {
