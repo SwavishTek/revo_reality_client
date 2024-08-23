@@ -23,6 +23,9 @@ const LoadButton = ({
       boxShadow="2.63px 3.5px 9.38px 0px #00000029"
       color={color}
       {...props}
+      _hover={{ bg: "brand" }}
+           _active={{ bg: "brand" }}
+           _focus={{ bg: "brand"}}
     >
       {isLoading ? <Spinner /> : children}
     </Button>

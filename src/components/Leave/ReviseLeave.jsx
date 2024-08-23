@@ -60,6 +60,7 @@ const ReviseLeave = ({ isOpen, onClose, id, refetch }) => {
             colorScheme="brand"
             onClick={handleSubmit}
             mb="1rem"
+           
           >
             Submit
           </LoadButton>
