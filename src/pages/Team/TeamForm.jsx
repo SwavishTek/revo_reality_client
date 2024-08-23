@@ -5,7 +5,7 @@ import {
 import { useFormik } from "formik";
 import { debounce } from "lodash";
 import React, { useMemo, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../../components/BackButton";
 import { CustomInput } from "../../myComponent/CustomInput";
 import DropDown from "../../components/DropDown/DropDown";
@@ -20,6 +20,7 @@ const TeamForm = () => {
   const isUpdate = !!prams?._id;
   const [inputValue, setInputValue] = useState('');
   const [isLoadingBtn, setIsLoadingBtn] = useState(false);
+  const navigate = useNavigate();
   const [initialValues, setInitialValues] = useState({
     name: '',
     managerIds: [],
@@ -94,11 +95,13 @@ const TeamForm = () => {
             id: prams._id
           });
           showSuccess('Team updated successfully');
+          navigate("/teams");
         } else {
           await addTeam({
             data: sendData
           });
           showSuccess('Team created successfully');
+          navigate("/teams");
         }
       } catch (err) {
         console.error('Error submitting form:', err);
