@@ -55,7 +55,8 @@ export const getUserDetailsById = async (id) => {
     });
     return data.data || {};
   } catch (error) {
-    showError(error?.response?.data?.message );
+    // showError(error?.response?.data?.message );
+    console.error(error.response.data.error || "Something went wrong")
   }
 };
 
