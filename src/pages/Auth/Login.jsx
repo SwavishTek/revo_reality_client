@@ -25,7 +25,7 @@ const Login = () => {
   const { values, handleChange, handleSubmit, isSubmitting } = useFormik({
     initialValues: { email: "", password: "" },
     onSubmit: async (values, { setSubmitting }) => {
-      console.log('values', values);
+      console.log("values", values);
       try {
         const { data } = await API_AXIOS.post(`auth/login`, values);
         navigate("/auth/verifyOTP", {
@@ -36,7 +36,7 @@ const Login = () => {
         });
         showSuccess({ message: data.message });
       } catch (err) {
-        console.log('checking', err.response?.data?.message || err);
+        console.log("checking", err.response?.data?.message || err);
         showError({ message: err.response?.data?.message || err.message });
       } finally {
         setSubmitting(false);
@@ -78,7 +78,7 @@ const Login = () => {
             fontSize={"0.8rem"}
             mt={2}
             onClick={() => navigate(`/auth/forgetpassword`)}
-            cursor={'pointer'}
+            cursor={"pointer"}
           >
             Forgot Password ?
           </Text>
