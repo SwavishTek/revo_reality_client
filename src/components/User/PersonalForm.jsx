@@ -222,8 +222,9 @@ const PersonalForm = ({ setCurrentStep }) => {
               value={values.mobile}
               onChange={(v) => setFieldValue("mobile", v)}
               onBlur={handleBlur}
-              errors={errors}
-              touched={touched}
+              error={errors?.mobile}
+              touched={touched?.mobile}
+              
             />
             {/*<CustomInput
               id="mobile"
@@ -274,7 +275,7 @@ const PersonalForm = ({ setCurrentStep }) => {
             />
           </GridItem>
           <GridItem>
-            <Text fontWeight={"semibold"} mb={1}>
+            <Text fontWeight={"semibold"}  mb={2}>
               Joining Date
             </Text>
             <DatePicker
@@ -517,7 +518,6 @@ const validationSchema = Yup.object({
   mobile: Yup.string()
     .matches(/^[0-9]+$/, "Phone number must be digits only")
      .min(7, "Phone number must be at least 7 digits")
-    // .max(15, "Phone number must be no more than 15 digits")
     .required("Phone number is required"),
 
   currentAddress: Yup.object().shape({

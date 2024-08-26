@@ -256,17 +256,17 @@ const validationSchema = Yup.object({
       _id: Yup.string().required("Manager ID is required"),
       name: Yup.string().required("Manager name is required")
     })
-  ).min(1, "At least one manager is required"), // Ensure at least one manager is present
+  ).min(1, "At least one manager is required"), 
   teamLeadIds: Yup.array().of(
     Yup.object().shape({
       _id: Yup.string().required("Team lead ID is required"),
       name: Yup.string().required("Team lead name is required")
     })
-  ).min(1, "At least one team lead is required"), // Ensure at least one team lead is present
+  ).min(1, "At least one team lead is required"), 
   memberIds: Yup.array().of(
     Yup.object().shape({
       _id: Yup.string().required("Member ID is required"),
       name: Yup.string().required("Member name is required")
     })
-  ).min(1, "At least one team member is required"), // Ensure at least one team member is present
+  ).min(1, "At least one team member is required"), 
 });
