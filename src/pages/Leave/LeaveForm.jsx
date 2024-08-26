@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, HStack, Input, Text } from "@chakra-ui/react";
+import { Box, Grid, GridItem, HStack, Input, Text } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import DatePicker from "react-datepicker";
 import CustomFileInput from "../User/CustomFileInput";
@@ -124,7 +124,8 @@ const LeaveForm = () => {
             disabled={true}
           />
         </HStack>
-        <HStack justifyContent={'space-between'} mb={'3rem'}>
+        <Grid templateColumns="repeat(2, 1fr)" gap={6} mb={6}>
+        
           {/* <DropDown
             name="role"
             label={'Role'}
@@ -135,22 +136,27 @@ const LeaveForm = () => {
             value={values.role}
             disabled={disabled}
           /> */}
+          <GridItem>
           <CustomInput
             value={userRolesObj[auth?.role] || ""}
             label={'Role'}
-            width={'49%'}
+            width={'100%'}
             disabled={true}
           />
+          </GridItem>
+          <GridItem>
           <PhoneInputField
-            width="49%"
+           
             backgroundColor="rgba(249, 249, 249, 1)"
             id="mobile"
             label="Phone Number"
             value={auth?.mobile || ""}
-
             disabled={true}
           />
-        </HStack>
+          </GridItem>
+          
+        
+        </Grid>
 
         <MainTitle title={'LEAVE INFORMATION'} />
         <CustomInput
