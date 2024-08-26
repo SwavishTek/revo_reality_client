@@ -51,7 +51,7 @@ const TeamDetails = () => {
     refetch();
   }, [id, refetch]);
 
-  if (loading || isLoading) return <div>Loading...</div>;
+  if (loading || isLoading) return <div></div>;
 
   const { data: teamData } = data;
 

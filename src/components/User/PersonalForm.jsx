@@ -222,6 +222,8 @@ const PersonalForm = ({ setCurrentStep }) => {
               value={values.mobile}
               onChange={(v) => setFieldValue("mobile", v)}
               onBlur={handleBlur}
+              errors={errors}
+              touched={touched}
             />
             {/*<CustomInput
               id="mobile"
@@ -514,7 +516,7 @@ const validationSchema = Yup.object({
 
   mobile: Yup.string()
     .matches(/^[0-9]+$/, "Phone number must be digits only")
-    // .min(10, "Phone number must be at least 10 digits")
+     .min(7, "Phone number must be at least 7 digits")
     // .max(15, "Phone number must be no more than 15 digits")
     .required("Phone number is required"),
 
