@@ -18,7 +18,7 @@ const MainLayout = Loadable(
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
 const Notification = Loadable(lazy(() => import("./pages/Notification/Notification.jsx")));
 const NotificationDetail = Loadable(lazy(() => import("./pages/Notification/NotificationDetail.jsx")))
-const DocuSuccess = Loadable(lazy(()=> import("./components/User/docusignSuccess.jsx")))
+const DocuSuccess = Loadable(lazy(() => import("./components/User/docusignSuccess.jsx")))
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
 // const TeamList = Loadable(lazy(() => import("./pages/Team/TeamListing.jsx")));
 
@@ -90,7 +90,7 @@ function App() {
       element: <AppointmentLetter />,
     },
     {
-      path: "users/docusuccess",
+      path: "/docusuccess",
       element: <DocuSuccess />
     },
 
@@ -134,7 +134,7 @@ function App() {
           path: "users/notification/:id",
           element: <NotificationDetail />
         },
-       
+
         /* start Team */
         {
           path: "teams",

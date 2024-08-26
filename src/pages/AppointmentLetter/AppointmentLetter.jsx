@@ -96,11 +96,12 @@ export default function AppointmentLetter() {
     const finalSubmit = async () => {
         try {
             setIsLoading2(true);
-            await submitOfferLetterWithSign({
+            const res = await submitOfferLetterWithSign({
                 letterId,
                 orgId,
                 pdfUrl
             })
+            navigate('/docusuccess', { state: res });
         }
         catch (error) {
             // showError(error?.response?.data?.message || 'Error in submitting the offer letter')
