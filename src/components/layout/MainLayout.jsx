@@ -31,8 +31,6 @@ const MainLayout = () => {
         overflowY={"scroll"}
         height={"100vh"}
       >
-        {/* Your main content goes here */}
-        {/* <Text>Welcome to the dashboard!</Text> */}
         <Outlet />
       </Box>
     </Box>

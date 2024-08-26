@@ -4,7 +4,6 @@ import {
   Box,
   Flex,
   Text,
-  //   Link,
   Button,
   VStack,
   Spacer,
@@ -19,6 +18,8 @@ import { useProfileQuery } from "../Queries/auth/useProfileQuery";
 import { PiPowerFill } from "react-icons/pi";
 import { logout } from "../useFunctions/auth/auth";
 import { useQueryClient } from "@tanstack/react-query";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { crmMenuItems } from "../utils/menuItems.js";
 
 const Sidebar = ({ items = [] }) => {
   const queryClient = useQueryClient();
@@ -30,7 +31,9 @@ const Sidebar = ({ items = [] }) => {
   useEffect(() => {
     const activeParent = items.find((item) => {
       if (item.children) {
-        return item.children.some((child) => location.pathname.includes(child.href));
+        return item.children.some((child) =>
+          location.pathname.includes(child.href)
+        );
       }
       return location.pathname.includes(item.href);
     });
@@ -42,14 +45,13 @@ const Sidebar = ({ items = [] }) => {
     setActiveItem(item);
   };
   const handleNotificationClick = () => {
-    navigate('/users/notification');
+    navigate("/users/notification");
   };
-
 
   return (
     <Flex
       direction="column"
-      h="100vh"
+      h="100%"
       w="230px"
       //   bg="gray.800"
       //   color="white"
@@ -58,6 +60,7 @@ const Sidebar = ({ items = [] }) => {
       pt={8}
       borderRight="1px"
       borderColor="gray.100"
+      gap={"10px"}
     >
       <Box mb={6}>
         {/* Replace with your logo */}
@@ -75,14 +78,32 @@ const Sidebar = ({ items = [] }) => {
           <Link to={`/users/profilesettings`}>
             <CiSettings size={"1.6rem"} />
           </Link>
-          <CiBellOn size={"1.6rem"} 
-             onClick={handleNotificationClick} 
-             style={{ cursor: 'pointer' }}
+          <CiBellOn
+            size={"1.6rem"}
+            onClick={handleNotificationClick}
+            style={{ cursor: "pointer" }}
           />
         </Box>
-        <Text my={2}>{`${auth?.name || ""} ${auth?.lastName || ""}`}</Text>
+        <Text fontFamily={"Roboto"} fontWeight={"14px"} my={2}>{`${
+          auth?.name || ""
+        } ${auth?.lastName || ""}`}</Text>
         <Box></Box>
       </Box>
+
+      <Button
+        fontFamily={"Roboto"}
+        width="180px"
+        height="35px"
+        px={"25px"}
+        borderRadius={"90px"}
+        gap="50px"
+        bg={"#D0837F"}
+        color={"white"}
+        rightIcon={<ChevronDownIcon />}
+        _hover={{ opacity: 1 }}
+      >
+        HRMS
+      </Button>
 
       {/* nav links */}
       <VStack spacing={3} align="start" flex={1}>
@@ -139,6 +160,73 @@ const Sidebar = ({ items = [] }) => {
 
       <Spacer />
 
+      <Button
+        fontFamily={"Roboto"}
+        width="180px"
+        height="35px"
+        px={"25px"}
+        borderRadius={"90px"}
+        gap="50px"
+        bg={"#D0837F"}
+        color={"white"}
+        rightIcon={<ChevronDownIcon />}
+        _hover={{ opacity: 1 }}
+      >
+        CRMS
+      </Button>
+
+      <VStack spacing={3} align="start" flex={1}>
+        {crmMenuItems.map((item) => (
+          <Box key={item.label} w="full">
+            <Link to={item.href}>
+              <Box
+                _hover={{ bg: "gray.50" }}
+                color={activeItem === item.label ? "brand.500" : "black"}
+                p={2}
+                borderRadius="12px"
+                borderTopEndRadius={0}
+                borderBottomEndRadius={0}
+                w="full"
+                bg={activeItem === item.label ? "brand.900" : "white"}
+                fontWeight={"medium"}
+                cursor={"pointer"}
+                onClick={() => handleItemClick(item.label)}
+                display={"flex"}
+                alignItems={"center"}
+                gap={2}
+              >
+                {item.icon}
+
+                {item.label}
+              </Box>
+            </Link>
+            {item.children && (
+              <Collapse in={activeItem === item.label} animateOpacity>
+                <VStack spacing={2} align="start" pl={4}>
+                  {item.children.map((child) => (
+                    <Link to={child.href}>
+                      <Box
+                        key={child.label}
+                        // _hover={{ textDecoration: "none", bg: "gray.700" }}
+                        p={2}
+                        borderRadius="md"
+                        w="full"
+                        bg={
+                          activeItem === child.label ? "gray.700" : "gray.800"
+                        }
+                        onClick={() => handleItemClick(child.label)}
+                      >
+                        {child.label}
+                      </Box>
+                    </Link>
+                  ))}
+                </VStack>
+              </Collapse>
+            )}
+          </Box>
+        ))}
+      </VStack>
+
       <Box
         display={"flex"}
         alignItems={"center"}
@@ -164,101 +252,3 @@ const Sidebar = ({ items = [] }) => {
 };
 
 export default Sidebar;
-
-// SidebarDrawer.js
-// import React, { useState } from "react";
-// import {
-//   Box,
-//   Button,
-//   Drawer,
-//   DrawerBody,
-//   DrawerFooter,
-//   DrawerHeader,
-//   DrawerOverlay,
-//   DrawerContent,
-//   DrawerCloseButton,
-//   Flex,
-//   Link,
-//   VStack,
-//   useDisclosure,
-//   IconButton,
-// } from "@chakra-ui/react";
-// import { HamburgerIcon } from "@chakra-ui/icons";
-
-// const SidebarDrawer = ({ items = [] }) => {
-//   const { isOpen, onOpen, onClose } = useDisclosure();
-//   const [activeItem, setActiveItem] = useState(null);
-
-//   const handleItemClick = (item) => {
-//     setActiveItem(activeItem === item ? null : item);
-//   };
-
-//   return (
-//     <>
-//       <IconButton
-//         icon={<HamburgerIcon />}
-//         onClick={onOpen}
-//         position="fixed"
-//         top="1rem"
-//         left="1rem"
-//         zIndex="overlay"
-//       />
-
-//       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-//         <DrawerOverlay />
-//         <DrawerContent>
-//           <DrawerCloseButton />
-//           <DrawerHeader>Logo</DrawerHeader>
-
-//           <DrawerBody>
-//             <VStack spacing={4} align="start">
-//               {items.map((item) => (
-//                 <Box key={item.label} w="full">
-//                   <Link
-//                     href={item.href}
-//                     _hover={{ textDecoration: "none", bg: "gray.700" }}
-//                     p={2}
-//                     borderRadius="md"
-//                     w="full"
-//                     bg={activeItem === item.label ? "gray.700" : "gray.800"}
-//                     onClick={() => handleItemClick(item.label)}
-//                   >
-//                     {item.label}
-//                   </Link>
-//                   {item.children && (
-//                     <VStack spacing={2} align="start" pl={4}>
-//                       {item.children.map((child) => (
-//                         <Link
-//                           key={child.label}
-//                           href={child.href}
-//                           _hover={{ textDecoration: "none", bg: "gray.700" }}
-//                           p={2}
-//                           borderRadius="md"
-//                           w="full"
-//                           bg={
-//                             activeItem === child.label ? "gray.700" : "gray.800"
-//                           }
-//                           onClick={() => handleItemClick(child.label)}
-//                         >
-//                           {child.label}
-//                         </Link>
-//                       ))}
-//                     </VStack>
-//                   )}
-//                 </Box>
-//               ))}
-//             </VStack>
-//           </DrawerBody>
-
-//           <DrawerFooter>
-//             <Button colorScheme="red" w="full" onClick={onClose}>
-//               Logout
-//             </Button>
-//           </DrawerFooter>
-//         </DrawerContent>
-//       </Drawer>
-//     </>
-//   );
-// };
-
-// export default SidebarDrawer;

@@ -32,6 +32,20 @@ export const menuItems = [
   },
 ];
 
+export const crmMenuItems = [
+  {
+    label: "Leads",
+    href: "/leads",
+    icon: <TbTargetArrow size={"1.4rem"} />,
+  },
+  {
+    label: "Agents",
+    href: "/agents",
+    icon: <FaUser size={"1.4rem"} />,
+  },
+
+]
+
 export const menuItemsAgent = [
   {
     label: "Dashboard",

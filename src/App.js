@@ -64,9 +64,13 @@ const GeneralChanges = Loadable(
 const OfferLetter = Loadable(
   lazy(() => import("./pages/User/OfferLetter.jsx"))
 );
-const OfferLetterList = Loadable(
-  lazy(() => import("./pages/User/OfferLetterList.jsx"))
-);
+const OfferLetterList = Loadable(lazy(() => import("./pages/User/OfferLetterList.jsx")));
+
+// CRM Layout start
+
+const Agents = Loadable(lazy(() => import("./pages/Agents/index.jsx")));
+const Leads = Loadable(lazy(() => import("./pages/Leads/index.jsx")));
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -189,6 +193,15 @@ function App() {
         {
           path: "users/offerletterlist",
           element: <OfferLetterList />
+        },
+        //CRMS part start
+        {
+          path: "/agents",
+          element: <Agents />
+        },
+        {
+          path: "/leads",
+          element: <Leads />
         }
       ],
     },
