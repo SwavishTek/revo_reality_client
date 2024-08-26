@@ -3,13 +3,18 @@ import MyContainer from "../../myComponent/MyContainer";
 import { Box, Text } from "@chakra-ui/react";
 import { svg } from "../../assets/svg";
 import { CustomBtn } from "../../myComponent/CustomBtn";
+import { useLocation } from "react-router-dom";
 
 const DocuSuccess = () => {
   const [isLoadingBtn, setIsLoadingBtn] = useState(false);
-
+  const { state } = useLocation();
   const handleButtonClick = async () => {
     setIsLoadingBtn(true);
-    setTimeout(() => setIsLoadingBtn(false), 2000); 
+    setTimeout(() => setIsLoadingBtn(false), 2000);
+  };
+  console.log('state', state)
+  const handleDownload = () => {
+    window.open(state?.data?.url);
   };
 
   return (
@@ -21,7 +26,7 @@ const DocuSuccess = () => {
         alignItems: 'center',
         height: '100vh',
         overflow: 'hidden',
-        padding: 0, 
+        padding: 0,
       }}
     >
       <Box
@@ -33,7 +38,7 @@ const DocuSuccess = () => {
         justifyContent="center"
         alignItems="center"
         boxShadow="2.64px 2.64px 7.91px 0px #0000002E"
-        backgroundColor="#fff" 
+        backgroundColor="#fff"
         borderRadius="10px"
         marginTop="6%"
         position="relative"
@@ -46,9 +51,9 @@ const DocuSuccess = () => {
           Congratulations! You have successfully submitted your signed Offer Letter
         </Text>
         <CustomBtn
-          title="Download PDF Document"
+          title="View and Download"
           isLoading={isLoadingBtn}
-          onClick={handleButtonClick}
+          onClick={handleDownload}
         />
       </Box>
     </MyContainer>
