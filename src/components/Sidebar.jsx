@@ -1,13 +1,10 @@
-// Sidebar.js
 import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
   Text,
   Button,
-  VStack,
   Spacer,
-  Collapse,
   Image,
   Avatar,
 } from "@chakra-ui/react";
@@ -18,8 +15,9 @@ import { useProfileQuery } from "../Queries/auth/useProfileQuery";
 import { PiPowerFill } from "react-icons/pi";
 import { logout } from "../useFunctions/auth/auth";
 import { useQueryClient } from "@tanstack/react-query";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { crmMenuItems } from "../utils/menuItems.js";
+import NavSection from "./NavSection"; // Import the NavSection component
 
 const Sidebar = ({ items = [] }) => {
   const queryClient = useQueryClient();
@@ -27,9 +25,11 @@ const Sidebar = ({ items = [] }) => {
   const location = useLocation();
   const { data: auth } = useProfileQuery();
   const [activeItem, setActiveItem] = useState(null);
+  const [isHrmsOpen, setHrmsOpen] = useState(true);
+  const [isCrmsOpen, setCrmsOpen] = useState(true);
 
   useEffect(() => {
-    const activeParent = items.find((item) => {
+    const activeParent = [...items, ...crmMenuItems].find((item) => {
       if (item.children) {
         return item.children.some((child) =>
           location.pathname.includes(child.href)
@@ -37,24 +37,20 @@ const Sidebar = ({ items = [] }) => {
       }
       return location.pathname.includes(item.href);
     });
-
     setActiveItem(activeParent ? activeParent.label : null);
   }, [location.pathname, items]);
 
-  const handleItemClick = (item) => {
-    setActiveItem(item);
-  };
-  const handleNotificationClick = () => {
-    navigate("/users/notification");
-  };
+  const handleItemClick = (item) => setActiveItem(item);
+  const handleNotificationClick = () => navigate("/users/notification");
+
+  const toggleHrms = () => setHrmsOpen(!isHrmsOpen);
+  const toggleCrms = () => setCrmsOpen(!isCrmsOpen);
 
   return (
     <Flex
       direction="column"
       h="100%"
       w="230px"
-      //   bg="gray.800"
-      //   color="white"
       p={4}
       pr={0}
       pt={8}
@@ -63,11 +59,10 @@ const Sidebar = ({ items = [] }) => {
       gap={"10px"}
     >
       <Box mb={6}>
-        {/* Replace with your logo */}
         <Image src={svg.logos} alt="Revo Reality" />
       </Box>
 
-      {/* //user personal section */}
+      {/* User personal section */}
       <Box mr={4}>
         <Box display={"flex"} alignItems={"center"} gap={2}>
           <div style={{ flex: 1 }}>
@@ -99,64 +94,21 @@ const Sidebar = ({ items = [] }) => {
         gap="50px"
         bg={"#D0837F"}
         color={"white"}
-        rightIcon={<ChevronDownIcon />}
+        rightIcon={isHrmsOpen ? <ChevronDownIcon /> : <ChevronUpIcon />}
         _hover={{ opacity: 1 }}
+        onClick={toggleHrms}
       >
         HRMS
       </Button>
 
-      {/* nav links */}
-      <VStack spacing={3} align="start" flex={1}>
-        {items.map((item) => (
-          <Box key={item.label} w="full">
-            <Link to={item.href}>
-              <Box
-                _hover={{ bg: "gray.50" }}
-                color={activeItem === item.label ? "brand.500" : "black"}
-                p={2}
-                borderRadius="12px"
-                borderTopEndRadius={0}
-                borderBottomEndRadius={0}
-                w="full"
-                bg={activeItem === item.label ? "brand.900" : "white"}
-                fontWeight={"medium"}
-                cursor={"pointer"}
-                onClick={() => handleItemClick(item.label)}
-                display={"flex"}
-                alignItems={"center"}
-                gap={2}
-              >
-                {item.icon}
-
-                {item.label}
-              </Box>
-            </Link>
-            {item.children && (
-              <Collapse in={activeItem === item.label} animateOpacity>
-                <VStack spacing={2} align="start" pl={4}>
-                  {item.children.map((child) => (
-                    <Link to={child.href}>
-                      <Box
-                        key={child.label}
-                        // _hover={{ textDecoration: "none", bg: "gray.700" }}
-                        p={2}
-                        borderRadius="md"
-                        w="full"
-                        bg={
-                          activeItem === child.label ? "gray.700" : "gray.800"
-                        }
-                        onClick={() => handleItemClick(child.label)}
-                      >
-                        {child.label}
-                      </Box>
-                    </Link>
-                  ))}
-                </VStack>
-              </Collapse>
-            )}
-          </Box>
-        ))}
-      </VStack>
+      {/* HRMS nav links */}
+      <NavSection
+        isOpen={isHrmsOpen}
+        items={items}
+        activeItem={activeItem}
+        handleItemClick={handleItemClick}
+        sectionLabel="HRMS"
+      />
 
       <Spacer />
 
@@ -169,63 +121,21 @@ const Sidebar = ({ items = [] }) => {
         gap="50px"
         bg={"#D0837F"}
         color={"white"}
-        rightIcon={<ChevronDownIcon />}
+        rightIcon={isCrmsOpen ? <ChevronDownIcon /> : <ChevronUpIcon />}
         _hover={{ opacity: 1 }}
+        onClick={toggleCrms}
       >
         CRMS
       </Button>
 
-      <VStack spacing={3} align="start" flex={1}>
-        {crmMenuItems.map((item) => (
-          <Box key={item.label} w="full">
-            <Link to={item.href}>
-              <Box
-                _hover={{ bg: "gray.50" }}
-                color={activeItem === item.label ? "brand.500" : "black"}
-                p={2}
-                borderRadius="12px"
-                borderTopEndRadius={0}
-                borderBottomEndRadius={0}
-                w="full"
-                bg={activeItem === item.label ? "brand.900" : "white"}
-                fontWeight={"medium"}
-                cursor={"pointer"}
-                onClick={() => handleItemClick(item.label)}
-                display={"flex"}
-                alignItems={"center"}
-                gap={2}
-              >
-                {item.icon}
-
-                {item.label}
-              </Box>
-            </Link>
-            {item.children && (
-              <Collapse in={activeItem === item.label} animateOpacity>
-                <VStack spacing={2} align="start" pl={4}>
-                  {item.children.map((child) => (
-                    <Link to={child.href}>
-                      <Box
-                        key={child.label}
-                        // _hover={{ textDecoration: "none", bg: "gray.700" }}
-                        p={2}
-                        borderRadius="md"
-                        w="full"
-                        bg={
-                          activeItem === child.label ? "gray.700" : "gray.800"
-                        }
-                        onClick={() => handleItemClick(child.label)}
-                      >
-                        {child.label}
-                      </Box>
-                    </Link>
-                  ))}
-                </VStack>
-              </Collapse>
-            )}
-          </Box>
-        ))}
-      </VStack>
+      {/* CRMS nav links */}
+      <NavSection
+        isOpen={isCrmsOpen}
+        items={crmMenuItems}
+        activeItem={activeItem}
+        handleItemClick={handleItemClick}
+        sectionLabel="CRMS"
+      />
 
       <Box
         display={"flex"}
@@ -246,7 +156,6 @@ const Sidebar = ({ items = [] }) => {
         <PiPowerFill size={"1.4rem"} />
         <Text fontWeight={"medium"}>Logout</Text>
       </Box>
-      {/* <Button mr={4} mt={4}></Button> */}
     </Flex>
   );
 };
