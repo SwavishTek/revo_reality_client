@@ -2,19 +2,20 @@ import {
   Card,
   HStack
 } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { debounce } from "lodash";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import * as Yup from 'yup'; // Import Yup
 import BackButton from "../../components/BackButton";
-import { CustomInput } from "../../myComponent/CustomInput";
 import DropDown from "../../components/DropDown/DropDown";
 import LoadButton from "../../components/LoadButton";
 import Title from "../../components/Title";
+import { CustomInput } from "../../myComponent/CustomInput";
 import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
-import { showSuccess, showError } from "../../utils/toastHelpers"; // Import the showError function
+import { showError, showSuccess } from "../../utils/toastHelpers"; // Import the showError function
 import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
-import { useQueryClient } from "@tanstack/react-query";
 
 const TeamForm = () => {
   const queryClient = useQueryClient();
@@ -82,6 +83,7 @@ const TeamForm = () => {
   } = useFormik({
     initialValues,
     enableReinitialize: true,
+    validationSchema, // Add validation schema here
     onSubmit: async (value) => {
       try {
         setIsLoadingBtn(true);
@@ -96,14 +98,14 @@ const TeamForm = () => {
             data: sendData,
             id: prams._id
           });
-          showSuccess('Team updated successfully');
+          // showSuccess('Team updated successfully');
           queryClient.invalidateQueries({ queryKey: ['teams'] });
           navigate("/teams");
         } else {
           await addTeam({
             data: sendData
           });
-          showSuccess('Team created successfully');
+          // showSuccess('Team created successfully');
           queryClient.invalidateQueries({ queryKey: ['teams'] });
           navigate("/teams");
         }
@@ -115,6 +117,8 @@ const TeamForm = () => {
       }
     },
   });
+
+  console.log('errors',errors);
 
   const debouncedHandleInputChange = useMemo(
     () => debounce((newValue) => {
@@ -157,6 +161,7 @@ const TeamForm = () => {
         <HStack
           justifyContent={'space-between'}
           mb={6}
+          alignItems={'flex-start'}
         >
           <CustomInput
             label={'Team Name'}
@@ -164,6 +169,9 @@ const TeamForm = () => {
             value={values.name}
             name={'name'}
             onChange={handleChange}
+            onBlur={handleBlur}
+            errors={errors}
+            touched={touched}
           />
           <DropDown
             label={'Manager'}
@@ -177,11 +185,20 @@ const TeamForm = () => {
             getOptionValue={(option) => option._id}
             isMulti={true}
             width={'45%'}
+          error={touched?.managerIds && errors?.managerIds}
           />
+          {/* {errors?.managerIds &&
+            touched?.managerIds &&
+            typeof errors?.managerIds === "string" && (
+              <Typography sx={{ color: "#C10404", fontSize: "14px" }}>
+                {errors?.managerIds}
+              </Typography>
+            )} */}
         </HStack>
         <HStack
           justifyContent={'space-between'}
           mb={5}
+          alignItems={'flex-start'}
         >
           <DropDown
             label={'Select Team Lead'}
@@ -195,6 +212,7 @@ const TeamForm = () => {
             getOptionValue={(option) => option._id}
             isMulti={true}
             width={'45%'}
+            error={touched?.teamLeadIds && errors?.teamLeadIds}
           />
           <DropDown
             label={'Select Member'}
@@ -208,6 +226,7 @@ const TeamForm = () => {
             getOptionValue={(option) => option._id}
             isMulti={true}
             width={'45%'}
+            error={touched?.memberIds && errors?.memberIds}
           />
         </HStack>
 
@@ -219,15 +238,35 @@ const TeamForm = () => {
           width={"fit-content"}
           alignSelf={'center'}
           isLoading={isLoadingBtn}
-          _hover={{ bg: "brand" }}
-          _active={{ bg: "brand" }}
-          _focus={{ bg: "brand"}}
+          _hover={{ bg: "brand.500" }}
         >
-          {isUpdate ? 'Update Team' : 'Create Team'}
+          {isUpdate ? "Update Team" : "Create Team"}
         </LoadButton>
       </Card>
     </div>
   );
 };
 
-export default React.memo(TeamForm);
+export default TeamForm;
+
+const validationSchema = Yup.object({
+  name: Yup.string().required("Team name is required"),
+  managerIds: Yup.array().of(
+    Yup.object().shape({
+      _id: Yup.string().required("Manager ID is required"),
+      name: Yup.string().required("Manager name is required")
+    })
+  ).min(1, "At least one manager is required"), // Ensure at least one manager is present
+  teamLeadIds: Yup.array().of(
+    Yup.object().shape({
+      _id: Yup.string().required("Team lead ID is required"),
+      name: Yup.string().required("Team lead name is required")
+    })
+  ).min(1, "At least one team lead is required"), // Ensure at least one team lead is present
+  memberIds: Yup.array().of(
+    Yup.object().shape({
+      _id: Yup.string().required("Member ID is required"),
+      name: Yup.string().required("Member name is required")
+    })
+  ).min(1, "At least one team member is required"), // Ensure at least one team member is present
+});

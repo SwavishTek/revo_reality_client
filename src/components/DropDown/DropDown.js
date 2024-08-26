@@ -16,6 +16,7 @@ export default function DropDown({
     getOptionValue,
     getOptionLabel,
     isMulti = false,
+    error,
     props
 }) {
     return (
@@ -86,6 +87,11 @@ export default function DropDown({
                 }}
                 {...props}
             />
+              {error && (
+                <Text color='red' fontSize="12px" mt={1} fontWeight = '300' >
+                    { error}
+                </Text>
+            )}
         </Box>
     )
 }

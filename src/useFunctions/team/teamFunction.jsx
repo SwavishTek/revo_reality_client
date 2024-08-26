@@ -30,6 +30,7 @@ export const addTeam = async ({ data }) => {
     return res.data;
   } catch (error) {
     console.log('AddTeam Error', error);
+    showError(error?.response?.data?.message || "Something went wrong");
     // useCustomToast().showError({
     //   message: error || 'internal server Errror '
     // })
@@ -39,8 +40,10 @@ export const addTeam = async ({ data }) => {
 export const updateTeam = async ({ data, id }) => {
   try {
     const res = await API_AXIOS.put(`team/updateById/${id}`, data);
+    showSuccess(res?.data?.message || "Team Updated successfully M");
     return res.data;
   } catch (error) {
+    showError(error?.response?.data?.message || "Something went wrong");
     console.log('AddTeam Error', error);
   }
 }
