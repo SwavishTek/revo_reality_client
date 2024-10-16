@@ -1,8 +1,6 @@
-import {
-  useDisclosure
-} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDisclosure } from "@chakra-ui/react";
 import ReviseLeave from "../../components/Leave/ReviseLeave";
 import { color } from "../../consts/color";
 import { CustomBtn } from "../../myComponent/CustomBtn";
@@ -11,135 +9,269 @@ import { useProfileQuery } from "../../Queries/auth/useProfileQuery";
 import { useLeaveDetailsQuery } from "../../Queries/leave/useLeaveQuery";
 import { useLeaveActions } from "../../useFunctions/leave/leaveFunctions";
 import { ShadowBox } from "../../myComponent/ShadowBox";
-import { CustomText } from "../../myComponent/CustomText";
 import { MainTitle } from "../../myComponent/MainTitle";
 import RowItem from "../../myComponent/RowItem";
-import { userRolesObj, userStatusObj } from "../../utils/menuItems";
+import { adminArr, userRolesObj, userStatusObj } from "../../utils/menuItems";
 import { dateFormate } from "../../utils/common";
-import ImagePreview from "../../components/ImagePreview";
+import { useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+
+const isDateTodayOrAfter = (date) => {
+  const givenDate = dayjs(date);
+  const today = dayjs();
+  return givenDate.isSame(today, 'day') || givenDate.isAfter(today, 'day');
+};
 
 const LeaveDetails = () => {
-  // const { state } = useLocation();
-  // console.log('stateLeaveDetail', state?._id)
+  const queryClient = useQueryClient();
   const { id } = useParams();
-  console.log('id', id)
   const { data = {}, refetch } = useLeaveDetailsQuery(id);
   const { data: auth } = useProfileQuery();
   const [rejectLoad, setRejectLoad] = useState(false);
   const [approveLoad, setApproveLoad] = useState(false);
+  const [reviseLoad, setReviseLoad] = useState(false);
+  const [holdLoad, setHoldLoad] = useState(false);
+  const [acceptedRejByLoad, setAcceptedRejByLoad] = useState({
+    approved: false,
+    rejected: false
+  });
+  const [cancelLoad, setCancelLoad] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const [holdLoad, setHoldLoad] = useState(false);
-  const { rejectLeaveById, approveLeaveById, onHoldLeaveById } =
-    useLeaveActions();
+  const isSubAdmin = adminArr.includes(auth?.role);
+  const isReviseStatus = data?.status === userStatusObj.revise;
+  const isSupSubAdmin = adminArr.includes(auth?.role) && data?.status !== userStatusObj.cancelled;
+  console.log(' data?.status', data?.status, userStatusObj.revise, isSubAdmin);
+  const {
+    rejectLeaveById,
+    approveLeaveById,
+    onHoldLeaveById,
+    cancelLeaveById,
+    reviseAcceptRejById,
+  } = useLeaveActions();
 
   const handleReject = async () => {
     setRejectLoad(true);
-    await rejectLeaveById(id);
-    setRejectLoad(false);
+    try {
+      await rejectLeaveById(id);
+      queryClient.refetchQueries(["leaves"]);
+      queryClient.setQueriesData(["leave", id], () => data.data);
+      refetch(); // Refresh data
+    } catch (error) {
+      console.error("Error rejecting leave:", error.message);
+    } finally {
+      setRejectLoad(false);
+    }
   };
 
   const handleApprove = async () => {
     setApproveLoad(true);
-    await approveLeaveById(id);
-    setApproveLoad(false);
+    try {
+      await approveLeaveById(id);
+      refetch(); // Refresh data
+    } catch (error) {
+      console.error("Error approving leave:", error.message);
+    } finally {
+      setApproveLoad(false);
+    }
   };
+
   const handleOnHold = async () => {
     setHoldLoad(true);
-    await onHoldLeaveById(id);
-    setHoldLoad(false);
+    try {
+      await onHoldLeaveById(id);
+      refetch(); // Refresh data
+    } catch (error) {
+      console.error("Error putting leave on hold:", error.message);
+    } finally {
+      setHoldLoad(false);
+    }
+  };
+
+  const handleCancel = async () => {
+    setCancelLoad(true);
+    try {
+      await cancelLeaveById({ id });
+      queryClient.refetchQueries(["leaves"]);
+      queryClient.setQueriesData(["leave", id], () => data.data);
+    } catch (error) {
+      console.error("Error canceling leave:", error.message);
+    } finally {
+      setCancelLoad(false);
+    }
+  };
+
+  // const handleAcceptRejById = async () => {
+  //   setAcceptedRejByLoad(true);
+  //   try {
+  //     await reviseAcceptRejById({ id });
+  //     queryClient.refetchQueries(["leave"]);
+  //     queryClient.setQueriesData(["leave", id], () => data.data);
+  //   } catch (error) {
+  //     console.error("Error revising leave:", error.message);
+  //   } finally {
+  //     setAcceptedRejByLoad(false);
+  //   }
+  // };
+
+  const handleButtonClick = (callback) => (event) => {
+    event.stopPropagation();
+    callback();
+  };
+
+  const handleButtonClick2 = (callback) => async (event) => {
+    event.stopPropagation();
+    try {
+      await callback();
+    } catch (error) {
+      console.error("Error executing callback:", error.message);
+    }
+  };
+
+  const reviseAcceptReject = async (status) => {
+    setAcceptedRejByLoad((prev) => ({
+      ...prev,
+      [status]: true
+    }));
+
+    try {
+      await reviseAcceptRejById({ id, status });
+      queryClient.refetchQueries(["leave"]);
+      queryClient.setQueriesData(["leave", id], () => data.data);
+    } catch (error) {
+      console.error("Error revising leave:", error.message);
+    } finally {
+      setAcceptedRejByLoad((prev) => ({
+        ...prev,
+        [status]: false
+      }));
+    }
+  };
+
+  const renderButtons = () => {
+    if (isReviseStatus && !isSubAdmin&& data?.reviseStatus==='pending') {
+      // Only show Accept and Cancel buttons
+      return (
+        <>
+          <CustomBtn
+            title={"Accept"}
+            isLoading={acceptedRejByLoad.approved}
+            bgColor={color.success}
+            onClick={handleButtonClick2(() => reviseAcceptReject('approved'))}
+          />
+          <CustomBtn
+            title={"Cancel"}
+            isLoading={acceptedRejByLoad.rejected}
+            bgColor={color.danger}
+            onClick={handleButtonClick2(() => reviseAcceptReject('rejected'))}
+          />
+        </>
+      );
+    }
+
+    if (isSupSubAdmin) {
+      // Show other buttons if not in Revise status or not Sub Admin
+      return (
+        <>
+          {![userStatusObj.approve, userStatusObj.cancel].includes(data?.status) && (
+            <>
+              <CustomBtn
+                title={"Approve"}
+                isLoading={approveLoad}
+                bgColor={color.success}
+                onClick={handleButtonClick(handleApprove)}
+              />
+              <CustomBtn
+                title={"On Hold"}
+                isLoading={holdLoad}
+                bgColor={color.info}
+                onClick={handleButtonClick(handleOnHold)}
+              />
+              <CustomBtn
+                title={"Revise"}
+                isLoading={reviseLoad}
+                bgColor={color.warning}
+                onClick={handleButtonClick(onOpen)}
+              />
+              <CustomBtn
+                title={"Reject"}
+                isLoading={rejectLoad}
+                bgColor={color.danger}
+                onClick={handleButtonClick(handleReject)}
+              />
+            </>
+          )}
+          {data?.status === userStatusObj.approve && isDateTodayOrAfter(data?.startDate) && (
+            <CustomBtn
+              title={"Cancel"}
+              isLoading={cancelLoad}
+              onClick={handleCancel}
+            />
+          )}
+        </>
+      );
+    }
+
+    return null;
   };
 
   return (
     <MyContainer
-      header={'Leave Detail'}
+      header={"Leave Detail"}
       isBack
-      btnComponent={
-        <>
-          <CustomBtn
-            title={'Approve'}
-            isLoading={approveLoad}
-            bgColor={color.success}
-            onClick={handleApprove}
-          />
-          <CustomBtn
-            title={'On Hold'}
-            isLoading={holdLoad}
-            bgColor={color.info}
-            onClick={handleOnHold}
-          />
-          <CustomBtn
-            title={'Revise'}
-            isLoading={approveLoad}
-            bgColor={color.warning}
-            onClick={onOpen}
-          />
-          <CustomBtn
-            title={'Reject'}
-            isLoading={rejectLoad}
-            bgColor={color.danger}
-            onClick={handleReject}
-          />
-        </>
-      }
+      btnComponent={renderButtons()}
     >
-    
       <ShadowBox
-        containerStyle={{ width: '96%', padding: '50px 50px', marginBottom: '50px' }}
+        containerStyle={{
+          width: "96%",
+          padding: "50px 50px",
+          marginBottom: "50px",
+        }}
       >
-        <MainTitle
-          title={'EMPLOYEE  Information '}
+      {data?.status===userStatusObj.revise&& <>
+      <MainTitle title={"Revised Dates"} />
+     
+      <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Revised Start Dates"}
+          value={dateFormate(data?.reviseStartDate)}
         />
         <RowItem
-          containerStyle={{ alignItems: 'flex-start' }}
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Revised End Dates"}
+          value={dateFormate(data?.reviseEndDate)}
+        />
+        <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Remarks"}
+          value={data?.reviseRemarks}
+          />
+          <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
+          title={"Revised Status"}
+          value={data?.reviseStatus}
+          mb={10} />
+      </>}
+        <MainTitle title={"EMPLOYEE INFORMATION"} />
+        <RowItem
+          containerStyle={{ alignItems: "flex-start" }}
           title={"Employee Name"}
-          value={`${data.name || ""} ${data.lastName || ""} sf sdfdfsdfds s fsdf  sdfsdfsdfdsf  s fsdfsdfsdfdsfdsf s f sdfsf sdfs sd fsdfsdfs sdfd sfsd sd fsdfsdfsdf sd fsdfdsf sd fsdfsdfsdf sdfdsfsdfds sdfdsfsdf`}
-        />
-        <RowItem
-          title={"Role"}
-          value={userRolesObj[data?.role]}
-        />
-        <RowItem
-          title={"Mobile Number"}
-          value={data?.mobile} mb={10}
-        />
-
-        <MainTitle
-          title={'LEAVE INFORMAION'}
-        />
-        <RowItem
-          title={"Reason For Leave"}
-          value={data.reason}
-        />
-        <RowItem
-          title={"Total Days Of Leave"}
-          value={data.days}
-        />
-        <RowItem
-          title={"Leave Type"}
-          value={data.payType}
-        />
-        <RowItem
-          title={"Start Date"}
-          value={dateFormate(data.startDate)}
-        />
-        <RowItem
-          title={"End Date"}
-          value={dateFormate(data.endDate)}
-        />
+          value={`${data.name || ""} ${data.lastName || ""}`}
+          />
+        <RowItem title={"Role"} value={userRolesObj[data?.role]} />
+        <RowItem title={"Mobile Number"} value={data?.mobile} />
+        <RowItem title={"Status"} value={data?.status} mb={10} />
+        <MainTitle title={"LEAVE INFORMATION"} />
+        <RowItem title={"Reason For Leave"} value={data.reason} />
+        <RowItem title={"Total Days Of Leave"} value={data.days} />
+        <RowItem title={"Leave Type"} value={data.payType} />
+        <RowItem title={"Start Date"} value={dateFormate(data.startDate)} />
+        <RowItem title={"End Date"} value={dateFormate(data.endDate)} />
         <RowItem title={"Special Remarks"} value={""} mb={10} />
-        <MainTitle
-          title={"Special Remarks"} value={""}
-        />
-
-        <RowItem
-          title={'Supported Documents'}
-          img={data?.doc}
-
-        />
+        <MainTitle title={"Special Remarks"} value={""} />
+        <RowItem title={"Supported Documents"} img={data?.doc} />
       </ShadowBox>
 
-      {/* modal form for revise */}
       <ReviseLeave
         id={data?._id}
         refetch={refetch}
@@ -147,90 +279,6 @@ const LeaveDetails = () => {
         isOpen={isOpen}
       />
     </MyContainer>
-    // <Box>
-    //   <BackButton title={"Leave Detail"}>
-    //     {adminArr.includes(auth?.role) &&
-    //       (data?.status === "new" ||
-    //         data?.status === "onHold" ||
-    //         data?.status === "revise") && (
-    //         <>
-    //           <Box display={"flex"} alignItems={"center"} gap={2}>
-    //             <LoadButton
-    //               isLoading={approveLoad}
-    //               bg="brand.success"
-    //               color={"white"}
-    //               onClick={handleApprove}
-    //             >
-    //               Approve
-    //             </LoadButton>
-    //             <LoadButton
-    //               isLoading={holdLoad}
-    //               bg="brand.info"
-    //               color={"white"}
-    //               onClick={handleOnHold}
-    //             >
-    //               On Hold
-    //             </LoadButton>
-    //             <LoadButton bg="brand.orange" onClick={onOpen} color={"white"}>
-    //               Revise
-    //             </LoadButton>
-    //             <LoadButton
-    //               isLoading={rejectLoad}
-    //               bg="brand.error"
-    //               color={"white"}
-    //               onClick={handleReject}
-    //             >
-    //               Reject
-    //             </LoadButton>
-    //           </Box>
-    //         </>
-    //       )}
-    //   </BackButton>
-    //   <Card p={"2rem"} mt={6}>
-    //     <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6}>
-    //       <GridItem colSpan={5} my={4}>
-    //         <Title title="EMPLOYEE INFORMATION" />
-    //       </GridItem>
-    //       <CustomGridItem
-    //         title={"Employee Name"}
-    //         value={`${data.name || ""} ${data.lastName || ""}`}
-    //       />
-    //       <CustomGridItem title={"Role"} value={userRolesObj[data?.role]} />
-    //       <CustomGridItem title={"Mobile Number"} value={data.mobile} />
-    //       <GridItem colSpan={5} my={4}>
-    //         <Title title="LEAVE INFORMAION" />
-    //       </GridItem>
-    //       <CustomGridItem title={"Reason For Leave"} value={data.reason} />
-    //       <CustomGridItem title={"Total Days Of Leave"} value={data.days} />
-    //       <CustomGridItem title={"Leave Type"} value={data.payType} />
-    //       <CustomGridItem
-    //         title={"Start Date"}
-    //         value={formatDate(data.startDate)}
-    //       />
-    //       <CustomGridItem title={"End Date"} value={formatDate(data.endDate)} />
-    //       <CustomGridItem title={"Special Remarks"} value={""} />
-    //       <GridItem colSpan={5} my={4}>
-    //         <Title title="ATTACHMENT" />
-    //       </GridItem>
-    //       <CustomGridItem
-    //         title={"Supported Documents"}
-    //         value={
-    //           <>
-    //             {data?.doc?.map((item) => (
-    //               <ImagePreview img={item} />
-    //             ))}
-    //           </>
-    //         }
-    //       />
-    //     </Grid>
-    //   </Card>
-    //   <ReviseLeave
-    //     id={data?._id}
-    //     refetch={refetch}
-    //     onClose={onClose}
-    //     isOpen={isOpen}
-    //   />
-    // </Box>
   );
 };
 

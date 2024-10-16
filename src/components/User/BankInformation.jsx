@@ -19,6 +19,8 @@ import InputField from "../InputField";
 import { addUser } from "../../useFunctions/user/userFunctions";
 import UploadInput from "../UploadInput";
 import LoadButton from "../LoadButton";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
 
 const BankInformation = ({ setCurrentStep }) => {
   const toast = useToast();
@@ -43,17 +45,20 @@ const BankInformation = ({ setCurrentStep }) => {
             ...(!!id && { userId: id }),
           });
           refetch();
-          toast({
-            title: data?.message,
-            status: "success",
-            isClosable: true,
-            duration: 1000,
-          });
+          // toast({
+          //   title: data?.message,
+          //   status: "success",
+          //   isClosable: true,
+          //   duration: 1000,
+          // });
           setCurrentStep((step) => step + 1);
         } catch (err) {
           console.log(err);
         }
       },
+      if(setCurrentStep) {
+        setCurrentStep((step) => step + 1);
+      }
     });
 
   useEffect(() => {
@@ -138,27 +143,43 @@ const BankInformation = ({ setCurrentStep }) => {
           </GridItem>
         </Grid>
 
-        <Stack spacing={6} direction="row" align="center" marginTop={"1.5rem"}>
-          <LoadButton
-            onClick={handleSubmit}
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
+        <Box marginTop={'2rem'}>
+          <CustomBtn
+            title={"Previous"}
+            onClick={() => {
+              if (setCurrentStep) setCurrentStep((step) => step - 1);
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          />
+
+          <CustomBtn
+            title={'Save & Next'}
             isLoading={isSubmitting}
-          >
-            Save & Next
-          </LoadButton>
-          <Button
+            onClick={() => {
+              handleSubmit();
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: '1.5rem'
+            }}
+          />
+          <CustomBtn
+            title={"Next"}
             onClick={() => {
               if (setCurrentStep) setCurrentStep((step) => step + 1);
             }}
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
-          >
-            Next
-          </Button>
-        </Stack>
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          />
+
+        </Box>
+
+
       </Box>
     </>
   );

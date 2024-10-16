@@ -1,7 +1,8 @@
 import { API_AXIOS } from "../../http/interceptor";
+import { showError, showSuccess } from "../../utils/toastHelpers";
 
 
-export const getHolidayCount = async ({type }) => {
+export const getHolidayCount = async ({ type }) => {
   try {
     const { data } = await API_AXIOS.get(`holiday/stats`, {
       params: {
@@ -18,10 +19,12 @@ export const getHolidayCount = async ({type }) => {
 export const uploadHoliday = async ({ data }) => {
   try {
     const res = await API_AXIOS.post('holiday', data);
+    showSuccess(data?.message);
     return res.data;  // Assuming the response data is needed
   } catch (error) {
-    console.log('ErrorUploadHoliday:', error);
-    throw error;  // Rethrow error to handle it in the calling function
+    console.log('first error', error?.response);
+    showError(error?.response?.data?.error);
+    throw new Error(error);
   }
 };
 

@@ -15,6 +15,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUserDetailsQuery } from "../../Queries/user/userUserQuery";
 import { addUser } from "../../useFunctions/user/userFunctions";
 import LoadButton from "../LoadButton";
+import { CustomBtn } from "../../myComponent/CustomBtn";
+import { color } from "../../consts/color";
 
 const UploadOfferLetter = ({ setCurrentStep }) => {
   const navigate = useNavigate();
@@ -34,12 +36,12 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
         ...(!!id && { userId: id }),
       });
       refetch();
-      toast({
-        title: data?.message,
-        status: "success",
-        isClosable: true,
-        duration: 1000,
-      });
+      // toast({
+      //   title: data?.message,
+      //   status: "success",
+      //   isClosable: true,
+      //   duration: 1000,
+      // });
       navigate("/users");
       //   setCurrentStep((step) => step + 1);
     } catch (err) {
@@ -85,20 +87,28 @@ const UploadOfferLetter = ({ setCurrentStep }) => {
           }}
         />
 
-        <Stack spacing={6} direction="row" align="center" marginTop={"1.5rem"}>
-          {/* <Button size="md" fontSize="18px" colorScheme="brand">
-            Save
-          </Button> */}
-          <LoadButton
-            onClick={handleSubmit}
-            size="md"
-            fontSize="18px"
-            colorScheme="brand"
+        <Box marginTop={'2rem'}>
+          <CustomBtn
+            title={"Previous"}
+            onClick={() => {
+              if (setCurrentStep) setCurrentStep((step) => step - 1);
+            }}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: "1.5rem",
+            }}
+          />
+          <CustomBtn
+            title={'Submit'}
             isLoading={loading}
-          >
-            Submit
-          </LoadButton>
-        </Stack>
+            onClick={handleSubmit}
+            bgColor={color.secondaryBtn}
+            containerStyle={{
+              marginRight: '1.5rem'
+            }}
+          />
+
+        </Box>
       </Box>
     </>
   );

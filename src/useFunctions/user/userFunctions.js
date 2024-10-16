@@ -1,6 +1,7 @@
 import { API_AXIOS } from "../../http/interceptor";
 import Apis from "../../utils/apis";
 import { useQueryClient } from "@tanstack/react-query";
+import { showError, showSuccess } from "../../utils/toastHelpers";
 
 export const getUsers = async ({
   pageParam = 1,
@@ -15,6 +16,7 @@ export const getUsers = async ({
     });
     return data || {};
   } catch (error) {
+    showError(error?.response?.data?.message);
     // throw new Error(error.response.data.error);
     console.log(error);
   }
@@ -23,10 +25,12 @@ export const getUsers = async ({
 export const addUser = async (values) => {
   try {
     const { data } = await API_AXIOS.post(`${Apis.user}`, values);
+    showSuccess(data?.message);
     return data || {};
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.response.data.message || "Something went wrong");
+  } catch (error) {
+    console.log('addUser', error);
+    showError(error?.response?.data?.message);
+    throw new Error(error.response.data.message || "Something went wrong");
   }
 };
 
@@ -36,8 +40,10 @@ export const changeUserStatus = async ({ userId = "", status = "" }) => {
       userId,
       status,
     });
+    showSuccess(data?.message);
     return data || {};
   } catch (error) {
+    showError(error?.response?.data?.message);
     throw new Error(error.response.data.error || "Something went wrong");
     // console.log(error);
   }
@@ -49,20 +55,21 @@ export const getUserDetailsById = async (id) => {
       userId: id,
     });
     return data.data || {};
-  } catch (err) {
-    console.log("user details", err);
+  } catch (error) {
+    // showError(error?.response?.data?.message );
+    console.error(error.response.data.error || "Something went wrong")
   }
 };
 
 export const userPermanantDelete = async ({ userId = "" }) => {
   try {
-    const { data } = await API_AXIOS.post(`${Apis.userPermanentDelete}`, {
-      userId,
-    });
+    const response = await API_AXIOS.post(`${Apis.userPermanentDelete}`, { userId });
+    const data = response.data;
+    showSuccess(data?.message);
     return data || {};
   } catch (error) {
+    showError(error?.response?.data?.message || "Something went wrong");
     throw new Error(error.response.data.error || "Something went wrong");
-    // console.log(error);
   }
 };
 

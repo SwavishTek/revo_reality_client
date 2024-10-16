@@ -8,27 +8,17 @@ import { BoarderBox } from "../../myComponent/BoarderBox.jsx";
 import ColumnItem from "../../myComponent/ColumnItem.jsx";
 
 const TeamCard = ({ item, onClickCheckbox,
-  onClickBox }) => {
+  onClickBox, onClickDelete, onClickUpdate }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const arrData = (arr) => {
     return arr.length > 0 ? arr.map((el, i) => <Text key={i}>{el.name}</Text>) : <Text>N/A</Text>;
   };
-
-
-
-  const cardItems = [
-    { title: "Creation Date:", value: formatDate(item?.createdAt) },
-    { title: "Last Update:", value: formatDate(item?.updatedAt) },
-    { title: "Manager Name:", component: arrData(item?.manager) },
-    { title: "Team Lead Name:", component: arrData(item?.teamLead) },
-    { title: "Team Members:", component: arrData(item?.agent) },
-    { title: "Total Members:", value: item?.teamMembers?.length || 0 }
-  ];
+ 
 
   // Handle navigation
   const handleNavigation = () => {
-    navigate(`/teams/${item._id}`);
+    navigate(`/team/${item._id}`);
   };
 
   return (
@@ -36,11 +26,17 @@ const TeamCard = ({ item, onClickCheckbox,
     <BoarderBox
      onClickCheckbox={onClickCheckbox}
      onClickBox={onClickBox}
-     containerStyle={{ padding: '15px'}}>
+     onClickUpdate={onClickUpdate}
+     showUpdate={true}
+     onClickDelete={onClickDelete}
+     showDelete={true}
+    
+    >
       <HStack
       width={'100%'}
                 alignItems={'flex-start'}
-                marginStart={'15px'}>
+                marginStart={'15px'}
+                padding={'15px 0px'}>
                 <Avatar
                 size='sm'
                     name={item?.teamName || null}

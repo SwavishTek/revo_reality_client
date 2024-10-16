@@ -10,5 +10,7 @@ export const color = {
     spanishGrey: '#979797',
     blockbtn: '#740707',
     deletebtn: '#BC1C1C',
-    copybtn: '#818181'
+    copybtn: '#818181',
+    lightPink: '#FFF7F7',
+    borderGray: '#B0B0B0'
 }

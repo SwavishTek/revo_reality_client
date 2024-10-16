@@ -2,6 +2,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loadable from "./components/Loadable";
 import { lazy } from "react";
+import { ForgetPassword } from "./pages/Auth/ForgetPassword.jsx";
+import AppointmentLetter from "./pages/AppointmentLetter/AppointmentLetter.jsx";
 
 
 const Login = Loadable(lazy(() => import("./pages/Auth/Login")));
@@ -14,7 +16,9 @@ const MainLayout = Loadable(
   lazy(() => import("./components/layout/MainLayout.jsx"))
 );
 const UserList = Loadable(lazy(() => import("./pages/User/UserList.jsx")));
-const Notification = Loadable(lazy(() => import("./pages/User/Notification.jsx")));
+const Notification = Loadable(lazy(() => import("./pages/Notification/Notification.jsx")));
+const NotificationDetail = Loadable(lazy(() => import("./pages/Notification/NotificationDetail.jsx")))
+const DocuSuccess = Loadable(lazy(()=> import("./components/User/docusignSuccess.jsx")))
 const LeaveList = Loadable(lazy(() => import("./pages/Leave/LeaveList.jsx")));
 // const TeamList = Loadable(lazy(() => import("./pages/Team/TeamListing.jsx")));
 
@@ -77,16 +81,29 @@ function App() {
       path: "/auth/resetpassword",
       element: <ResetPassword />,
     },
-    // {
-    //   path: "/dashboard",
-    //   element: <Dashboard />,
-    // },
+    {
+      path: "/auth/forgetpassword",
+      element: <ForgetPassword />,
+    },
+    {
+      path: "/appointmentLetter",
+      element: <AppointmentLetter />,
+    },
+    {
+      path: "users/docusuccess",
+      element: <DocuSuccess />
+    },
+
     {
       path: "/",
       element: <MainLayout />,
       children: [
         {
-          path: "dashboard",
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
+        {
+          path: "/dashboard",
           element: <Dashboard />,
         },
         {
@@ -113,6 +130,11 @@ function App() {
           path: "users/notification",
           element: <Notification />,
         },
+        {
+          path: "users/notification/:id",
+          element: <NotificationDetail />
+        },
+       
         /* start Team */
         {
           path: "teams",

@@ -72,7 +72,7 @@ const EmployeeDetails = () => {
         <>
          {adminArr.includes(auth?.role) && user?._id !== auth?._id && (
           <>
-          <CustomBtn
+         {/* <CustomBtn
             title={<><img src={svg.CopyedUserIcon} alt="Copy" /></>}
             borderRadius={'50%'}
             padding={'10px'}
@@ -99,7 +99,7 @@ const EmployeeDetails = () => {
             padding={'10px'}
             bgColor={color.deletebtn}
             onClick={onOpen}
-          />
+          />*/}
           </>
            )}
         </>
@@ -202,22 +202,22 @@ const EmployeeDetails = () => {
         <RowItem
         containerStyle={{alignItem: 'flex-start'}}
         title={"Facebook"}
-        value={<CopyLink link="https://www.facebook.com/sharer/sharer.php?u=REVO%20Reality" />}
+        value={<CopyLink link={user?.facebook || ""} />}
         />
         <RowItem
         containerStyle={{alignItem: 'flex-start'}}
         title={"Instagram"}
-        value={<CopyLink link="https://www.instagram.com/sharer/sharer.php?u=REVO%20Reality" />}
+        value={<CopyLink link={user?.instagram || ""} />}
         />
         <RowItem
         containerStyle={{alignItem: 'flex-start'}}
         title={"YouTube"}
-        value={<CopyLink link="https://www.youtube.com/sharer/sharer.php?u=REVO%20Reality" />}
+        value={<CopyLink link={user?.youtube || ""} />}
         />
         <RowItem
         containerStyle={{alignItem: 'flex-start'}}
         title={"TikTok"}
-        value={<CopyLink link="https://www.tiktok.com/sharer/sharer.php?u=REVO%20Reality" />}
+        value={<CopyLink link={user?.tiktok || ""} />}
         mb={10}
         />
 

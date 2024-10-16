@@ -16,6 +16,7 @@ import useCustomToast from "../../hooks/useCustomToast";
 import LoadButton from "../../components/LoadButton";
 import { API_AXIOS } from "../../http/interceptor";
 
+// dhananjay kumar
 const Login = () => {
   //   const [show, setShow] = React.useState(false);
   //   const handleClick = () => setShow(!show);
@@ -26,10 +27,12 @@ const Login = () => {
     onSubmit: async (values, { setSubmitting }) => {
       console.log("values", values);
       try {
-        const { data } = await axios.post(Apis.login, values);
-        navigate({
-          pathname: "/auth/verifyOTP",
-          search: `email=${values.email}&pass=${values.password}`,
+        const { data } = await API_AXIOS.post(`auth/login`, values);
+        navigate("/auth/verifyOTP", {
+          state: {
+            email: values.email,
+            password: values.password,
+          },
         });
         showSuccess({ message: data.message });
       } catch (err) {
@@ -61,18 +64,6 @@ const Login = () => {
           <Input value={values.email} name="email" onChange={handleChange} />
         </div>
         <div>
-          {/* <InputGroup size="md">
-            <Input
-              pr="4.5rem"
-              type={show ? "text" : "password"}
-              placeholder="Enter password"
-            />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleClick}>
-                {show ? "Hide" : "Show"}
-              </Button>
-            </InputRightElement>
-          </InputGroup> */}
           <Text fontSize={"1.2rem"} fontWeight={"semibold"}>
             Password
           </Text>
@@ -86,6 +77,8 @@ const Login = () => {
             fontWeight={"bold"}
             fontSize={"0.8rem"}
             mt={2}
+            onClick={() => navigate(`/auth/forgetpassword`)}
+            cursor={"pointer"}
           >
             Forgot Password ?
           </Text>

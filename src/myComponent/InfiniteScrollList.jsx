@@ -13,7 +13,8 @@ const InfiniteScrollList = ({
     loadingMessage = "Loading...",
     errorMessage = "Error fetching data",
     noDataMessage = "No Data Found",
-    containerStyle
+    containerStyle,
+    gap
 }) => {
     const { ref, inView } = useInView();
     const [listData, setListData] = useState(data);
@@ -30,7 +31,7 @@ const InfiniteScrollList = ({
 
     const renderItems = useMemo(() => {
         return listData?.map((item, index) => (
-            <Box key={item?._id || index}>{renderItem(item)}</Box>
+            <Box key={item?._id || index}>{renderItem(item, index)}</Box>
         ));
     }, [listData, renderItem]);
 
@@ -44,7 +45,7 @@ const InfiniteScrollList = ({
     }
 
     return (
-        <VStack spacing={4} align="stretch" width="100%" marginBottom={4} style={{ ...containerStyle }}>
+        <VStack spacing={4} align="stretch" width="100%" marginBottom={4}  style={{ ...containerStyle }} gap={gap}>
             {listData?.length > 0 ? (
                 renderItems
             ) : (

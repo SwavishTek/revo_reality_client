@@ -69,9 +69,9 @@ const ChangePasswords = () => {
               onChange={handleChange}
             />
           </GridItem>
-          <Text color={"brand.500"} fontWeight={"bold"} fontSize={"1rem"}>
+          {/* <Text color={"brand.500"} fontWeight={"bold"} fontSize={"1rem"}>
             Forgot Old Password ?
-          </Text>
+          </Text> */}
           <GridItem w={"50%"}>
             <InputField
               id="newPassword"

@@ -152,6 +152,7 @@ const AttList = () => {
         isFetchingNextPage={false}
         isLoading={false}
         isFetching={false}
+        gap={2}
       />
 
     </MyContainer>

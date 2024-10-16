@@ -4,22 +4,32 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { debounce } from "lodash";
-import React, { useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useMemo, useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../../components/BackButton";
 import { CustomInput } from "../../myComponent/CustomInput";
 import DropDown from "../../components/DropDown/DropDown";
 import LoadButton from "../../components/LoadButton";
 import Title from "../../components/Title";
 import { addTeam, updateTeam } from "../../useFunctions/team/teamFunction";
-import { showSuccess } from "../../utils/toastHelpers";
+import { showSuccess, showError } from "../../utils/toastHelpers"; // Import the showError function
 import { useGetAgent, useGetManager, useGetTeamLead } from "./useQuery/useQuery";
+import { useQueryClient } from "@tanstack/react-query";
 
 const TeamForm = () => {
+  const queryClient = useQueryClient();
   const { state: prams } = useLocation();
-  const isUpdate = prams?._id;
+  const isUpdate = !!prams?._id;
   const [inputValue, setInputValue] = useState('');
-  const [isLoadingBtn, setIsLoadingBtn] = useState(false)
+  const [isLoadingBtn, setIsLoadingBtn] = useState(false);
+  const navigate = useNavigate();
+  const [initialValues, setInitialValues] = useState({
+    name: '',
+    managerIds: [],
+    teamLeadIds: [],
+    memberIds: [],
+  });
+
   const {
     data: managerList,
     fetchNextPage: fetchNextPageManger,
@@ -50,6 +60,17 @@ const TeamForm = () => {
     search: inputValue
   });
 
+  useEffect(() => {
+    if (isUpdate && prams?._id) {
+      setInitialValues({
+        name: prams.teamName || '',
+        managerIds: prams.manager || [],
+        teamLeadIds: prams.teamLead || [],
+        memberIds: prams.agent || [],
+      });
+    }
+  }, [isUpdate, prams]);
+
   const {
     values,
     touched,
@@ -57,46 +78,43 @@ const TeamForm = () => {
     handleChange,
     handleBlur,
     setFieldValue,
-    handleSubmit
+    handleSubmit,
   } = useFormik({
-    initialValues: {
-      name: prams?.teamName || '',
-      managerIds: prams?.manager || [],
-      teamLeadIds: prams?.teamLead || [],
-      memberIds: prams?.agent || [],
-    },
+    initialValues,
+    enableReinitialize: true,
     onSubmit: async (value) => {
       try {
-        setIsLoadingBtn(true)
+        setIsLoadingBtn(true);
         const { name, managerIds, memberIds, teamLeadIds } = value;
         const teamMemberIds = [...managerIds, ...memberIds, ...teamLeadIds]?.map((el) => el?._id);
-        console.log('teamMemberIds', teamMemberIds)
         let sendData = {
           teamName: name,
           teamMemberIds: teamMemberIds
-        }
-        console.log('sendData', sendData)
-        if (isUpdate) {
-          const resUpdate = await updateTeam({
+        };
+        if (isUpdate && prams?._id) {
+          await updateTeam({
             data: sendData,
-            id: prams?._id
+            id: prams._id
           });
-
+          showSuccess('Team updated successfully');
+          queryClient.invalidateQueries({ queryKey: ['teams'] });
+          navigate("/teams");
         } else {
-          const resAdd = await addTeam({
+          await addTeam({
             data: sendData
           });
+          showSuccess('Team created successfully');
+          queryClient.invalidateQueries({ queryKey: ['teams'] });
+          navigate("/teams");
         }
-      }
-      catch (err) {
-        console.log('err', err);
-      }
-      finally {
-        setIsLoadingBtn(false)
+      } catch (err) {
+        console.error('Error submitting form:', err);
+        showError('Failed to save team');
+      } finally {
+        setIsLoadingBtn(false);
       }
     },
   });
-
 
   const debouncedHandleInputChange = useMemo(
     () => debounce((newValue) => {
@@ -110,7 +128,6 @@ const TeamForm = () => {
   };
 
   const handleMenuScrollToBottom = (key) => {
-    // key-->'manager'|'teamLeader'|'agent'
     if (key === 'manager') {
       if (hasNextPageManger) {
         fetchNextPageManger();
@@ -128,17 +145,15 @@ const TeamForm = () => {
 
   return (
     <div>
-      <BackButton title="Add Team" />
+      <BackButton title={isUpdate ? "Update Team" : "Add Team"} />
       <Card my={"2rem"} p={10} minWidth={600} margin={'30px 70px'}>
-
-        <Title title="Create Team" boxStyle={{
+        <Title title={isUpdate ? "Update Team" : "Create Team"} boxStyle={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           height: "100%",
           marginBottom: 30
         }} />
-
         <HStack
           justifyContent={'space-between'}
           mb={6}
@@ -162,10 +177,8 @@ const TeamForm = () => {
             getOptionValue={(option) => option._id}
             isMulti={true}
             width={'45%'}
-
           />
         </HStack>
-
         <HStack
           justifyContent={'space-between'}
           mb={5}
@@ -196,22 +209,22 @@ const TeamForm = () => {
             isMulti={true}
             width={'45%'}
           />
-
         </HStack>
 
         <LoadButton
           colorScheme="brand"
-          // onClick={handleSubmit}
-          onClick={() => showSuccess('team add succefully')}
+          onClick={handleSubmit}
           mt={8}
           alignContent={"center"}
           width={"fit-content"}
           alignSelf={'center'}
           isLoading={isLoadingBtn}
+          _hover={{ bg: "brand" }}
+          _active={{ bg: "brand" }}
+          _focus={{ bg: "brand"}}
         >
-          Create Team s
+          {isUpdate ? 'Update Team' : 'Create Team'}
         </LoadButton>
-
       </Card>
     </div>
   );

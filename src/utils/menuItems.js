@@ -14,10 +14,29 @@ export const menuItems = [
     label: "Users",
     href: "/users",
     icon: <FaUser size={"1.4rem"} />,
-    // children: [
-    //   { label: "Active Users", href: "/users/active" },
-    //   { label: "Inactive Users", href: "/users/inactive" },
-    // ],,
+  },
+  {
+    label: "Teams",
+    href: "/teams",
+    icon: <MdHub size={"1.4rem"} />,
+  },
+  {
+    label: "Leaves",
+    href: "/leaves",
+    icon: <FaCalendarCheck size={"1.4rem"} />,
+  },
+  {
+    label: "Attendance",
+    href: "/attendance",
+    icon: <TiDocumentText size={"1.4rem"} />,
+  },
+];
+
+export const menuItemsAgent = [
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: <TbTargetArrow size={"1.4rem"} />,
   },
   {
     label: "Teams",
@@ -72,15 +91,15 @@ export const userHeaderItems = [
 export const userNotificationItems = [
   {
     label: "New",
-    value: "new",
+    value: "unseen",
     color: "#E9A80A",
   },
   {
     label: "Read",
-    value: "read",
+    value: "seen",
     color: "#FF8A00",
   },
-  
+
 ];
 
 export const leaveHeaderItems = [
@@ -107,6 +126,11 @@ export const leaveHeaderItems = [
   {
     label: "Rejected",
     value: "rejected",
+    color: "#FF0000",
+  },
+  {
+    label: "Cancelled",
+    value: "cancelled",
     color: "#FF0000",
   },
 ];
@@ -145,6 +169,8 @@ export const userStatusObj = {
   deactive: "deactive",
   active: "active",
   pending: "pending",
+  cancelled: 'cancelled',
+  revise:'revise'
 };
 
 export const leaveTypes = [

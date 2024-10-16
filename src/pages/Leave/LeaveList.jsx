@@ -10,6 +10,10 @@ import MyContainer from "../../myComponent/MyContainer";
 import LeaveListItem from "./component/LeaveListItem";
 import InfiniteScrollList from "../../myComponent/InfiniteScrollList";
 import { useNavigate } from "react-router-dom";
+import NoDataFound from "../User/components/NoDataFound";
+import Filters from "../../components/Filters";
+import CardHeader from "../../components/CardHeader";
+import { leaveHeaderItems } from "../../utils/menuItems";
 // import { FixedSizeList as List } from "react-window";
 
 const LeaveList = () => {
@@ -31,10 +35,17 @@ const LeaveList = () => {
       header={'All Leaves'}
       btnComponent={<>
         <CustomBtn
-          title={'My Leaves'}
+          title={'Apply For Leave'}
+          onClick={() => navigate('/leaves/apply_leave')}
         />
       </>}
     >
+      <Filters onSearchChange={setSearch} />
+      <CardHeader
+        value={leaveStatus}
+        items={leaveHeaderItems}
+        onChange={setLeaveStatus}
+      />
       <InfiniteScrollList
         data={allLeaves || []}
         fetchNextPage={fetchNextPage}
@@ -51,7 +62,15 @@ const LeaveList = () => {
         )}
         loadingMessage="Loading Leave List..."
         errorMessage="Error fetching teams"
-        noDataMessage="No Teams In The System"
+        noDataMessage={
+          <>
+            <NoDataFound message={'No Data Found'} name="NoLeave" />
+          </>
+        }
+        gap={2}
+        containerStyle={{
+          marginTop: '1rem'
+        }}
       />
       {/* {[...new Array(20)].map((el) => {
         return <LeaveListItem />

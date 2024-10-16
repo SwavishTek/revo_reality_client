@@ -29,7 +29,7 @@ const RowItem = ({
             </CustomText>
         );
     };
-    console.log(title, img)
+
     return (
         <HStack
             marginBottom={mb}
